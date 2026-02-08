@@ -26,7 +26,7 @@
 
 
 
-==========================================
+---
 
 
 
@@ -56,7 +56,7 @@ Costs - admission\_cost, readmission\_cost, cost\_per\_day\_stay, total\_med\_co
 
 History - admissions\_365d(int), tot\_length\_of\_stay\_365d(int), last\_stay\_diagnosis(str)
 
-==========================================
+---
 
 
 
@@ -84,7 +84,7 @@ History - admissions\_365d, tot\_length\_of\_stay\_365d, avg\_cost\_of\_prev\_st
 
 
 
-==========================================
+---
 
 
 
@@ -101,7 +101,7 @@ value-of-reduction = readmission\_probability\_decrease \* readmission\_cost - (
 
 
 
-=========================================
+---
 
 
 
@@ -139,7 +139,7 @@ Optionally claims.csv and claims\_transactions.csv if claims-based costs are pre
 
 
 
-==========================================
+---
 
 
 
@@ -165,6 +165,8 @@ Every row in the table is an inpatient stay that:
 
 4\. Patient is observable in the data for at least 30 days after discharge.
 
+===========================================
+
 \## Columns:
 
 
@@ -173,7 +175,7 @@ Identification:
 
 
 
-patient\_id (int) - unique patient identifier
+patient\_id (int) - unique patient identifier (FK)
 
 
 
@@ -185,11 +187,11 @@ patient\_sex (M or F) - patient gender
 
 
 
-stay\_id (int) - unique stay identifier
+stay\_id (int) - unique stay identifier (PK)
 
 
 
-hospital\_id (int) - unique institution id
+hospital\_id (int) - unique institution id (FK)
 
 
 
@@ -217,7 +219,7 @@ discharge\_datetime (datetime) - date and time of discharge
 
 
 
-------------------------------------------
+===========================================
 
 
 
@@ -261,7 +263,7 @@ primary\_diagnosis\_code (str) - main diagnosis unique identifier
 
 
 
-------------------------------------------
+===========================================
 
 
 
@@ -289,7 +291,7 @@ total\_stay\_cost (float) - total expences on the stay in $
 
 
 
-------------------------------------------
+===========================================
 
 
 
@@ -309,7 +311,7 @@ History:
 
 stay/tot\_length\_of\_stay\_365d
 
-------------------------------------------
+===========================================
 
 Outcomes and flags:
 
@@ -331,17 +333,17 @@ Outcomes and flags:
 
 \*\*combined\_readmission\_cost (float) - cost of admission + cost of readmission (if readmit\_90d is true)
 
-------------------------------------------
+===========================================
 
 Columns marked with \*\* are derived from helper tables down below.
 
-==========================================
+---
 
 \## Helper Tables
 
 Clinical:
 
-stay\_id,
+stay\_id (PK),
 
 primary\_diagnosis\_code (str),
 
@@ -363,11 +365,11 @@ had\_surgery (bool),
 
 planned\_admission\_flag (bool) - from careplans and conditions
 
-------------------------------------------
+===========================================
 
 Cost Aggregation:
 
-stay\_id,
+stay\_id (PK),
 
 admission\_cost (float),
 
@@ -379,11 +381,11 @@ total\_stay\_cost (float),
 
 cost\_per\_day\_stay (float)
 
-------------------------------------------
+===========================================
 
 Utilization:
 
-stay\_id,
+stay\_id (PK),
 
 admissions\_365d (int), 
 
@@ -391,11 +393,11 @@ tot\_length\_of\_stay\_365d (int),
 
 avg\_cost\_of\_prev\_stays (float),
 
-prev\_stay\_id (int) - id of a previous stay for this patient,
+prev\_stay\_id (int) - id of a previous stay for this patient (FK),
 
 prev\_stay\_date (date) - discharge\_date of a previous stay for this patient,
 
-following\_stay\_id (int) - id of a following stay for this patient (readmission\_id for unplanned readmissions),
+following\_stay\_id (int) - id of a following stay for this patient (readmission\_id for unplanned readmissions) (FK),
 
 following\_stay\_date (date) - admission\_date of a following stay for this patient,
 
@@ -407,7 +409,7 @@ readmit\_30d (bool),
 
 readmit\_90d (bool)
 
-==========================================
+---
 
 TableID test query = chc-nih-chest-xray.nih_chest_xray.nih_chest_xray
 
@@ -425,6 +427,65 @@ TableID test query = chc-nih-chest-xray.nih_chest_xray.nih_chest_xray
 
 - Initialized a standalone git repository for this project, added a `.gitignore` that excludes `.venv`, `.secrets`, and notebook checkpoints, and ensured the parent `D:\Python Projects` repo ignores this nested repo.
 
+---------------------------------------------
+
+SQL Table reduction queries pipeline
+
+select id, birthdate, deathdate, race, gender from patients p
+
+index by id
+
+=============================================
+
+Select id, Start, stop, Patient, organization, encounter_class, Base_Encounter_Cost, Total_Claim_Cost, description from encounters e
+where 
+encounter_class = 'inpatient' and
+stop <= end_date - 30 days and
+stop < coalesce(p.deathdate, end_date)
+
+Index by id, start, patient, stop
+
+=============================================
+
+Select Start, stop, patient, encounter, description from careplans care
+where care.encounter in e.id
+
+index by encounter, patient
+
+=============================================
+
+Select start, stop, patient, encounter, code, description from conditions cond
+where cond.encounter in e.id
+
+index by encounter, patient
+
+=============================================
+
+Select Start, stop, encounter, Code, description, base_cost, dispences, totalcost from medications m
+where m.encounter in e.id
+
+index by encounter
+
+=============================================
+
+select date, encounter, category, code, description, value, units, type from observations obs
+where obs.encounter in e.id
+
+index by id
+
+=============================================
+
+select id, name, utilization from organizations org
+wehre org.id in e.organization
+
+index by id
+
+=============================================
+
+select start, stop, encounter, code, description, base_cost from procedures proc
+where proc.encounter in e.id
+
+index by encounter
 
 
 
