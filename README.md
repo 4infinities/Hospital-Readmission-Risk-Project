@@ -411,6 +411,20 @@ readmit\_90d (bool)
 
 TableID test query = chc-nih-chest-xray.nih_chest_xray.nih_chest_xray
 
+---
+
+## Environment & Infra – Week 1 Day 4 (2026‑02‑08)
+
+- Created a project‑specific Python virtual environment (`.venv`) and installed core dependencies: `google-cloud-bigquery`, `pandas`, `ipykernel`.
+
+- Set up Google Cloud authentication by creating a service account with `BigQuery User` and `BigQuery Data Viewer` roles, storing the JSON key under `.secrets/` (git‑ignored), and configuring `GOOGLE_APPLICATION_CREDENTIALS` for local runs.
+
+- Verified BigQuery connectivity from Python by instantiating `bigquery.Client()` and confirming it returns the correct GCP project id.
+
+- Registered the `.venv` as a Jupyter kernel (`Python (hospital-venv)`) so notebooks in the project run with the same environment and can import the BigQuery client.
+
+- Initialized a standalone git repository for this project, added a `.gitignore` that excludes `.venv`, `.secrets`, and notebook checkpoints, and ensured the parent `D:\Python Projects` repo ignores this nested repo.
+
 
 
 
