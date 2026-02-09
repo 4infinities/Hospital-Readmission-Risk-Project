@@ -487,6 +487,34 @@ where proc.encounter in e.id
 
 index by encounter
 
+---
+
+### 2026-02-10 – Mock dataset loaded to BigQuery + slim tables
+
+- Installed and initialized Google Cloud CLI on laptop and linked it to project `healthcare-test-486920`.
+- Created a new BigQuery dataset `Raw_csvs_test` and loaded initial CSVs (patients, encounters, careplans) directly from local files.
+- Fixed location / permission issues when querying by:
+  - Setting the correct processing location for the dataset.
+  - Using fully qualified table names with the correct project ID.
+- Designed and built first **slim tables** in BigQuery:
+  - `patients_slim`:
+    - Columns: `id, birthdate, deathdate, race, gender`.
+    - Partitioned by `birthdate`, clustered by `id`.
+  - `encounters_slim`:
+    - Joined to patients to exclude encounters after death and to truncate at a global end date.
+    - Filtered to clinically relevant encounter classes (`inpatient, emergency, urgentcare, outpatient, ambulatory, virtual`).
+    - Prepared for later partitioning/clustering (date + patient).
+  - `careplans_slim`:
+    - Joined `careplans` to `encounters_slim` on `encounter` ID.
+    - Partitioned by `stop`, clustered by `encounter, patient`.
+- Performed basic sanity checks on `encounters_slim`:
+  - Verified encounter counts, allowed `encounterclass` values, and absence of encounters after death or after the dataset end date.
+- Captured first performance/architecture learnings:
+  - BigQuery uses partitioning + clustering at table level (no `CREATE INDEX`).
+  - `CREATE TABLE ... PARTITION BY ... CLUSTER BY ... AS SELECT ...` is the main pattern for building optimized tables from queries.
+
+
+
 
 
 
