@@ -513,8 +513,11 @@ index by encounter
   - BigQuery uses partitioning + clustering at table level (no `CREATE INDEX`).
   - `CREATE TABLE ... PARTITION BY ... CLUSTER BY ... AS SELECT ...` is the main pattern for building optimized tables from queries.
 
+---
 
+### 2026-02-11 - Helper Table Conditions attempt 
 
+Created first version of the **clinical helper table** for index_stay: wired encounters to claims and conditions, selected a primary diagnosis code per stay (with disorder‑first logic), and computed key aggregates – number of diagnoses, number of procedures, and a deduplicated count of chronic conditions per patient–stay.
 
 
 
