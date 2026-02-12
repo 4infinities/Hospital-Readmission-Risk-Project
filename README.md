@@ -515,11 +515,22 @@ index by encounter
 
 ---
 
-### 2026-02-11 - Helper Table Conditions attempt 
+### 2026-02-11 - Helper Clinical table attempt 
 
 Created first version of the **clinical helper table** for index_stay: wired encounters to claims and conditions, selected a primary diagnosis code per stay (with disorder‑first logic), and computed key aggregates – number of diagnoses, number of procedures, and a deduplicated count of chronic conditions per patient–stay.
 
+---
 
+### 2026-02-12 - Helper Clinical Table done 
+
+### Cost aggregation and comorbidity notes
+
+- In Synthea, `total_claim_cost` is a synthetic claim amount and does **not** exactly equal `base_encounter_cost + sum(line‑item base costs)`
+- For this project, I define `totalstaycost = base_encounter_cost + totalprocedurecosts + totalmedicationcosts`, and use this for `costperdaystay`, `totalreadmissioncost`, and value‑of‑reduction calculations; `total_claim_cost` is kept only as an auxiliary feature.
+
+- The clinical helper table is built using `code_dictionary` plus simple aggregates (`COUNTIF`, flags like `hasdiabetes`, `hascancer`, `hashiv`, `has_hf`, `has_alz`, `has_ckd`, `numchronicconditions`). 
+- Current condition and procedure labels (chronic vs acute, cancer, HIV, HF, CKD, Alzheimer’s/dementia, and `is_surgery`) are based on **heuristic** code + text rules and one‑off LLM classification, not full SNOMED/ICD value sets. 
+- For real‑world use these label definitions should be replaced by proper SNOMED/ICD hierarchies and procedure code sets; here they are treated as a pragmatic approximation to get the end‑to‑end project working.
 
 
 
