@@ -532,7 +532,22 @@ Created first version of the **clinical helper table** for index_stay: wired enc
 - Current condition and procedure labels (chronic vs acute, cancer, HIV, HF, CKD, Alzheimer’s/dementia, and `is_surgery`) are based on **heuristic** code + text rules and one‑off LLM classification, not full SNOMED/ICD value sets. 
 - For real‑world use these label definitions should be replaced by proper SNOMED/ICD hierarchies and procedure code sets; here they are treated as a pragmatic approximation to get the end‑to‑end project working.
 
+---
 
+### 2026-02-13 - Index Table Done
+
+- Built and sanity‑checked first versions of all three helper tables: **clinical**, **cost aggregation**, and **utilization**, including refined logic for chronic flags, surgery history, and 365‑day utilization. 
+
+- Implemented and debugged BigQuery → Python integration in a Jupyter notebook using a dedicated `.venv`, service‑account auth, and a fallback pattern for loading query results into pandas without relying on `to_dataframe
+
+- Created the **Index Stay fact table** by joining inpatient `encounters_slim` with all helper tables, wiring in diagnoses, costs, 365‑day history, and readmission flags (`readmit_30d`, `readmit_90d`). 
+
+- Organized project SQL into a Git‑tracked structure (`sql/01_raw_to_slim`, `02_helpers`, `03_index_fact`, `04_sanity_checks`), so every BigQuery table build has a corresponding `.sql` file under version control. 
+
+- Clarified BigQuery **sandbox/free‑tier limits** (1 TiB queries + 10 GiB storage per month, no billing account linked) and agreed on habits to stay under the limit: avoid `SELECT *`, filter early, materialize heavy steps once, and optionally monitor TB via `INFORMATION_SCHEMA`. 
+- Decided to **postpone full SNOMED CT integration** (FHIR/Snowstorm or offline library) and keep using the current heuristic `code_dictionary` and `procedures_dictionary` for condition/procedure labels, with a clear note to replace them in a later phase.
+
+Got to use snomed API in order to classify procedures and conditions well
 
 
 
