@@ -549,18 +549,19 @@ Created first version of the **clinical helper table** for index_stay: wired enc
 
 Got to use snomed API in order to classify procedures and conditions well
 
+---
 
+### 2026-02-14 - First Model Tests
 
+- Built baseline **logistic regression** models for both 30‑day and 90‑day readmission prediction using the engineered index_stay feature set (with cross‑validated ROC‑AUC ≈ 0.91–0.92 and strong PR performance at low prevalence).
 
+- Interpreted 90‑day model coefficients: prior utilisation (admissions_365d, tot_length_of_stay_365d), comorbidity burden (num_chronic_conditions, CKD), and log‑transformed cost variables emerged as the main risk drivers. 
 
+- Evaluated 30‑day model and identified plausible overall performance but less stable coefficients for some chronic disease flags and raw cost fields, suggesting collinearity and remaining scaling issues on the 30‑day target.
+- Found a bug in the utilisation helper logic (missing or mis‑computed readmit30d, readmit90d, fol_admit_id, fol_stay_date) while checking consistency between helper_util and index_stay. 
 
+- Fixed this bug in the **test dataset**: reintroduced and corrected readmit30d, readmit90d, fol_admit_id, and fol_stay_date so that helper_util and index_stay are now logically consistent there, although the corresponding BigQuery SQL wasn’t saved.
 
-
-
-
-
-
-
-
+- For the **full dataset**, left helper_util and index_stay unchanged in BigQuery for now and applied the corrected readmission logic in Python, ensuring the modelling pipeline uses the fixed labels while the warehouse tables remain at their previous version. 
 
 
