@@ -564,4 +564,16 @@ Got to use snomed API in order to classify procedures and conditions well
 
 - For the **full dataset**, left helper_util and index_stay unchanged in BigQuery for now and applied the corrected readmission logic in Python, ensuring the modelling pipeline uses the fixed labels while the warehouse tables remain at their previous version. 
 
+---
+
+### 2026-02-15 - Models' hyperparameters tuned
+
+- Refactored the modelling code into a reusable `train_model` + `evaluate_model` pattern, with a model registry and metric logs (ROC AUC, PR AUC, plus per‑model coefficients / feature importances).
+- Tuned and compared logistic, random forest, and LightGBM hyperparameters for readmit_30d and readmit_90d using `RandomizedSearchCV` with `scoring="average_precision"`, and inspected how different configs affect 30d vs 90d performance.
+- Fixed convergence and performance issues in logistic regression by adjusting `max_iter`, penalty, and class weights, and by using a consistent train/test split for both 30d and 90d targets.
+- Designed a caching pattern for dataset loading: first try loading from a local CSV/Parquet file, otherwise query BigQuery and save a local cache to avoid repeated warehouse reads. 
+
+- Scoped and partially prototyped a SNOMED‑based dictionary approach (concept IDs → clinical flags like cancer, HIV, CKD, HF, diabetes, dementia) including a plan to hit a terminology server and cache results for later use in helper tables.
+
+- Attempted a local PySpark + Pathling setup for SNOMED work, discovered Java/Spark compatibility issues on Windows (Py4J `getSubject` error), and decided to pause Spark for now and instead pursue a pure‑Python SNOMED dictionary path in a future session. 
 
