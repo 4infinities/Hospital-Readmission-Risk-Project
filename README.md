@@ -577,3 +577,17 @@ Got to use snomed API in order to classify procedures and conditions well
 
 - Attempted a local PySpark + Pathling setup for SNOMED work, discovered Java/Spark compatibility issues on Windows (Py4J `getSubject` error), and decided to pause Spark for now and instead pursue a pure‑Python SNOMED dictionary path in a future session. 
 
+---
+
+### 2026-02-15 - First Business Results Found
+
+- Tuned hyperparameters for **light GBM** and **random forest** on the 30‑day readmission task, cleaned up the search space, and enforced sensible RF tree constraints (e.g. `min_samples_split` vs `min_samples_leaf`). 
+- Implemented a **threshold‑based cost/value pipeline** using predicted probabilities, extra intervention days, capped `cost_per_day_stay`, and scenario‑based risk reduction to compute net savings vs readmission costs. 
+
+- Found that the best current operating point is **logistic regression (30d) at threshold 0.85**, with ~66 % recall, ~45 % precision, and about **5 % maximum projected savings** of combined readmission cost on the current test cohort.
+
+- Verified that very short, high‑cost stays were inflating intervention costs and corrected this by capping `cost_per_day_stay` for policy calculations and softening extra‑days rules, which removed large negative net‑value artifacts. 
+
+- Not yet: validated the cost pipeline on a **larger synthetic dataset**, re‑trained models on that larger cohort, or compared model performance/cost curves in a stable “production‑like” setting (these remain to‑dos). 
+
+- Plan for tomorrow: **regenerate a larger Synthea dataset** (e.g. 20k+20k patients), reload and rebuild BigQuery slim/helper/index tables, retrain logistic/RF (and possibly LightGBM) on the new data, and re‑run the cost/value pipeline to check if the ~5 % savings estimate holds or improves. 
