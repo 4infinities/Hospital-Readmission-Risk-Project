@@ -109,7 +109,7 @@ value-of-reduction = readmission\_probability\_decrease \* readmission\_cost - (
 
 java -jar synthea-with-dependencies.jar -s 42 -cs 42 -p 20000 --exporter.csv.export=true --exporter.years\_of\_history=8 California
 
-
+java -jar synthea-with-dependencies.jar -s 100 -cs 100 -p 50000 --exporter.csv.export=true --exporter.years_of_history=10 California
 
 CSV-modules for GCP
 
@@ -591,3 +591,31 @@ Got to use snomed API in order to classify procedures and conditions well
 - Not yet: validated the cost pipeline on a **larger synthetic dataset**, re‑trained models on that larger cohort, or compared model performance/cost curves in a stable “production‑like” setting (these remain to‑dos). 
 
 - Plan for tomorrow: **regenerate a larger Synthea dataset** (e.g. 20k+20k patients), reload and rebuild BigQuery slim/helper/index tables, retrain logistic/RF (and possibly LightGBM) on the new data, and re‑run the cost/value pipeline to check if the ~5 % savings estimate holds or improves. 
+
+- Found out that encounters older than 8 years are chronic conditions that are either still present, or are ongoing
+
+---
+
+### 2026-02-15 - Bringing code and repo to an adequate state
+
+ERROR in test_preprocess.ipynb when calculating gains, sth doesn't match big time
+Index in df_cost and in results['pred_values'] is out of order
+
+- add stay_type to index_stay_table
+
+- cross-validate train_test stuff to get more metrics
+
+- what do I need 90 days data for
+
+- filter admission_date for last 8 years
+//fixed in data.filter_data with function, but can be fixed in bigquery with filters
+
+- decide for a better intervention type, look for cost reduction there
+
+- map different readmission probability reductions
+//done as functions, not seen values yet
+
+- reorganize code so that it is functions and variables
+//done
+
+- skip cross-validation when building models if I build cross-validated models

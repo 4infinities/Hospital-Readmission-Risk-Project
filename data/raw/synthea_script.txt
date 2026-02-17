@@ -1,0 +1,11 @@
+"""
+Train dataset generation
+"""
+
+java -jar synthea-with-dependencies.jar -s 42 -cs 42 -p 20000 --exporter.csv.export=true --exporter.years\_of\_history=8 California
+
+"""
+Test dataset generation
+"""
+
+java -jar synthea-with-dependencies.jar -s 100 -cs 100 -p 50000 --exporter.csv.export=true --exporter.years_of_history=10 California
