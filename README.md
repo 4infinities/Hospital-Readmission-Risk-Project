@@ -603,7 +603,7 @@ Index in df_cost and in results['pred_values'] is out of order
 
 - add stay_type to index_stay_table
 
-- cross-validate train_test stuff to get more metrics
+- cross-validate train_test stuff to get more metrics //1st priority
 
 - what do I need 90 days data for
 

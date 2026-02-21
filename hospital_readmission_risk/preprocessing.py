@@ -58,7 +58,7 @@ def build_preprocessor(df_raw):
 
     df = readmission_sanity_check(df)
 
-    dfc = log_transform(df)
+    df = log_transform(df)
 
     df_numeric, df_results = data_flags_split(df)
 

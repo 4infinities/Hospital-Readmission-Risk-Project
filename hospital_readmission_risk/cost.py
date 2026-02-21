@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def build_cost_base(df_raw, df_flag, rows, d30):
 
@@ -6,7 +7,7 @@ def build_cost_base(df_raw, df_flag, rows, d30):
 
     cols = ['stay_id','cost_per_day_stay','total_readmission_cost','avg_cost_of_prev_stays'] 
     
-    df = df_raw.iloc[rows][cols].copy()
+    df = df_raw.loc[rows][cols].copy()
 
     df['readmit_' + flag] = df_flag.loc[rows, 'readmit_' + flag]
 
@@ -44,17 +45,9 @@ def estimate_intervention_cost(row, df_pred, df_cost, model, threshold):
 
     relative_prob = df_pred.loc[row, model] / threshold
 
-    if(relative_prob < 2):
+    extra_day_stay_cost = np.nanmin(df_cost.loc[row, 'cost_per_day_stay'], df_cost.loc[row, 'avg_cost_of_prev_stays'])
 
-        intervention_cost = min(df_cost.loc[row, 'cost_per_day_stay'], df_cost.loc[row, 'avg_cost_of_prev_stays'])
-
-    elif(relative_prob < 3):
-
-        intervention_cost = 2 * min(df_cost.loc[row, 'cost_per_day_stay'], df_cost.loc[row, 'avg_cost_of_prev_stays'])
-                    
-    else:
-
-        intervention_cost = 3 * min(df_cost.loc[row, 'cost_per_day_stay'], df_cost.loc[row, 'avg_cost_of_prev_stays'])
+    intervention_cost = np.min(np.floor(relative_prob), 3) * extra_day_stay_cost
 
     return intervention_cost
 
@@ -66,11 +59,11 @@ def estimate_gain(row, col, df_thresholds, df_pred, df_cost, gains, model, thres
 
         intervention_cost = estimate_intervention_cost(row, df_pred, df_cost, model, threshold)
 
-        gains.loc[id, col] = exp_avoided_cost - intervention_cost
+        gains.loc[row, col] = exp_avoided_cost - intervention_cost
 
     else: 
 
-        gains.loc[id, col] = 0
+        gains.loc[row, col] = 0
 
     return gains
 
@@ -93,3 +86,17 @@ def estimate_cost_reduction(df_cost, df_pred, df_thresholds, d30 = True, r = 0.2
     gains.loc['total_avoided'] = gains.sum(axis = 0)
 
     return gains
+
+def map_estimate_cost_reduction(df_cost, df_pred, df_thresholds, rmin, rmax, rstep, d30 = True):
+
+    r_range = np.arange(rmin, rmax, rstep)
+
+    map = []
+
+    for r in r_range:
+
+        map.append(estimate_cost_reduction(df_cost, df_pred, df_thresholds, d30, r))
+
+    return map
+    
+    
