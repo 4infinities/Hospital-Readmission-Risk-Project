@@ -625,3 +625,17 @@ Index in df_cost and in results['pred_values'] is out of order
 - in results['pred_values'] some readmit_90d = 1 are converted into readmit_90d = 0
 
 - write docs to functions so that it is all readable
+
+---
+
+### 2026-02-15-2026-02-21 - Built and debugged full cross-validation for the entire dataset
+
+Task - dig deeper into data for:
+
+- stay types for index stay table;
+
+- diagnoses or some forms of diagnosis groups
+
+- find intervention types for diagnoses, mb explore the data a bit to find insights
+
+- mb count ambulatory procedures or any maintanence types
