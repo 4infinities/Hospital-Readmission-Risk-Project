@@ -596,7 +596,7 @@ Got to use snomed API in order to classify procedures and conditions well
 
 ---
 
-### 2026-02-15 - Bringing code and repo to an adequate state
+### 2026-02-15-2026-02-21 - Bringing code and repo to an adequate state
 
 ERROR in test_preprocess.ipynb when calculating gains, sth doesn't match big time
 Index in df_cost and in results['pred_values'] is out of order
@@ -604,6 +604,7 @@ Index in df_cost and in results['pred_values'] is out of order
 - add stay_type to index_stay_table
 
 - cross-validate train_test stuff to get more metrics //1st priority
+//done
 
 - what do I need 90 days data for
 
@@ -619,3 +620,8 @@ Index in df_cost and in results['pred_values'] is out of order
 //done
 
 - skip cross-validation when building models if I build cross-validated models
+//done
+
+- in results['pred_values'] some readmit_90d = 1 are converted into readmit_90d = 0
+
+- write docs to functions so that it is all readable

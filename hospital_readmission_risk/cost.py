@@ -45,9 +45,9 @@ def estimate_intervention_cost(row, df_pred, df_cost, model, threshold):
 
     relative_prob = df_pred.loc[row, model] / threshold
 
-    extra_day_stay_cost = np.nanmin(df_cost.loc[row, 'cost_per_day_stay'], df_cost.loc[row, 'avg_cost_of_prev_stays'])
+    extra_day_stay_cost = np.nanmin([df_cost.loc[row, 'cost_per_day_stay'], df_cost.loc[row, 'avg_cost_of_prev_stays']])
 
-    intervention_cost = np.min(np.floor(relative_prob), 3) * extra_day_stay_cost
+    intervention_cost = np.min([np.floor(relative_prob), 3]) * extra_day_stay_cost
 
     return intervention_cost
 

@@ -173,7 +173,7 @@ def build_model(X_train, X_test, y_train, y_test, name, models, coefs, metrics_l
 
         pred_values['readmit_30d'] = y_test
 
-    if pred_values.shape[1] < 3:
+    elif pred_values.shape[1] < 3:
 
         pred_values['readmit_90d'] = y_test
 
@@ -297,8 +297,6 @@ def build_thresholds(values):
 
 def calc_threshold_metrics(thresholds, metrics):
 
-    print(thresholds)
-
     for model_threshold in thresholds.columns:
 
         if(model_threshold not in ['readmit_30d', 'readmit_90d']):
@@ -310,7 +308,9 @@ def calc_threshold_metrics(thresholds, metrics):
             metrics.loc['FN', model_threshold] = ((thresholds[model_threshold] == 0) & (thresholds[true_col] == 1)).sum()
             metrics.loc['TN', model_threshold] = ((thresholds[model_threshold] == 0) & (thresholds[true_col] == 0)).sum()
 
-            metrics = get_discrete_metrics(thresholds[true_col], thresholds[model_threshold], model_threshold, metrics, transposed = True)
+            y_true = thresholds[true_col].astype(int)
+
+            metrics = get_discrete_metrics(y_true, thresholds[model_threshold], model_threshold, metrics, transposed = True)
 
     return metrics
 
