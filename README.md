@@ -639,21 +639,14 @@ Task - dig deeper into data for:
 //done, but index stay not yet recompiled
 
 - diagnoses or some forms of diagnosis groups
-
-- find intervention types for diagnoses, mb explore the data a bit to find insights
+//done
 
 - mb count ambulatory procedures or any maintanence types
 
 Tasks with the data itself and with index_stay table
 
-- I don't check whether readmission is related to the previous condition, it's only done by querying snomed, or mb there is another way
-
 - see what morphologic abnormality means
 //done
-
-- an encounter can be planned if there was a scheduling procedure prior to it(in procedures_slim, code 410538000), gotta remark planned/unplanned accordingly
-
-- not all procedures should be counted as procedures themselves
 
 - check my project question framing: I try to prevent only related readmission or all of them
 ---
@@ -662,7 +655,7 @@ Tasks with the data itself and with index_stay table
 
 - morphological abnormalities are only sprains and brain injuries that all fall into index stay table as their stay_type is emergency
 
-- findings from talk with Jenya: each component should be wrapped into an object/class
+- findings from talk with Jenya: each component should be wrapped into an object/class (Holy Shit)
 
 - check when I scale my data and on what
 //checked
@@ -672,3 +665,40 @@ Tasks with the data itself and with index_stay table
 - full kfold sucks, gotta leave out some data
 
 - gotta resolve multicollinearity in stay_type
+//done
+
+---
+
+### 2026-02-24 - Almost built a dictionary for procedures, ready to build diagnoses, but not mapped yet
+
+- snowstorm api actually works
+
+- created a list of non-procedural parents, and added other flag called therapies
+
+- now data.py file: data.load_data() gets data_path, sql, query = False, gotta fix in test_preprocedss.ipynb and in config
+
+sql = """
+    SELECT
+        *
+        from `hospital-readmission-4.helper_tables.index_stay`
+    """
+save_csv_path = 'D:\Python Projects\Hospital readmission risk\data\cleaned\index_stay.csv'
+
+//done
+
+- created a list for diagnoses, but not yet run dictionary builder
+
+Tasks apart from the obvious:
+
+- save individual procedure and diagnosis jsons into separate files for a faster lookup and less memory
+- I don't check whether readmission is related to the previous condition, it's only done by querying snomed, or mb there is another way
+- find intervention types for diagnoses, mb explore the data a bit to find insights
+
+- mb count ambulatory procedures or any maintanence types
+
+- an encounter can be planned if there was a scheduling procedure prior to it(in procedures_slim, code 410538000), gotta remark planned/unplanned accordingly
+
+- findings from talk with Jenya: each component should be wrapped into an object/class (Holy Shit)
+
+-remove full Kfold, rather load new bigger dataset
+

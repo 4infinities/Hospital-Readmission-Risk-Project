@@ -6,7 +6,7 @@ import db_dtypes
 from config import credentials, project_name
 
 
-def load_data(data_path, query = False):
+def load_data(data_path, sql, query = False):
 
     """
     Loads data from file if it exists, otherwise loads data froim BigQuery and creates a file
@@ -20,17 +20,13 @@ def load_data(data_path, query = False):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
 
     client = bigquery.Client(project = project_name)
-    sql = """
-    SELECT
-        *
-        from `hospital-readmission-4.helper_tables.index_stay`
-    """
+
     job = client.query(sql)
     rows = list(job.result())
 
     data_raw = [dict(r) for r in rows]
 
-    pd.DataFrame(data_raw).to_csv('index_stay.csv', index = False)
+    pd.DataFrame(data_raw).to_csv(data_path, index = False)
 
     return pd.DataFrame(data_raw)
 

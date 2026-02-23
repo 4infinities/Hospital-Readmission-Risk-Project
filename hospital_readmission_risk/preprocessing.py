@@ -6,7 +6,7 @@ def select_numeric_values(df):
 
     return df[numeric_cols].copy()
 
-def dummies_transform(df, drop_cols = 'gender_F'):
+def dummies_transform(df, drop_cols = ['gender_F', 'stay_type_emergency']):
 
     df = pd.get_dummies(df)
     df = df.drop(columns = drop_cols)

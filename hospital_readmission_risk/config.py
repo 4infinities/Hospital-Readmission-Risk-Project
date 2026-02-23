@@ -45,6 +45,12 @@ credentials = r"D:\Python Projects\Hospital readmission risk\.secrets\hospital-r
 
 project_name = "hospital-readmission-4"
 
+sql = """
+    SELECT
+        *
+        from `hospital-readmission-4.helper_tables.index_stay`
+    """
+    
 numeric_cols = [
     'patient_age', 'gender', 'length_of_stay', 'num_diagnoses', 'stay_type',
     'num_chronic_conditions', 'num_procedures', 'has_diabetes', 'has_cancer',
