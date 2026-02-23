@@ -33,6 +33,7 @@ models = [
     'colsample_bytree': 0.9,
     "objective" : "binary", 
     "force_col_wise" : True,
+    "is_unbalance" : True,
     "random_state": 42
         },
     },
@@ -45,7 +46,7 @@ credentials = r"D:\Python Projects\Hospital readmission risk\.secrets\hospital-r
 project_name = "hospital-readmission-4"
 
 numeric_cols = [
-    'patient_age', 'gender', 'length_of_stay', 'num_diagnoses',
+    'patient_age', 'gender', 'length_of_stay', 'num_diagnoses', 'stay_type',
     'num_chronic_conditions', 'num_procedures', 'has_diabetes', 'has_cancer',
     'has_hiv', 'has_hf', 'has_alz', 'has_ckd', 'had_surgery', 'admission_cost',
     'total_procedure_costs', 'total_medication_costs', 'total_stay_cost', 

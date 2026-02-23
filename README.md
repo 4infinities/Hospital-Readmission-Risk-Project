@@ -602,6 +602,7 @@ ERROR in test_preprocess.ipynb when calculating gains, sth doesn't match big tim
 Index in df_cost and in results['pred_values'] is out of order
 
 - add stay_type to index_stay_table
+//done
 
 - cross-validate train_test stuff to get more metrics //1st priority
 //done
@@ -610,11 +611,12 @@ Index in df_cost and in results['pred_values'] is out of order
 
 - filter admission_date for last 8 years
 //fixed in data.filter_data with function, but can be fixed in bigquery with filters
+//done in bigquery
 
 - decide for a better intervention type, look for cost reduction there
 
 - map different readmission probability reductions
-//done as functions, not seen values yet
+//done as functions, *seen values
 
 - reorganize code so that it is functions and variables
 //done
@@ -623,6 +625,7 @@ Index in df_cost and in results['pred_values'] is out of order
 //done
 
 - in results['pred_values'] some readmit_90d = 1 are converted into readmit_90d = 0
+//fixed
 
 - write docs to functions so that it is all readable
 
@@ -633,9 +636,39 @@ Index in df_cost and in results['pred_values'] is out of order
 Task - dig deeper into data for:
 
 - stay types for index stay table;
+//done, but index stay not yet recompiled
 
 - diagnoses or some forms of diagnosis groups
 
 - find intervention types for diagnoses, mb explore the data a bit to find insights
 
 - mb count ambulatory procedures or any maintanence types
+
+Tasks with the data itself and with index_stay table
+
+- I don't check whether readmission is related to the previous condition, it's only done by querying snomed, or mb there is another way
+
+- see what morphologic abnormality means
+//done
+
+- an encounter can be planned if there was a scheduling procedure prior to it(in procedures_slim, code 410538000), gotta remark planned/unplanned accordingly
+
+- not all procedures should be counted as procedures themselves
+
+- check my project question framing: I try to prevent only related readmission or all of them
+---
+
+- fixed flags in helper_utilization, and sanity checked new flags
+
+- morphological abnormalities are only sprains and brain injuries that all fall into index stay table as their stay_type is emergency
+
+- findings from talk with Jenya: each component should be wrapped into an object/class
+
+- check when I scale my data and on what
+//checked
+- find a way to make a dataset balanced
+//found
+
+- full kfold sucks, gotta leave out some data
+
+- gotta resolve multicollinearity in stay_type

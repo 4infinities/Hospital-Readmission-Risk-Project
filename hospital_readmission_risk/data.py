@@ -6,7 +6,7 @@ import db_dtypes
 from config import credentials, project_name
 
 
-def load_data(data_path):
+def load_data(data_path, query = False):
 
     """
     Loads data from file if it exists, otherwise loads data froim BigQuery and creates a file
@@ -14,7 +14,7 @@ def load_data(data_path):
 
     path = Path(data_path)
 
-    if path.exists():
+    if not query and path.exists():
         return pd.read_csv(path, sep = ',')
 
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
@@ -48,8 +48,8 @@ def filter_dates(data, date_col = 'admission_datetime', start_date = '2018-02-08
     return data[pd.to_datetime(data[date_col]) >= cutoff].copy()
 
 
-def get_data(data_path):
+def get_data(data_path, query = False):
 
-    df = load_data(data_path)
+    df = load_data(data_path, query)
 
     return filter_dates(df)
