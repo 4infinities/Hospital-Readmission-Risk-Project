@@ -1,0 +1,1405 @@
+{
+  "_id": "692da8615e56651e0184c6f8",
+  "memberships": [
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "161615003",
+      "refset": {
+        "conceptId": "1127601000000107",
+        "defaultTerm": "Healthcare matters simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20191001",
+        "module": "999000021000000109"
+      },
+      "uuid": "9c3d8e4e-5c3d-406b-adb1-7dfeb6cf4233",
+      "active": true,
+      "effectiveTime": "20191001",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLEMAP",
+      "referencedComponentId": "161615003",
+      "refset": {
+        "conceptId": "900000000000497000",
+        "defaultTerm": "CTV3 to SNOMED CT simple map reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "otherValue": "14N..",
+      "uuid": "4c67d38b-2a2e-58e9-82c3-4625fda0200b",
+      "active": true,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": "ASSOCIATION",
+      "referencedComponentId": "161615003",
+      "refset": {
+        "conceptId": "1322291000000109",
+        "defaultTerm": "National Health Service Care Record Element association reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20200513",
+        "module": "999000041000000102"
+      },
+      "cidValue": {
+        "conceptId": "163071000000106",
+        "defaultTerm": "Treatments - care record element (record artifact)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "999000011000000103"
+      },
+      "uuid": "fe6fb421-96ed-11ea-bbef-08002728e8ff",
+      "active": true,
+      "effectiveTime": "20200513",
+      "module": "999000031000000106"
+    }
+  ],
+  "descriptions": [
+    {
+      "descriptionId": "251850013",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "H/O: surgery",
+      "length": 12,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "251850013",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "ecaaa9a3-861a-4ce2-87e5-7d8b1f7e9a5c",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20220228",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "251851012",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "H/O: operation",
+      "length": 14,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "251851012",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "547a842d-de26-4137-9310-99b2f111a41e",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20220228",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "542663018",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of - surgery (context-dependent category)",
+      "length": 49,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20060731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1221294017",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Past surgical history of",
+      "length": 24,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20150731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "2607082013",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of - surgery (situation)",
+      "length": 32,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20080131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "2666484016",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of - surgery",
+      "length": 20,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "2666484016",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e7316ce0-7d5f-4f50-b37a-6ec226cfd2e1",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20220228",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "2690856016",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of surgery (situation)",
+      "length": 30,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "2690856016",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "42dd3f57-21d9-5474-83a9-b0dbad35db21",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "2690856016",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "9366fb3a-d0f5-52da-881e-dbe46b8a4107",
+          "active": true,
+          "effectiveTime": "20080131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "2690856016",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "eaa05ddd-966f-53de-8214-560bcc832499",
+          "active": true,
+          "effectiveTime": "20080131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "2695252013",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of surgery",
+      "length": 18,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "2695252013",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "16ba45e0-d71e-518d-884f-5844ef8a460d",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "2695252013",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "7193a84f-88b2-59a7-9519-4d92c9488894",
+          "active": true,
+          "effectiveTime": "20220928",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "2695252013",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "f21dfc09-9718-5178-8fbb-4f68e12cf8e0",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "4694358014",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of operation",
+      "length": 20,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "4694358014",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "0aeb3f1b-7cd2-45ed-a663-0339fc919c1f",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "4694358014",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "2d49f68b-b9f9-467a-b46d-ce99de0683a9",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "4694358014",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "4c33505f-85b1-4b88-a3a4-9684943ea65f",
+          "active": true,
+          "effectiveTime": "20220928",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20220228",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "4694359018",
+      "conceptId": "161615003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "History of surgical procedure",
+      "length": 29,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "4694359018",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "0e174191-de09-42a1-9511-c0a46d120d77",
+          "active": true,
+          "effectiveTime": "20220928",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "4694359018",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "19fe9d44-682e-4f7a-af7b-e4543d27ec2a",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "4694359018",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "39deaabf-0ac7-4034-9301-c0ef94bc59e9",
+          "active": true,
+          "effectiveTime": "20220228",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20220228",
+      "module": "900000000000207008"
+    }
+  ],
+  "relationships": [
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "127452003",
+        "defaultTerm": "Past medical history of (contextual qualifier) (context-dependent category)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20050731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20050731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "246090004",
+        "defaultTerm": "Associated finding (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "307294006",
+        "defaultTerm": "Personal history finding (finding)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1323321000000109",
+        "999002571000000104"
+      ],
+      "active": false,
+      "effectiveTime": "20040731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "129125009",
+        "defaultTerm": "Procedure with explicit context (situation)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 3763,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999002571000000104"
+      ],
+      "active": false,
+      "effectiveTime": "20050131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408731000",
+        "defaultTerm": "Temporal context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "410513005",
+        "defaultTerm": "In the past (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 5,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408729009",
+        "defaultTerm": "Finding context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "410515003",
+        "defaultTerm": "Known present (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999004531000000105"
+      ],
+      "active": false,
+      "effectiveTime": "20050731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408730004",
+        "defaultTerm": "Procedure context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "385658003",
+        "defaultTerm": "Done (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20030131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999000081000000105"
+      ],
+      "active": false,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408732007",
+        "defaultTerm": "Subject relationship context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "410604004",
+        "defaultTerm": "Subject of record (person)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363589002",
+        "defaultTerm": "Associated procedure (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "71388002",
+        "defaultTerm": "Procedure (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 71244,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999002571000000104"
+      ],
+      "active": false,
+      "effectiveTime": "20050131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "243798005",
+        "defaultTerm": "Procedure categorized by action status (navigational concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20240501",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20050731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363589002",
+        "defaultTerm": "Associated procedure (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "387713003",
+        "defaultTerm": "Surgical procedure (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 24363,
+        "active": true,
+        "effectiveTime": "20220930",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999002571000000104"
+      ],
+      "active": false,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "416940007",
+        "defaultTerm": "History of procedure (situation)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 725,
+        "active": true,
+        "effectiveTime": "20050731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1127601000000107"
+      ],
+      "active": true,
+      "effectiveTime": "20050731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408732007",
+        "defaultTerm": "Subject relationship context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "410604004",
+        "defaultTerm": "Subject of record (person)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408731000",
+        "defaultTerm": "Temporal context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "410513005",
+        "defaultTerm": "In the past (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 5,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363589002",
+        "defaultTerm": "Associated procedure (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "387713003",
+        "defaultTerm": "Surgical procedure (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 24363,
+        "active": true,
+        "effectiveTime": "20220930",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999002571000000104"
+      ],
+      "active": true,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "408730004",
+        "defaultTerm": "Procedure context (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "385658003",
+        "defaultTerm": "Done (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20030131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "161615003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999000081000000105"
+      ],
+      "active": true,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    }
+  ],
+  "isLeafInferred": false,
+  "isLeafStated": true,
+  "fsn": "History of surgery (situation)",
+  "conceptId": "161615003",
+  "defaultTerm": "History of surgery (situation)",
+  "definitionStatus": "Fully defined",
+  "statedDescendants": 0,
+  "inferredDescendants": 595,
+  "active": true,
+  "effectiveTime": "20050131",
+  "module": "900000000000207008"
+}

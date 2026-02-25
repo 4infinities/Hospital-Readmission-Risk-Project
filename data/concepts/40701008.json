@@ -1,0 +1,2228 @@
+{
+  "_id": "692da9265e56651e018b8839",
+  "memberships": [
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "40701008",
+      "refset": {
+        "conceptId": "991261000000107",
+        "defaultTerm": "Emergency care investigations simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20190601",
+        "module": "999000021000000109"
+      },
+      "uuid": "5a5b9533-cb3b-51c4-9bc9-d706cfaeb3bb",
+      "active": true,
+      "effectiveTime": "20151001",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "40701008",
+      "refset": {
+        "conceptId": "1326321000000103",
+        "defaultTerm": "Post-COVID assessment service simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20210512",
+        "module": "999000021000000109"
+      },
+      "uuid": "d2f77447-affb-4a1a-84ec-46fef23788fa",
+      "active": true,
+      "effectiveTime": "20210512",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLEMAP",
+      "referencedComponentId": "40701008",
+      "refset": {
+        "conceptId": "900000000000497000",
+        "defaultTerm": "CTV3 to SNOMED CT simple map reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "otherValue": "X77c1",
+      "uuid": "2fab9dc8-a627-507b-a204-5aea6a2e8221",
+      "active": true,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": "ASSOCIATION",
+      "referencedComponentId": "40701008",
+      "refset": {
+        "conceptId": "1322291000000109",
+        "defaultTerm": "National Health Service Care Record Element association reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20200513",
+        "module": "999000041000000102"
+      },
+      "cidValue": {
+        "conceptId": "163081000000108",
+        "defaultTerm": "Investigations - care record element (record artifact)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "999000011000000103"
+      },
+      "uuid": "fec64deb-96ed-11ea-bbef-08002728e8ff",
+      "active": true,
+      "effectiveTime": "20200513",
+      "module": "999000031000000106"
+    }
+  ],
+  "descriptions": [
+    {
+      "descriptionId": "67883014",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Echocardiography",
+      "length": 16,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "67883014",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "779baa01-9c56-569f-b884-654854c34e88",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "67883014",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "c36f264b-f1e6-52f5-94d5-25656f932fed",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "67883014",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "ed5ae886-c4ba-54ee-9ea3-4a21c2bc3ba9",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "67884015",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Echocardiography, NOS",
+      "length": 21,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "67885019",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Diagnostic ultrasound of heart",
+      "length": 30,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "67885019",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "5a09f5e7-4f44-47c2-8f4f-0814c451345a",
+          "active": true,
+          "effectiveTime": "20221031",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20221031",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "67886018",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Ultrasonography of heart, NOS",
+      "length": 29,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "67887010",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Echocardiographic procedure, NOS",
+      "length": 32,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "67888017",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Ultrasonography of heart",
+      "length": 24,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "67888017",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "2c09a27b-23c1-5bcd-81d0-0958320af80a",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "67888017",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "8a4d9844-f343-5ee2-948b-8229f9ec127e",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "67888017",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e60afec8-a122-517c-86a1-45b4624b82b4",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "67889013",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Echocardiographic procedure",
+      "length": 27,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "67889013",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "1db0fe10-8d9b-5558-a64b-3a2bda240c41",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "67889013",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e9f449ae-5dfa-5742-a9dc-563eebb5b285",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "67889013",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "f92aec7f-c1ec-5fdf-8745-5fd06c10cee9",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "777398010",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Echocardiography (procedure)",
+      "length": 28,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "777398010",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "0ba3495b-1f35-5b28-9593-39157a9b44ee",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "777398010",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "836994ad-be92-5d1f-aefe-f8871ce20a0a",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "777398010",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "a2f2e570-bbcc-5e9a-b500-017b522ef27d",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1229670013",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "US scan of heart",
+      "length": 16,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "1229670013",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "0876a82a-16d2-5245-a2c3-f551c97d48c2",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1229670013",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "270fb411-0451-5c84-b2fe-e1a4acc1a4c2",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "1229670013",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "8286f049-a13f-5d2f-b9d3-0ba780d28496",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20030731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1229671012",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Cardiac echo",
+      "length": 12,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "1229671012",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "0b4a8679-44a0-502a-bdab-fadfab4d73fa",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "1229671012",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "51281dae-25ad-5517-a19b-f6f8dd4ffc46",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1229671012",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "d813c6cf-720d-56dc-a855-0983ca0e056c",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1229672017",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Echocardiogram",
+      "length": 14,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "1229672017",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "0f4a6297-8ddd-59a1-9f69-97b0a80e9630",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1229672017",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "a9aee621-ca99-5ddd-afb4-ca724c709aa5",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "1229672017",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e68ebd3d-46ba-50f0-be3e-6e57dff8923e",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1229673010",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Cardiac US scan",
+      "length": 15,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "1229673010",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "34f47e78-e5b4-5a38-9992-dbf70a80d749",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1229673010",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "5d096b6a-6671-5feb-ac20-6aab80f687ae",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "1229673010",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "965f4268-06e3-5f6f-b360-9003c6bc9b14",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20020731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1229674016",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "US heart scan",
+      "length": 13,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "1229674016",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "41abeb09-5af2-53f1-8768-b2e5d1ecb63a",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1229674016",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "8b59b653-a5e7-58e1-ae1d-96db10e4f52a",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "1229674016",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "dbad203e-60c8-53e7-a167-830d2afdbcda",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20030731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "5145985015",
+      "conceptId": "40701008",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Ultrasound of heart",
+      "length": 19,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "5145985015",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "75f38971-c819-44ee-9ca5-02b79d8f0f58",
+          "active": true,
+          "effectiveTime": "20230412",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "5145985015",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "82520f22-1991-45f6-9abf-71725aa7ae51",
+          "active": true,
+          "effectiveTime": "20221031",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "5145985015",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e3673912-8294-42b8-b9f0-fa6e45d8dd79",
+          "active": true,
+          "effectiveTime": "20221031",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20221031",
+      "module": "900000000000207008"
+    }
+  ],
+  "relationships": [
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "55574009",
+        "defaultTerm": "Cardiac function testing (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 44,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "25850001",
+        "defaultTerm": "Ultrasonography of thorax (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 283,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20190731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "108283006",
+        "defaultTerm": "Ultrasound procedure on cardiovascular system (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 438,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "38318006",
+        "defaultTerm": "Medical procedure on heart (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20040131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "27352000",
+        "defaultTerm": "Diagnostic procedure on heart (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20220831",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20060131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "260686004",
+        "defaultTerm": "Method (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "129266000",
+        "defaultTerm": "Measurement - action (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363704007",
+        "defaultTerm": "Procedure site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "113257007",
+        "defaultTerm": "Structure of cardiovascular system (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 4872,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "260686004",
+        "defaultTerm": "Method (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "360224006",
+        "defaultTerm": "Investigation - action (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20030131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20020731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363703001",
+        "defaultTerm": "Has intent (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "261004008",
+        "defaultTerm": "Diagnostic intent (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20060131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "260686004",
+        "defaultTerm": "Method (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "278292003",
+        "defaultTerm": "Ultrasound imaging - action (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 11,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20100131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363704007",
+        "defaultTerm": "Procedure site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "80891009",
+        "defaultTerm": "Heart structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 927,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999003151000000105"
+      ],
+      "active": false,
+      "effectiveTime": "20070131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "260686004",
+        "defaultTerm": "Method (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "278292003",
+        "defaultTerm": "Ultrasound imaging - action (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 11,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 2,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363704007",
+        "defaultTerm": "Procedure site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 2,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "51185008",
+        "defaultTerm": "Thoracic structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 4037,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 2,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "169243002",
+        "defaultTerm": "Ultrasound great vessel scan (procedure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20070131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20030731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "108283006",
+        "defaultTerm": "Ultrasound procedure on cardiovascular system (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 438,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20030731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "118797008",
+        "defaultTerm": "Procedure on heart (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 1879,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20090731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "405813007",
+        "defaultTerm": "Procedure site - Direct (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "80891009",
+        "defaultTerm": "Heart structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 927,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999003151000000105"
+      ],
+      "active": false,
+      "effectiveTime": "20100131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "260686004",
+        "defaultTerm": "Method (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "278292003",
+        "defaultTerm": "Ultrasound imaging - action (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 11,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20100131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "405813007",
+        "defaultTerm": "Procedure site - Direct (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "80891009",
+        "defaultTerm": "Heart structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 927,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999003151000000105"
+      ],
+      "active": true,
+      "effectiveTime": "20100131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "441985002",
+        "defaultTerm": "Imaging of heart (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 374,
+        "active": true,
+        "effectiveTime": "20090731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20090731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "441561002",
+        "defaultTerm": "Endobronchial ultrasound examination of mediastinum (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 1,
+        "active": true,
+        "effectiveTime": "20250401",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20190731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "711306005",
+        "defaultTerm": "Ultrasonography of body cavity structure (procedure)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 5,
+        "active": true,
+        "effectiveTime": "20150731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "40701008",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20190731",
+      "module": "900000000000207008"
+    }
+  ],
+  "isLeafInferred": false,
+  "isLeafStated": true,
+  "fsn": "Echocardiography (procedure)",
+  "conceptId": "40701008",
+  "defaultTerm": "Echocardiography (procedure)",
+  "definitionStatus": "Fully defined",
+  "statedDescendants": 0,
+  "inferredDescendants": 67,
+  "active": true,
+  "effectiveTime": "20070731",
+  "module": "900000000000207008"
+}

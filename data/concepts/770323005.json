@@ -1,0 +1,993 @@
+{
+  "_id": "692da8fd5e56651e018a350e",
+  "memberships": [
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "770323005",
+      "refset": {
+        "conceptId": "1382531000000102",
+        "defaultTerm": "Emergency care diagnosis max simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20220928",
+        "module": "999000021000000109"
+      },
+      "uuid": "081d7ef3-0dad-4528-9f5e-902b2d854bc7",
+      "active": true,
+      "effectiveTime": "20220928",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "770323005",
+      "refset": {
+        "conceptId": "1127601000000107",
+        "defaultTerm": "Healthcare matters simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20191001",
+        "module": "999000021000000109"
+      },
+      "uuid": "e2acd822-23e6-44c9-acf5-e9abd0af1492",
+      "active": true,
+      "effectiveTime": "20191001",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLEMAP",
+      "referencedComponentId": "770323005",
+      "refset": {
+        "conceptId": "900000000000497000",
+        "defaultTerm": "CTV3 to SNOMED CT simple map reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "otherValue": "XV6lk",
+      "uuid": "0652ec3d-254e-49c5-ae53-7ad6226e30c5",
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": "ASSOCIATION",
+      "referencedComponentId": "770323005",
+      "refset": {
+        "conceptId": "1322291000000109",
+        "defaultTerm": "National Health Service Care Record Element association reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20200513",
+        "module": "999000041000000102"
+      },
+      "cidValue": {
+        "conceptId": "163001000000103",
+        "defaultTerm": "Diagnoses - care record element (record artifact)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "999000011000000103"
+      },
+      "uuid": "fee5f7a1-96ed-11ea-bbef-08002728e8ff",
+      "active": true,
+      "effectiveTime": "20200513",
+      "module": "999000031000000106"
+    }
+  ],
+  "descriptions": [
+    {
+      "descriptionId": "3699983013",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal edema due to diabetes mellitus",
+      "length": 38,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "3699983013",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "08bd5177-76e1-4634-a95c-ee33a4c301bc",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "3699983013",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e27171a1-eeda-5e5e-aa2f-24b17d24e7f8",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3699984019",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal oedema due to diabetes mellitus",
+      "length": 39,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "3699984019",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "8831e9d0-5b3e-433b-832f-746dbdaebe2e",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "3699984019",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "df7de802-a242-5c36-8123-be07558c8e5e",
+          "active": true,
+          "effectiveTime": "20201028",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3699985018",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal oedema co-occurrent and due to diabetes mellitus",
+      "length": 56,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "3699985018",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "70a31e89-9bb9-4796-8db5-afed6a808a0b",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20200131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3699986017",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal oedema with diabetes mellitus",
+      "length": 37,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "3699986017",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "1653772c-d343-406c-b7d4-462cb6b4d07f",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "3699986017",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "49d5ff83-5d24-5d4b-bb42-ffe57be51d29",
+          "active": true,
+          "effectiveTime": "20201028",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3699987014",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal edema with diabetes mellitus",
+      "length": 36,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "3699987014",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "6ab2a348-d125-4dc5-b057-9fb4a75bcaeb",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "3699987014",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "b6fb4a77-42d0-5440-8973-c9a211c97252",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3699988016",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal edema co-occurrent and due to diabetes mellitus",
+      "length": 55,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "3699988016",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "741d740a-bef2-4a6d-a8d5-2d965acb395e",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20200131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3699989012",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal edema co-occurrent and due to diabetes mellitus (disorder)",
+      "length": 66,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "3699989012",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "723277005",
+            "defaultTerm": "Nonconformance to editorial policy component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20170131",
+            "module": "900000000000012004"
+          },
+          "uuid": "3cb0c3ce-56ca-40cc-9ee9-e5070e3dcdbc",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20200131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "3779389011",
+      "conceptId": "770323005",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Retinal edema due to diabetes mellitus (disorder)",
+      "length": 49,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "3779389011",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "3c0f25b3-c9e2-47f8-bb0c-718effbb0857",
+          "active": true,
+          "effectiveTime": "20201028",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "3779389011",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "e55ab466-4892-4c20-bfab-33b95fbb62b0",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "3779389011",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "efbbcdc6-a99d-4491-ae78-f725465e7cea",
+          "active": true,
+          "effectiveTime": "20200131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20200131",
+      "module": "900000000000207008"
+    }
+  ],
+  "relationships": [
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "6141006",
+        "defaultTerm": "Retinal edema (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 81,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "770323005",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "991411000000109",
+        "1127601000000107",
+        "2181161000000102",
+        "1382531000000102"
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116676008",
+        "defaultTerm": "Associated morphology (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "79654002",
+        "defaultTerm": "Edema (morphologic abnormality)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 26,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "770323005",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999003141000000107"
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "4855003",
+        "defaultTerm": "Retinopathy due to diabetes mellitus (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 136,
+        "active": true,
+        "effectiveTime": "20130731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "770323005",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "991411000000109",
+        "1382531000000102",
+        "2181161000000102",
+        "1127601000000107",
+        "999001761000000108"
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363698007",
+        "defaultTerm": "Finding site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "113331007",
+        "defaultTerm": "Structure of endocrine system (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 599,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "770323005",
+      "groupId": 2,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20200131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363698007",
+        "defaultTerm": "Finding site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "5665001",
+        "defaultTerm": "Retinal structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 222,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "770323005",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999003151000000105",
+        "723264001"
+      ],
+      "active": true,
+      "effectiveTime": "20180731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "42752001",
+        "defaultTerm": "Due to (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "73211009",
+        "defaultTerm": "Diabetes mellitus (disorder)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 127,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "770323005",
+      "groupId": 3,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1382531000000102",
+        "991381000000107",
+        "1127601000000107"
+      ],
+      "active": true,
+      "effectiveTime": "20190731",
+      "module": "900000000000207008"
+    }
+  ],
+  "isLeafInferred": false,
+  "isLeafStated": true,
+  "fsn": "Retinal edema due to diabetes mellitus (disorder)",
+  "conceptId": "770323005",
+  "defaultTerm": "Retinal edema due to diabetes mellitus (disorder)",
+  "definitionStatus": "Fully defined",
+  "statedDescendants": 0,
+  "inferredDescendants": 30,
+  "active": true,
+  "effectiveTime": "20180731",
+  "module": "900000000000207008"
+}

@@ -1,0 +1,843 @@
+{
+  "_id": "692da8075e56651e0181a7e2",
+  "memberships": [
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "125598003",
+      "refset": {
+        "conceptId": "991401000000107",
+        "defaultTerm": "Emergency care presenting complaints or issues simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20190601",
+        "module": "999000021000000109"
+      },
+      "uuid": "201a5c5d-0903-59e6-8548-eb28c711a8b5",
+      "active": true,
+      "effectiveTime": "20181001",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "125598003",
+      "refset": {
+        "conceptId": "1127601000000107",
+        "defaultTerm": "Healthcare matters simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20191001",
+        "module": "999000021000000109"
+      },
+      "uuid": "6c884541-b22e-4e64-8064-1d0e4d42b6d8",
+      "active": true,
+      "effectiveTime": "20191001",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLEMAP",
+      "referencedComponentId": "125598003",
+      "refset": {
+        "conceptId": "900000000000497000",
+        "defaultTerm": "CTV3 to SNOMED CT simple map reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "otherValue": "XA00D",
+      "uuid": "53956409-916c-5a16-8b97-0601e8fe00d7",
+      "active": true,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": "ASSOCIATION",
+      "referencedComponentId": "125598003",
+      "refset": {
+        "conceptId": "1322291000000109",
+        "defaultTerm": "National Health Service Care Record Element association reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20200513",
+        "module": "999000041000000102"
+      },
+      "cidValue": {
+        "conceptId": "163001000000103",
+        "defaultTerm": "Diagnoses - care record element (record artifact)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "999000011000000103"
+      },
+      "uuid": "fe619174-96ed-11ea-bbef-08002728e8ff",
+      "active": true,
+      "effectiveTime": "20200513",
+      "module": "999000031000000106"
+    }
+  ],
+  "descriptions": [
+    {
+      "descriptionId": "194086015",
+      "conceptId": "125598003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Injury of wrist",
+      "length": 15,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "194086015",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "4dd6c160-9e77-5cee-a776-3d5ace3fbeb0",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "194086015",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "ab1f0385-ab6d-5385-bdb4-92b7e97505ff",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "194086015",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "b22cee63-b77b-5318-bc27-8953f641b6f7",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "729446015",
+      "conceptId": "125598003",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Injury of wrist (disorder)",
+      "length": 26,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "729446015",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "225e77f3-57ce-5619-9199-c549b8ca8013",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "729446015",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "97473424-3e21-5e11-bb73-0975d25b2572",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "729446015",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "d9564d8c-d591-5a78-9466-b9d70ae68753",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "1220716012",
+      "conceptId": "125598003",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Wrist injury",
+      "length": 12,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "1220716012",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "05a388ec-fc4c-56fe-90d5-478ad14270b3",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1220716012",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "4f234c6b-d8a8-502f-83b9-d343c2bab14d",
+          "active": true,
+          "effectiveTime": "20020731",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "1220716012",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "ad969c61-516e-5723-9a22-0868e7372824",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    }
+  ],
+  "relationships": [
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "127278005",
+        "defaultTerm": "Injury of upper extremity (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 3939,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1127601000000107"
+      ],
+      "active": false,
+      "effectiveTime": "20210131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "128130001",
+        "defaultTerm": "Disorder of wrist region (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 1000,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999002571000000104"
+      ],
+      "active": true,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363698007",
+        "defaultTerm": "Finding site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "181769001",
+        "defaultTerm": "Connective tissue (substance)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 3,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "30931000001101"
+      ],
+      "active": false,
+      "effectiveTime": "20020731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363698007",
+        "defaultTerm": "Finding site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "8205005",
+        "defaultTerm": "Wrist region structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 492,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "723264001"
+      ],
+      "active": false,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363698007",
+        "defaultTerm": "Finding site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "26107004",
+        "defaultTerm": "Structure of musculoskeletal system (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 12030,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20020731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116676008",
+        "defaultTerm": "Associated morphology (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "19130008",
+        "defaultTerm": "Traumatic abnormality (morphologic abnormality)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20210131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116676008",
+        "defaultTerm": "Associated morphology (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "19130008",
+        "defaultTerm": "Traumatic abnormality (morphologic abnormality)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": false,
+        "effectiveTime": "20210131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20210131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "363698007",
+        "defaultTerm": "Finding site (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "8205005",
+        "defaultTerm": "Wrist region structure (body structure)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 492,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "723264001"
+      ],
+      "active": true,
+      "effectiveTime": "20080731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116676008",
+        "defaultTerm": "Associated morphology (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "37782003",
+        "defaultTerm": "Damage (morphologic abnormality)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 574,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999003141000000107"
+      ],
+      "active": false,
+      "effectiveTime": "20210731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "897603007",
+        "defaultTerm": "Injury of wrist and/or hand (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 2246,
+        "active": true,
+        "effectiveTime": "20210131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "125598003",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1127601000000107"
+      ],
+      "active": true,
+      "effectiveTime": "20210131",
+      "module": "900000000000207008"
+    }
+  ],
+  "isLeafInferred": false,
+  "isLeafStated": true,
+  "fsn": "Injury of wrist (disorder)",
+  "conceptId": "125598003",
+  "defaultTerm": "Injury of wrist (disorder)",
+  "definitionStatus": "Fully defined",
+  "statedDescendants": 0,
+  "inferredDescendants": 548,
+  "active": true,
+  "effectiveTime": "20020131",
+  "module": "900000000000207008"
+}

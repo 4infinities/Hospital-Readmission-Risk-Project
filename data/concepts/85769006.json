@@ -1,0 +1,916 @@
+{
+  "_id": "692da9f05e56651e019268b6",
+  "memberships": [
+    {
+      "type": "SIMPLE_REFSET",
+      "referencedComponentId": "85769006",
+      "refset": {
+        "conceptId": "1127601000000107",
+        "defaultTerm": "Healthcare matters simple reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20191001",
+        "module": "999000021000000109"
+      },
+      "uuid": "f636284a-4c63-44ed-975d-9c9b7c26040d",
+      "active": true,
+      "effectiveTime": "20191001",
+      "module": "999000021000000109"
+    },
+    {
+      "type": "SIMPLEMAP",
+      "referencedComponentId": "85769006",
+      "refset": {
+        "conceptId": "900000000000497000",
+        "defaultTerm": "CTV3 to SNOMED CT simple map reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "otherValue": "A3B0.",
+      "uuid": "9b0c4c98-7f04-584d-86b8-361a5d9ebfde",
+      "active": true,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "type": "ASSOCIATION",
+      "referencedComponentId": "85769006",
+      "refset": {
+        "conceptId": "1322291000000109",
+        "defaultTerm": "National Health Service Care Record Element association reference set (foundation metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20200513",
+        "module": "999000041000000102"
+      },
+      "cidValue": {
+        "conceptId": "163001000000103",
+        "defaultTerm": "Diagnoses - care record element (record artifact)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "999000011000000103"
+      },
+      "uuid": "feea57c2-96ed-11ea-bbef-08002728e8ff",
+      "active": true,
+      "effectiveTime": "20200513",
+      "module": "999000031000000106"
+    }
+  ],
+  "descriptions": [
+    {
+      "descriptionId": "142172016",
+      "conceptId": "85769006",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Streptococcal infectious disease",
+      "length": 32,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "142172016",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "9ce01b9d-6baf-52a8-a7a9-5f30ce57d125",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "142172016",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "a53a8f5e-40f3-5a00-9695-9e09d1b58de2",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "142172016",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "abd4832d-79bd-5374-a1d2-06f44b08f3cc",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "142173014",
+      "conceptId": "85769006",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Streptococcal infectious disease, NOS",
+      "length": 37,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "142174015",
+      "conceptId": "85769006",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Streptococcosis",
+      "length": 15,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "142174015",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "a4b1e4ab-3348-5d76-bbb3-b3f237de52e8",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "142174015",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "dc8515a8-a800-5dc4-b2af-b121df81254b",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "142174015",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "ed900f19-b2a4-52c6-84d6-e0f8da0c5247",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "142175019",
+      "conceptId": "85769006",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Streptococcal infection, NOS",
+      "length": 28,
+      "ics": {
+        "conceptId": "900000000000020002",
+        "defaultTerm": "Only initial character case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "active": false,
+      "effectiveTime": "20020131",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "142176018",
+      "conceptId": "85769006",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Streptococcal infection",
+      "length": 23,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "142176018",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "4bfa3567-bcfc-565f-8746-79a1b33bafaa",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "142176018",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "7a356869-8651-51d4-97df-e42723a4ee04",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "142176018",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "96ff1725-cbe1-58cf-9ccf-325e4281dd0a",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    },
+    {
+      "descriptionId": "827891012",
+      "conceptId": "85769006",
+      "type": {
+        "conceptId": "900000000000003001",
+        "defaultTerm": "Fully specified name (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "Streptococcal infectious disease (disorder)",
+      "length": 43,
+      "ics": {
+        "conceptId": "900000000000448009",
+        "defaultTerm": "Entire term case insensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "827891012",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "179216ae-89b0-5a89-8063-9a587f36a0ac",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        },
+        {
+          "descriptionId": "827891012",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "d5424221-b4a6-5b39-a3da-6fbcd8a72a81",
+          "active": true,
+          "effectiveTime": "20190601",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "827891012",
+          "refset": {
+            "conceptId": "900000000000509007",
+            "defaultTerm": "United States of America English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000548007",
+            "defaultTerm": "Preferred (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "eba9dab7-c0b9-5ad5-8522-ef177b498ac9",
+          "active": true,
+          "effectiveTime": "20020131",
+          "module": "900000000000207008"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20170731",
+      "module": "900000000000207008"
+    }
+  ],
+  "relationships": [
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "87628006",
+        "defaultTerm": "Bacterial infectious disease (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 2713,
+        "active": true,
+        "effectiveTime": "20020731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1127601000000107"
+      ],
+      "active": false,
+      "effectiveTime": "20020731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "308489006",
+        "defaultTerm": "Pathological process (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 30,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "target": {
+        "conceptId": "40733004",
+        "defaultTerm": "Infectious disease (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 8290,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "999001061000000106",
+        "1382541000000106",
+        "2222181000000106",
+        "1127601000000107"
+      ],
+      "active": false,
+      "effectiveTime": "20020731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "246075003",
+        "defaultTerm": "Causative agent (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "58800005",
+        "defaultTerm": "Genus Streptococcus (organism)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 455,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20150731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "371582002",
+        "defaultTerm": "Disease caused by Gram-positive bacteria (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 446,
+        "active": true,
+        "effectiveTime": "20020731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1127601000000107"
+      ],
+      "active": false,
+      "effectiveTime": "20040731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "116680003",
+        "defaultTerm": "Is a (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "408637006",
+        "defaultTerm": "Disease caused by Gram-positive coccus (disorder)",
+        "definitionStatus": "Fully defined",
+        "statedDescendants": 0,
+        "inferredDescendants": 286,
+        "active": true,
+        "effectiveTime": "20040731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "targetMemberships": [
+        "1127601000000107"
+      ],
+      "active": true,
+      "effectiveTime": "20040731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "370135005",
+        "defaultTerm": "Pathological process (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "441862004",
+        "defaultTerm": "Infectious process (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 1,
+        "active": true,
+        "effectiveTime": "20090731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 0,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": false,
+      "effectiveTime": "20150731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "370135005",
+        "defaultTerm": "Pathological process (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "441862004",
+        "defaultTerm": "Infectious process (qualifier value)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 1,
+        "active": true,
+        "effectiveTime": "20090731",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20150731",
+      "module": "900000000000207008"
+    },
+    {
+      "type": {
+        "conceptId": "246075003",
+        "defaultTerm": "Causative agent (attribute)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20110131",
+        "module": "900000000000012004"
+      },
+      "target": {
+        "conceptId": "58800005",
+        "defaultTerm": "Genus Streptococcus (organism)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 455,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000207008"
+      },
+      "sourceId": "85769006",
+      "groupId": 1,
+      "charType": {
+        "conceptId": "900000000000011006",
+        "defaultTerm": "Inferred relationship (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "modifier": "Existential restriction",
+      "active": true,
+      "effectiveTime": "20150731",
+      "module": "900000000000207008"
+    }
+  ],
+  "isLeafInferred": false,
+  "isLeafStated": true,
+  "fsn": "Streptococcal infectious disease (disorder)",
+  "conceptId": "85769006",
+  "defaultTerm": "Streptococcal infectious disease (disorder)",
+  "definitionStatus": "Fully defined",
+  "statedDescendants": 0,
+  "inferredDescendants": 152,
+  "active": true,
+  "effectiveTime": "20020131",
+  "module": "900000000000207008"
+}

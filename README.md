@@ -691,14 +691,19 @@ save_csv_path = 'D:\Python Projects\Hospital readmission risk\data\cleaned\index
 Tasks apart from the obvious:
 
 - save individual procedure and diagnosis jsons into separate files for a faster lookup and less memory
+//done
 - I don't check whether readmission is related to the previous condition, it's only done by querying snomed, or mb there is another way
+//functions are written, but not checked
 - find intervention types for diagnoses, mb explore the data a bit to find insights
 
 - mb count ambulatory procedures or any maintanence types
 
 - an encounter can be planned if there was a scheduling procedure prior to it(in procedures_slim, code 410538000), gotta remark planned/unplanned accordingly
+//flags are done but no remapping
 
 - findings from talk with Jenya: each component should be wrapped into an object/class (Holy Shit)
 
 -remove full Kfold, rather load new bigger dataset
 
+---
+### 2026-02-25 Built both dictionaries, only diagnoses descriptions are missing
