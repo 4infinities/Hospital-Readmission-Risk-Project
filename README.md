@@ -707,3 +707,20 @@ Tasks apart from the obvious:
 
 ---
 ### 2026-02-25 Built both dictionaries, only diagnoses descriptions are missing
+---
+### 2026-02-26 Keep modifying dictionaries
+
+- verified that every code in conditions_slim has a correspondence in unique_diagnoses
+
+- descriptions for diagnoses built
+
+- diagnosis flags built and chronic flag fixed
+
+- issue with drug abuse, there is only name for it in uk-snomed
+//resolved somehow
+
+- sth is wrong with multidisorder code
+//solved
+
+- with diagnoses dictionary also check "due to" realtionships
+//later afterindex_stay full reconstruction
