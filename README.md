@@ -740,3 +740,24 @@ no reason to do it, main are stress, pregnancy, other BS
 //done
 
 -started rebuilding helper_clinical_creation, gotta rebuild planned stuff and related surgeries
+---
+### 2026-02-27
+
+- Some inpatient stays for the same patient are split into 2 or more different stays because of a transfer to a different unit, although a patient was not really discharged. This gets fixed on the stage of index_stay creation by merging adjacent records in encounters and readjusting all values and combining them together
+
+- For each planned inpatient stay there is an ambulatory visit which is admission to a hospital itself as a procedure followed by an immediate inpatient stay, 
+
+
+idea: group visits with similar date and group their diagnoses to find their diagnoses from there and check relations with readmissions from those groupings
+
+To build that I will have to rebuild all helper tables, not excluding any other stays, than group them and aggregate all metrics by summing/min/max/avg/main_diagnosis/los etc. But with costs one aggregated table is needed and one non-aggregated to see how much will be saved on checkups and readmissions.
+
+Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharge, then an ambulatory during which a new inpatient was planned, that is exactly what I am trying to target and prevent. That's why when building is_planned flags from procedures, ambulatory visits can't be counted. However they must be counted when reducing cost, because those ambulatories are costly.
+
+- is_planned flag updated and built
+
+- helper_clinical recreated and sanity checked
+
+- idea: to automize all steps in bigquery with dictionaries and realted stuff viausing bigquery api for tables creation
+
+-started building groupped helper table for all encounters in helper clinical
