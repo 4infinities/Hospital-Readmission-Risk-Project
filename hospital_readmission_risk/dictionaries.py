@@ -61,11 +61,12 @@ diagnosis_targets = {
     "is_chronic": {"27624003"},
     'inflammation': {'363171009'},
     'musculoskeletal': {'928000'},
-    'mental': {'74732009'},
     'nervous': {'118940003'},
     'respiratory': {'50043002'},
     'cardiac': {'49601007'},
-    'renal': {'90708001'}
+    'renal': {'90708001'},
+    'trauma': {'417163006'},
+    'intoxication': {'1149322001'}
 }
 
 session = requests.Session()
@@ -270,7 +271,7 @@ def build_flags(data: pd.DataFrame):
         if flag == 'is_procedure':
                 data[flag] = ~data[flag]
 
-    cols = [col for col in data.columns if col.startswith("is_")]
+    cols = [col for col in data.columns if not col.startswith("name")]
     data[cols] = data[cols].map(lambda x: int(x))
 
 def get_description(concept_id: str):
@@ -281,13 +282,13 @@ def get_description(concept_id: str):
 
     return None
 
-def fill_descriptions(data, description_col = 'description'):
+def fill_descriptions(data):
 
-    description_na_mask = data[description_col].isna()
+    description_na_mask = data['name'].isna()
 
     for id in data.loc[description_na_mask, :].index:
          
-        data.loc[id, description_col] = get_description(str(id))
+        data.loc[id, 'name'] = get_description(str(id))
 
 def fix_disorders(data):
 
@@ -315,12 +316,9 @@ if __name__ == "__main__":
     2. In load_state() comment results if rebuilding flags
     3. Here comment all that is relevant to another dictionary
     """
-
-
     load_state()
     
     #data = load_data(procedure_data_path, procedure_sql)           # load previous results
-
     data = load_data(diagnoses_data_path, diagnoses_sql)
     
     try:
@@ -333,15 +331,9 @@ if __name__ == "__main__":
 
         
     build_flags(data)
+    fill_descriptions(data)
 
-    #fill_descriptions(data, 'description')
     #pack_dictionary(data, procedure_write_path) 
 
-    fill_descriptions(data, 'diagnosis_name')
     fix_flags(data)
-    
-
-    cols = ['inflammation', 'nervous', 'musculoskeletal', 'mental', 'renal', 'cardiac', 'respiratory']
-    data[cols] = data[cols].map(lambda x: int(x))
-
     #pack_dictionary(data, diagnoses_write_path)

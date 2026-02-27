@@ -724,3 +724,19 @@ Tasks apart from the obvious:
 
 - with diagnoses dictionary also check "due to" realtionships
 //later afterindex_stay full reconstruction
+
+---
+### 2026-02-26
+
+- changed query of creation of unique procedures and diagnoses, now only code and name columns for easier mapping
+
+- updating diagnosis dictionary for full coverage of disorders
+93% covered
+
+- updating diagnosis dictionary to map findings
+no reason to do it, main are stress, pregnancy, other BS
+
+- gotta rebuild diagnoses dictionary for all
+//done
+
+-started rebuilding helper_clinical_creation, gotta rebuild planned stuff and related surgeries
