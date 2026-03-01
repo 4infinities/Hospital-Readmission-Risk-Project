@@ -12,19 +12,87 @@ concept_path = r"D:\Python Projects\Hospital readmission risk\data\concepts"
 write_path = r"D:\Python Projects\Hospital readmission risk\data\processed\main_diagnoses.csv"
 CACHE: dict[str, str] = {}
 sql = """
+with group_flags as (
+SELECT
+  id,
+  patient,
+  start,
+  CASE encounterclass
+              WHEN 'ambulatory' THEN 1
+              WHEN 'outpatient' THEN 2
+              WHEN 'virtual' THEN 3
+              WHEN 'urgentcare' THEN 4
+              WHEN 'emergency' THEN 5
+              WHEN 'inpatient' THEN 6
+              ELSE 99
+              END type_flag,
+  CASE
+    WHEN
+      date_diff(start, lag(stop, 1) OVER (PARTITION BY patient ORDER BY start ASC), hour) < 12 THEN 0
+    ELSE 1
+    END AS group_change
+FROM `hospital-readmission-4.data_slim.encounters_slim`
+),
+clusters as(
+select 
+id,
+patient,
+start,
+type_flag,
+sum(group_change) over(partition by patient order by start asc rows between unbounded preceding and current row) group_number
+from group_flags
+),
+best_stay_per_group AS (
+  SELECT
+    patient,
+    group_number,
+    id AS group_id,
+    ROW_NUMBER() OVER (
+      PARTITION BY patient, group_number
+      ORDER BY
+        type_flag DESC,   -- highest type_flag wins
+        start ASC,        -- tie-breaker: earliest start
+        id ASC            -- final tie-breaker
+    ) AS rn
+  FROM clusters
+),
+final_groups as (
+SELECT
+  clust.id,
+  best.group_id,
+FROM clusters clust
+LEFT JOIN best_stay_per_group best
+  ON best.patient = clust.patient
+ AND best.group_number = clust.group_number
+ AND best.rn = 1
+),
+claims as(
 select distinct
-i.stay_id,
-  cl.diagnosis1,
-  cl.diagnosis2,
+encounter as id,
+  diagnosis1,
+  diagnosis2,
+  diagnosis3,
+  diagnosis4,
+  diagnosis5,
+  diagnosis6,
+  diagnosis7,
+  diagnosis8
+  from hospital-readmission-4.data_slim.claims_slim
+)
+select 
+final.id,
+final.group_id,
+cl.diagnosis1,
+cl.diagnosis2,
   cl.diagnosis3,
   cl.diagnosis4,
   cl.diagnosis5,
   cl.diagnosis6,
   cl.diagnosis7,
   cl.diagnosis8
-from hospital-readmission-4.helper_tables.index_stay i
-left join hospital-readmission-4.data_slim.claims_slim cl
-on i.stay_id = cl.encounter
+from final_groups final
+left join claims cl
+on final.id = cl.id
 """
 output_cols = ['main_diagnosis_code', 'main_diagnosis_name', 'main_diagnosis_type',
 'num_of_disorders', 'num_of_findings']
@@ -217,51 +285,68 @@ def find_main_disorder(disorders: set) -> str:
     print("Returned minimum, initial set:" + str(disorders) + ", suspects: " + str(suspects))
     return suspects.pop()
     
-def get_codes(data, id) -> set(str()):
+def get_codes(data) -> set(str()):
 
-    codes = set ()
+    raw_codes = pd.Series(data.values.ravel()).dropna()
 
-    cols = data.loc[id, 'diagnosis1':'diagnosis8'].dropna()
+    string_codes = raw_codes.astype(int).astype(str)
+    
+    codes = set(string_codes.unique())
 
-    for col in cols:
+    return codes
 
-        codes.add(str(int(col)))
 
     return codes
 
 def build_main_diagnoses(data):
 
-    data.set_index('stay_id', inplace = True)
+    data.set_index(['group_id', 'id'], inplace = True)
 
-    main_diagnoses = pd.DataFrame(index = data.index, columns = output_cols)
+    main_diagnoses = pd.DataFrame(columns = output_cols)
 
     dictionary = get_dictionary(dictionary_path)
 
-    for id in data.index:
+    rows = []
 
-        codes = get_codes(data, id)
-        
+    for gid, group_df in data.groupby('group_id'):
+
+        codes = get_codes(group_df)
+            
         disorders, symptoms = disorders_and_symptoms_split(codes, dictionary)
 
-        main_diagnoses.loc[id, 'num_of_disorders'] = len(disorders)
-        main_diagnoses.loc[id, 'num_of_findings'] = len(symptoms)
+        code = ""
+        type = ""
+        name = ""
 
         if len(disorders) == 0:
-            
-            if len(symptoms) > 0:
                 
+            if len(symptoms) > 0:
+                    
                 min_symptom = symptoms.pop()
 
-                main_diagnoses.loc[id, 'main_diagnosis_code'] = min_symptom
-                main_diagnoses.loc[id, 'main_diagnosis_type'] = 'finding'
+                code = min_symptom
+                type = 'finding'
 
         else: 
 
-            main_diagnoses.loc[id, 'main_diagnosis_type'] = 'disorder'
-            main_diagnoses.loc[id, 'main_diagnosis_code'] = find_main_disorder(disorders)
+            type = 'disorder'
+            code = find_main_disorder(disorders)
 
-        if not pd.isna(main_diagnoses.loc[id, 'main_diagnosis_code']):
-            main_diagnoses.loc[id, 'main_diagnosis_name'] = get_description(main_diagnoses.loc[id, 'main_diagnosis_code'])
+        if not code == "":
+            name = get_description(code)
+
+        row = {
+            'id': gid,
+            'num_of_disorders': len(disorders),
+            'num_of_findings': len(symptoms),
+            'main_diagnosis_code': code, 
+            'main_diagnosis_type': type, 
+            'main_diagnosis_name': name
+        }
+
+        rows.append(row)
+
+    main_diagnoses = pd.DataFrame(rows).set_index('id')
 
     return main_diagnoses
 

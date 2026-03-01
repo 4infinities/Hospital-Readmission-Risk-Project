@@ -761,3 +761,22 @@ Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharg
 - idea: to automize all steps in bigquery with dictionaries and realted stuff viausing bigquery api for tables creation
 
 -started building groupped helper table for all encounters in helper clinical
+
+---
+### 2026-02-28
+
+- Rebuilt main_diagnoses with respect to grouped encounters, main issues noted only with pregnancy and anemia/metabolic syndrom X
+
+-Possibly finished diagnoses relations but not tested yet
+---
+### 2026-03-01
+
+- Main diagnoses rebuilt and loaded
+
+- helpers grouped are built
+
+- rebuilt dependent_diagnoses with respect to new basic set and loaded it
+
+- rebuilt index_stay
+
+- gotta revisit my to-do list, rebuild models and decide for intervention type
