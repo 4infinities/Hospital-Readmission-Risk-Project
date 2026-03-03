@@ -38,26 +38,26 @@ models = [
         },
     },
 ]
-
-data_path = "D:\Python Projects\Hospital readmission risk\data\cleaned\index_stay.csv"
-
 credentials = r"D:\Python Projects\Hospital readmission risk\.secrets\hospital-readmission-4-code.json"
-
 project_name = "hospital-readmission-4"
 
-sql = """
+test_data_path = r"D:\Python Projects\Hospital readmission risk\data\cleaned\test_index_stay.csv"
+test_sql = """
     SELECT
         *
         from `hospital-readmission-4.helper_tables.index_stay`
     """
     
 numeric_cols = [
-    'patient_age', 'gender', 'length_of_stay', 'num_diagnoses', 'stay_type',
-    'num_chronic_conditions', 'num_procedures', 'has_diabetes', 'has_cancer',
-    'has_hiv', 'has_hf', 'has_alz', 'has_ckd', 'had_surgery', 'admission_cost',
+    'patient_age', 'gender', 'length_of_stay', 'stay_type',
+    'is_disorder', 'is_symptom', 'inflammation', 'musculoskeletal', 'nervous',
+    'respiratory', 'cardiac', 'renal', 'trauma', 'intoxication', 'num_disorders',
+    'num_findings', 'num_chronic_conditions', 'num_procedures', 'has_diabetes', 
+    'has_cancer', 'has_hiv', 'has_hf', 'has_alz', 'has_ckd', 'had_surgery',
+    'has_lf',  'admission_cost',
     'total_procedure_costs', 'total_medication_costs', 'total_stay_cost', 
     'admissions_365d', 'tot_length_of_stay_365d', 'avg_cost_of_prev_stays',
-    'is_planned', 'following_unplanned_admission_flag', 'readmit_30d', 'readmit_90d'
+    'is_planned', 'readmit_30d', 'readmit_90d', 'rel_readmit_30d', 'rel_readmit_90d'
     ]
 
 log_cols = ['total_stay_cost', 'avg_cost_of_prev_stays', 'total_procedure_costs',

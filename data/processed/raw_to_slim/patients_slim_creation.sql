@@ -1,12 +1,10 @@
-drop table healthcare-test-486920.Raw_csvs_test.patients_slim;
-
-create table healthcare-test-486920.Raw_csvs_test.patients_slim
-cluster by id
-as
-select 
-  id, 
-  birthdate, 
-  deathdate, 
-  race, 
-  gender 
-from healthcare-test-486920.Raw_csvs_test.patients
+CREATE OR REPLACE TABLE hospital-readmission-4.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM hospital-readmission-4.raw_data.patients

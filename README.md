@@ -744,11 +744,12 @@ no reason to do it, main are stress, pregnancy, other BS
 ### 2026-02-27
 
 - Some inpatient stays for the same patient are split into 2 or more different stays because of a transfer to a different unit, although a patient was not really discharged. This gets fixed on the stage of index_stay creation by merging adjacent records in encounters and readjusting all values and combining them together
-
+//done
 - For each planned inpatient stay there is an ambulatory visit which is admission to a hospital itself as a procedure followed by an immediate inpatient stay, 
-
+//done
 
 idea: group visits with similar date and group their diagnoses to find their diagnoses from there and check relations with readmissions from those groupings
+//done
 
 To build that I will have to rebuild all helper tables, not excluding any other stays, than group them and aggregate all metrics by summing/min/max/avg/main_diagnosis/los etc. But with costs one aggregated table is needed and one non-aggregated to see how much will be saved on checkups and readmissions.
 
@@ -758,7 +759,7 @@ Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharg
 
 - helper_clinical recreated and sanity checked
 
-- idea: to automize all steps in bigquery with dictionaries and realted stuff viausing bigquery api for tables creation
+- idea: to automate all steps in bigquery with dictionaries and realted stuff viausing bigquery api for tables creation
 
 -started building groupped helper table for all encounters in helper clinical
 
@@ -780,3 +781,24 @@ Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharg
 - rebuilt index_stay
 
 - gotta revisit my to-do list, rebuild models and decide for intervention type
+
+---
+### 2026-03-02 
+
+- Checked whether there are many planned readmission that are planned after the discharge date
+
+- Checked data loading and preprocessing for test-set
+
+- Built bigger dictionaries for diagnoses and procedures, haven't loaded yet
+
+- Gotta make an additional deep research on main_diagnoses and/or sanity check them
+
+- Done, now it gets either the one lower down the tree or the one with less descendants
+
+- Gotta rebuild main_diagnoses and dependent diagnoses and index_stays
+
+- Found out that querying in the wrong snomed API version can lead to stupid results
+
+Tasks:
+
+- Gotta rebuild main_diagnoses and dependent diagnoses and index_stays

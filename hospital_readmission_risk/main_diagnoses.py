@@ -296,8 +296,6 @@ def get_codes(data) -> set(str()):
     return codes
 
 
-    return codes
-
 def build_main_diagnoses(data):
 
     data.set_index(['group_id', 'id'], inplace = True)

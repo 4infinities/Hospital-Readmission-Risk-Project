@@ -18,7 +18,7 @@ def fillna_numeric(df):
     df = df.fillna(0)
 
     return df.copy()  
-
+"""
 def readmission_sanity_check(df):
 
     mask = df['following_unplanned_admission_flag'] == 0
@@ -27,7 +27,7 @@ def readmission_sanity_check(df):
     df.loc[mask, 'following_unplanned_admission_flag'] = 0
 
     return df.copy()
-
+"""
 def log_transform(df, cols = log_cols):
 
     for col in cols:
@@ -42,9 +42,9 @@ def log_transform(df, cols = log_cols):
 
 def data_flags_split(df):
 
-    flags = df[['readmit_30d', 'readmit_90d']]
+    flags = df[['readmit_30d', 'readmit_90d', 'rel_readmit_30d', 'rel_readmit_90d']]
 
-    data = df.drop(columns = ['readmit_30d', 'readmit_90d', 'following_unplanned_admission_flag'])
+    data = df.drop(columns = ['readmit_30d', 'readmit_90d', 'rel_readmit_30d', 'rel_readmit_90d'])
 
     return data, flags
 
@@ -56,7 +56,7 @@ def build_preprocessor(df_raw):
     
     df = dummies_transform(df)
 
-    df = readmission_sanity_check(df)
+    #df = readmission_sanity_check(df)
 
     df = log_transform(df)
 
@@ -64,6 +64,6 @@ def build_preprocessor(df_raw):
 
     return df_numeric, df_results
 
-def preprocess_train_data(df_raw):
+def preprocess_data(df_raw):
 
     return build_preprocessor(df_raw)

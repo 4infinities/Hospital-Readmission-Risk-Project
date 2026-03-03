@@ -1,22 +1,32 @@
-
-
-create or replace table healthcare-test-486920.Raw_csvs_test.index_stay as 
-
-select
-  e.patient as                                   patient_id,
-  date_diff(date(e.start), p.birthdate, year) as patient_age,
-  p.gender as                                    gender,
-  e.id as                                        stay_id,
-  e.organization as                              hospital_id,
-  e.start as                                     admission_datetime,
-  e.stop as                                      discharge_datetime,
-  date(e.stop) as                                discharge_date,
-  extract(year from e.stop) as                   discharge_year,
-  extract(month from e.stop) as                  discharge_month,
+CREATE OR REPLACE TABLE hospital-readmission-4.helper_tables.index_stay
+AS
+SELECT
+  e.patient AS patient_id,
+  date_diff(date(util.start), p.birthdate, year) AS patient_age,
+  p.gender AS gender,
+  clin.stay_id,
+  e.organization AS hospital_id,
+  util.start AS admission_datetime,
+  util.stop AS discharge_datetime,
+  date(util.stop) AS discharge_date,
+  EXTRACT(year FROM util.stop) AS discharge_year,
+  EXTRACT(month FROM util.stop) AS discharge_month,
+  cost.length_of_encounter AS length_of_stay,
+  util.encounterclass AS stay_type,
   clin.main_code,
-  clin.main_diagnosis_name,
-  clin.main_diagnosis_type,
-  clin.num_diagnoses,
+  clin.main_name,
+  clin.is_disorder,
+  clin.is_symptom,
+  clin.inflammation,
+  clin.musculoskeletal,
+  clin.nervous,
+  clin.respiratory,
+  clin.cardiac,
+  clin.renal,
+  clin.trauma,
+  clin.intoxication,
+  clin.num_disorders,
+  clin.num_findings,
   clin.num_chronic_conditions,
   clin.num_procedures,
   clin.has_diabetes,
@@ -25,7 +35,9 @@ select
   clin.has_hf,
   clin.has_alz,
   clin.has_ckd,
+  clin.has_lf,
   clin.had_surgery,
+  clin.is_planned,
   cost.admission_cost,
   cost.total_procedure_costs,
   cost.total_medication_costs,
@@ -34,20 +46,27 @@ select
   util.admissions_365d,
   util.tot_length_of_stay_365d,
   util.avg_cost_of_prev_stays,
-  clin.is_planned,
   util.readmit_30d,
   util.readmit_90d,
+  rel.is_related,
+  rel_readmit_30d,
+  rel_readmit_90d,
   util.days_to_readmit,
   util.following_stay_id,
-  util.total_stay_cost as                       total_readmission_cost,
+  util.total_stay_cost AS total_readmission_cost,
   util.following_unplanned_admission_flag
-from healthcare-test-486920.Raw_csvs_test.encounters_slim              e
-left join healthcare-test-486920.Raw_csvs_test.patients_slim           p
-on e.patient = p.id
-left join healthcare-test-486920.Raw_csvs_test.helper_clinical         clin
-on clin.stay_id = e.id
-left join healthcare-test-486920.Raw_csvs_test.helper_cost_aggregation cost
-on cost.stay_id = e.id
-left join healthcare-test-486920.Raw_csvs_test.helper_utilization      util
-on util.stay_id = e.id
-WHERE e.encounterclass IN ('urgentcare', 'emergency', 'inpatient')
+FROM hospital-readmission-4.data_slim.encounters_slim e
+LEFT JOIN hospital-readmission-4.data_slim.patients_slim p
+  ON e.patient = p.id
+LEFT JOIN hospital-readmission-4.helper_tables.helper_clinical clin
+  ON clin.stay_id = e.id
+LEFT JOIN hospital-readmission-4.helper_tables.helper_cost_aggregation_grouped cost
+  ON cost.stay_id = e.id
+LEFT JOIN hospital-readmission-4.helper_tables.helper_utilization util
+  ON util.stay_id = e.id
+left join `hospital-readmission-4.data_slim.related_diagnoses` rel
+on e.id = rel.stay_id
+WHERE
+  e.encounterclass IN ('urgentcare', 'emergency', 'inpatient')
+  AND util.start > timestamp("2018-01-01")
+

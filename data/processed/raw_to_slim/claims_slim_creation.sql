@@ -1,18 +1,18 @@
-create or replace table healthcare-test-486920.Raw_csvs_test.claims_slim
-cluster by encounter
-as
-Select
-  cl.appointmentid as encounter,
-  cl.patientid, 
-  cl.diagnosis1, 
-   cl.diagnosis2, 
-    cl.diagnosis3, 
-     cl.diagnosis4, 
-      cl.diagnosis5, 
-       cl.diagnosis6, 
-        cl.diagnosis7,
-         cl.diagnosis8,  
-  cl.currentillnessdate, 
-from healthcare-test-486920.Raw_csvs_test.claims cl
-join healthcare-test-486920.Raw_csvs_test.encounters_slim e
-on cl.appointmentid = e.id
+CREATE OR REPLACE TABLE hospital-readmission-4.data_slim.claims_slim
+  CLUSTER BY encounter
+AS
+SELECT
+  cl.appointmentid AS encounter,
+  cl.patientid,
+  cl.diagnosis1,
+  cl.diagnosis2,
+  cl.diagnosis3,
+  cl.diagnosis4,
+  cl.diagnosis5,
+  cl.diagnosis6,
+  cl.diagnosis7,
+  cl.diagnosis8,
+  cl.currentillnessdate,
+FROM hospital-readmission-4.raw_data.claims cl
+JOIN hospital-readmission-4.data_slim.encounters_slim e
+  ON cl.appointmentid = e.id

@@ -1,7 +1,6 @@
-create or replace table healthcare-test-486920.Raw_csvs_test.conditions_slim
-partition by stop
-cluster by encounter, patient
-as
+CREATE OR REPLACE TABLE hospital-readmission-4.data_slim.conditions_slim
+  CLUSTER BY code
+AS
 SELECT
   cond.start,
   cond.stop,
@@ -13,10 +12,13 @@ SELECT
     TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
     ')',
     '') AS diagnosis_type
-FROM healthcare-test-486920.Raw_csvs_test.conditions cond
-JOIN healthcare-test-486920.Raw_csvs_test.encounters_slim e
-ON cond.encounter = e.id
-where coalesce(REPLACE(
-    TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
-    ')',
-    '')) != 'situation'
+FROM hospital-readmission-4.raw_data.conditions cond
+JOIN hospital-readmission-4.data_slim.encounters_slim e
+  ON cond.encounter = e.id
+WHERE
+  coalesce(
+    REPLACE(
+      TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+      ')',
+      ''))
+  != 'situation'

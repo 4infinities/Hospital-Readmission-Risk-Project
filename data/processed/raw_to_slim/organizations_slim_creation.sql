@@ -1,9 +1,9 @@
-create or replace table healthcare-test-486920.Raw_csvs_test.organizations_slim
-as
-Select 
-  org.id, 
-  org.name, 
+CREATE OR REPLACE TABLE hospital-readmission-4.data_slim.organizations_slim
+AS
+SELECT
+  org.id,
+  org.name,
   org.utilization
-from healthcare-test-486920.Raw_csvs_test.organizations org
-join healthcare-test-486920.Raw_csvs_test.encounters_slim e
-on org.id = e.organization
+FROM hospital-readmission-4.raw_data.organizations org
+JOIN hospital-readmission-4.data_slim.encounters_slim e
+  ON org.id = e.organization

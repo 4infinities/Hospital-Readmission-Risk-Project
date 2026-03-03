@@ -1,14 +1,14 @@
-create or replace table healthcare-test-486920.Raw_csvs_test.procedures_slim
-cluster by encounter
-as
-Select 
-  proc.start, 
-  proc.stop, 
+CREATE OR REPLACE TABLE hospital-readmission-4.data_slim.procedures_slim
+  CLUSTER BY encounter
+AS
+SELECT
+  proc.start,
+  proc.stop,
   proc.patient,
-  proc.encounter, 
-  proc.code, 
-  proc.description, 
-  proc.base_cost 
-from healthcare-test-486920.Raw_csvs_test.procedures proc
-join healthcare-test-486920.Raw_csvs_test.encounters_slim e
-on proc.encounter = e.id
+  proc.encounter,
+  proc.code,
+  proc.description,
+  proc.base_cost
+FROM hospital-readmission-4.raw_data.procedures proc
+JOIN hospital-readmission-4.data_slim.encounters_slim e
+  ON proc.encounter = e.id

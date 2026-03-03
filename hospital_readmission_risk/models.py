@@ -181,7 +181,7 @@ def build_model(X_train, X_test, y_train, y_test, name, models, coefs, metrics_l
 
     return coefs, metrics_log, pred_values
 
-"""
+
 def build_both_models(X, flags, name, models, coefs, metrics_log, pred_values):
 
     coefs, metrics_log, pred_values = build_model(X, flags['readmit_30d'], name, models, coefs, metrics_log, pred_values, d30 = True)
@@ -189,7 +189,7 @@ def build_both_models(X, flags, name, models, coefs, metrics_log, pred_values):
     coefs, metrics_log, pred_values = build_model(X, flags['readmit_90d'], name, models, coefs, metrics_log, pred_values, d30 = False)
 
     return coefs, metrics_log, pred_values
-
+"""
 def build_models(models, df_numeric, df_results):
 
     models_built = model_config_builder(models)
@@ -225,7 +225,6 @@ def merge_predictions(source):
     values = values.sort_index()
 
     return values 
-
 
 def build_models_cv(models, df_numeric, df_results, n_splits=5, random_state=42):
 
@@ -270,6 +269,27 @@ def build_models_cv(models, df_numeric, df_results, n_splits=5, random_state=42)
     # combine folds (e.g. mean over folds for final table)
     ...
     all_pred_values = merge_predictions(all_pred_values)
+
+    return {
+        "coefs": all_coefs,
+        "metrics_log": all_metrics_logs,
+        "pred_values": all_pred_values,
+    }
+
+"""
+This needs to be built shortly
+"""
+def build_and_evaluate_models(models, X_train, y_train, X_test, y_test, random_state = 42):
+
+    models_built = model_config_builder(models)
+
+    all_metrics_logs = []
+    all_coefs = []
+    all_pred_values = []
+
+    for name in models_built:
+
+        build_both_models(X_train, y_train, name, models_built, all_coefs, all_metrics_logs, all_pred_values)
 
     return {
         "coefs": all_coefs,

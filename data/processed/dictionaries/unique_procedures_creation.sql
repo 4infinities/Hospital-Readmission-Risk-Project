@@ -1,4 +1,6 @@
-CREATE OR REPLACE TABLE healthcare-test-486920.Raw_csvs_test.unique_procedures
+CREATE OR REPLACE TABLE hospital-readmission-4.raw_data_for_dictionaries.unique_procedures
 AS
-SELECT DISTINCT code, description
-FROM healthcare-test-486920.Raw_csvs_test.procedures_slim
+SELECT DISTINCT 
+code, 
+description as name
+FROM hospital-readmission-4.data_slim.procedures_slim

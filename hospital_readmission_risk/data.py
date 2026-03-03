@@ -30,12 +30,8 @@ def load_data(data_path, sql, query = False):
 
     return pd.DataFrame(data_raw)
 
-
+"""
 def filter_dates(data, date_col = 'admission_datetime', start_date = '2018-02-08'):
-
-    """
-    Filters encounter dates no more recent than 8 years
-    """
 
     data[date_col] = pd.to_datetime(data[date_col], utc=True)
 
@@ -48,4 +44,5 @@ def get_data(data_path, query = False):
 
     df = load_data(data_path, query)
 
-    return filter_dates(df)
+    return df.copy()
+    """
