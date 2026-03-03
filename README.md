@@ -799,6 +799,8 @@ Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharg
 
 - Found out that querying in the wrong snomed API version can lead to stupid results
 
+- uploaded train_main_diagnoses to BQ
+
 Tasks:
 
 - Gotta rebuild main_diagnoses and dependent diagnoses and index_stays
