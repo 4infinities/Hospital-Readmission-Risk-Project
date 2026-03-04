@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, cross_validate, KFold
+from pandas.core.internals.managers import new_block
+from sklearn.model_selection import StratifiedKFold, train_test_split, cross_validate, KFold
 from sklearn.metrics import roc_auc_score, average_precision_score, precision_recall_fscore_support, brier_score_loss
 from config import models, cv_scoring, proba_metrics, pred_metrics
 from sklearn.preprocessing import StandardScaler
@@ -38,48 +39,78 @@ def set_name (model_name, d30 = True):
     
     return name 
 
+def get_cv_columns():
+
+    cols = []
+
+    for col in cv_scoring:
+
+        cols.append(col)
+        cols.append(f"{col}_std")
+
+    return cols    
+
 def build_pipeline (model_name, model):
 
     return Pipeline([('scaler', StandardScaler()), (model_name, model)])
 
-"""
 def evaluate_with_cv(pipe, X, y, model_key, log_df):
     
     cv_results = cross_validate(
         estimator=pipe,
         X=X,
         y=y,
-        cv=5,
+        cv=StratifiedKFold(n_splits = 5, shuffle = True, random_state = 42),
         scoring=cv_scoring,
         return_train_score=False,
     )
 
-    log_df.loc[model_key, "roc_auc"] = cv_results["test_roc_auc"].mean()
-    log_df.loc[model_key, "roc_auc_std"] = cv_results["test_roc_auc"].std()
-    log_df.loc[model_key, "pr_auc"] = cv_results["test_average_precision"].mean()
-    log_df.loc[model_key, "pr_auc_std"] = cv_results["test_average_precision"].std()
+    cv_metrics : dict[str, float] = {}
+    """
+    for metric in cv_scoring:
+        
+        key = f"test_{metric}"
+        cv_metrics[metric] = cv_results[key].mean()
+        cv_metrics[f"{metric}_std"] = cv_results[key].std()
+        
+        key = f"test_{metric}"
+        cv_metrics[metric] = cv_results[key]
+    """
+    scores = cv_results["test_roc_auc"]          # shape (n_folds,)
+    aps = cv_results["test_average_precision"]   # shape (n_folds,)
 
-    return log_df
-"""
+    fold_df = pd.DataFrame({
+            "model": model_key,
+            "fold": range(len(scores)),
+            "roc_auc": scores,
+            "average_precision": aps,
+                })
 
-def train_model(X, y, model_name, model, d30 = True):
+    cv_metrics = pd.DataFrame(cv_metrics, index = [model_key])
+
+    return pd.concat([log_df, fold_df], ignore_index = True)
+
+def train_model(X, y, model_name, model, cv_log, d30 = True, skip_cross_val = False):
 
     model_name = set_name(model_name, d30)
 
     pipe = build_pipeline(model_name, model)
+
+    if not skip_cross_val:
+        cv_log = evaluate_with_cv(pipe, X, y, model_name, cv_log)
     
     pipe.fit(X,y)
     
-    return pipe, model_name
+    return pipe, model_name, cv_log
 
-def get_predictions(X, pipe, model_name, pred):
+def get_predictions(X, pipe, model_name, pred_values):
 
     y_proba = pipe.predict_proba(X)[:,1]
     y_pred =  pipe.predict(X)
 
-    pred[model_name] = y_proba
+    pred_values[model_name] = y_proba
 
-    return y_proba, y_pred, pred
+    return y_proba, y_pred, pred_values
 """
 def metrics_config_builder(metrics):
 
@@ -97,31 +128,21 @@ def metrics_config_builder(metrics):
 
     return metrics_with_params
 """
-def get_continuous_metrics(y, y_proba, model_name, metrics_data):
+def get_continuous_metrics(y, y_proba) -> dict:
 
-    metrics_data.loc[model_name, 'roc'] = roc_auc_score(y, y_proba)
-    metrics_data.loc[model_name, 'pr'] = average_precision_score(y, y_proba)
-    metrics_data.loc[model_name, 'brier_loss_total'] = brier_score_loss(y, y_proba)
+    return {'roc': roc_auc_score(y, y_proba),
+                'pr': average_precision_score(y, y_proba),
+                'brier_loss_total': brier_score_loss(y, y_proba)}
 
-    return metrics_data
-
-def get_discrete_metrics(y, y_pred, model_name, metrics_data, transposed = False):
+def get_discrete_metrics(y, y_pred) -> dict:
 
     precision, recall, f1, _= precision_recall_fscore_support(y, y_pred, average="binary")
 
-    if not transposed:
-
-        metrics_data.loc[model_name, 'precision'] = precision
-        metrics_data.loc[model_name, 'recall'] = recall
-        metrics_data.loc[model_name, 'f1'] = f1
-
-    else: 
-
-        metrics_data.loc['precision', model_name] = precision
-        metrics_data.loc['recall', model_name] = recall
-        metrics_data.loc['f1', model_name] = f1
-
-    return metrics_data
+    return {
+            'precision': precision,
+            'recall': recall,
+            'f1': f1
+            }
 
 def get_normalized_coefs(coefs):
 
@@ -147,22 +168,24 @@ def get_coefs(pipe, model_name, coefs):
 
     return coefs
 
-def evaluate_model(X, y_true, model_name, pipe, coefs, metrics, pred):
+def evaluate_model(X, y_true, model_name, pipe, coefs, metrics, pred_values):
 
-    y_proba, y_pred, pred = get_predictions(X, pipe, model_name, pred)
+    y_proba, y_pred, pred_values = get_predictions(X, pipe, model_name, pred_values)
 
-    metrics = get_continuous_metrics(y_true, y_proba, model_name, metrics)
+    new_metrics = get_continuous_metrics(y_true, y_proba)
 
-    metrics = get_discrete_metrics(y_true, y_pred, model_name, metrics)
+    new_metrics.update(get_discrete_metrics(y_true, y_pred))
+
+    new = pd.DataFrame(new_metrics, index = [model_name])
 
     coefs = get_coefs(pipe, model_name, coefs)
 
-    return coefs, metrics, pred
+    return coefs, pd.concat([metrics, new]), pred_values
 
-def build_model(X_train, X_test, y_train, y_test, name, models, coefs, metrics_log, pred_values, d30):
+def build_model(X_train, y_train, X_test, y_test, name, models, coefs, metrics_log, pred_values, cv_log, d30, skip_cross_val):
 
-    trained_pipe, name = train_model(X_train, y_train, name, models[name], d30)
-
+    trained_pipe, name, cv_log = train_model(X_train, y_train, name, models[name], cv_log, d30, skip_cross_val)
+    """
     if pred_values.shape[0] < 2:
 
         pred_values['X'] = X_test.index
@@ -171,24 +194,22 @@ def build_model(X_train, X_test, y_train, y_test, name, models, coefs, metrics_l
 
     if pred_values.shape[1] < 1:
 
-        pred_values['readmit_30d'] = y_test
-
+        pred_values['rel_readmit_30d'] = y_test
     elif pred_values.shape[1] < 3:
 
         pred_values['readmit_90d'] = y_test
-
+    """
     coefs, metrics_log, pred_values = evaluate_model(X_test, y_test, name, trained_pipe, coefs, metrics_log, pred_values)
 
-    return coefs, metrics_log, pred_values
+    return coefs, metrics_log, pred_values, cv_log
 
+def build_both_models(X_train, y_train, X_test, y_test, name, models, coefs, metrics_log, pred_values, cv_log, skip_cross_val):
 
-def build_both_models(X, flags, name, models, coefs, metrics_log, pred_values):
-
-    coefs, metrics_log, pred_values = build_model(X, flags['readmit_30d'], name, models, coefs, metrics_log, pred_values, d30 = True)
+    coefs, metrics_log, pred_values, cv_log = build_model(X_train, y_train['rel_readmit_30d'], X_test, y_test['rel_readmit_30d'], name, models, coefs, metrics_log, pred_values, cv_log, d30 = True, skip_cross_val =skip_cross_val)
     
-    coefs, metrics_log, pred_values = build_model(X, flags['readmit_90d'], name, models, coefs, metrics_log, pred_values, d30 = False)
+    #coefs, metrics_log, pred_values, cv_log = build_model(X, flags['readmit_90d'], name, models, coefs, metrics_log, pred_values, cv_log, d30 = False)
 
-    return coefs, metrics_log, pred_values
+    return coefs, metrics_log, pred_values, cv_log
 """
 def build_models(models, df_numeric, df_results):
 
@@ -219,8 +240,6 @@ def merge_predictions(source):
     for table in source:
 
         values = pd.concat([values, table])
-
-    values = values.drop(columns = 'fold')
 
     values = values.sort_index()
 
@@ -254,7 +273,7 @@ def build_models_cv(models, df_numeric, df_results, n_splits=5, random_state=42)
         pred_values = pd.DataFrame()
 
         for model_name in models_built:
-            # call your refactored build_both_models_from_split here
+
             coefs, metrics_log, pred_values = build_model(
                 X_train, X_test, y30_train, y30_test, model_name, models_built, coefs, metrics_log, pred_values, d30 = True)
 
@@ -275,26 +294,29 @@ def build_models_cv(models, df_numeric, df_results, n_splits=5, random_state=42)
         "metrics_log": all_metrics_logs,
         "pred_values": all_pred_values,
     }
-
 """
 This needs to be built shortly
 """
-def build_and_evaluate_models(models, X_train, y_train, X_test, y_test, random_state = 42):
+def build_and_evaluate_models(models, X_train, y_train, X_test, y_test, skip_cross_val = False):
 
     models_built = model_config_builder(models)
 
-    all_metrics_logs = []
-    all_coefs = []
-    all_pred_values = []
+    cv_log = pd.DataFrame(columns = get_cv_columns())
+    coefs = pd.DataFrame(index = X_train.columns)
+    pred_values = y_test.copy()
+    metrics_log = pd.DataFrame(columns = pred_metrics + proba_metrics)
 
     for name in models_built:
 
-        build_both_models(X_train, y_train, name, models_built, all_coefs, all_metrics_logs, all_pred_values)
+        coefs, metrics_log, pred_values, cv_log = build_both_models(X_train, y_train, X_test, y_test, name, models_built, coefs, metrics_log, pred_values, cv_log, skip_cross_val)
+
+    pred_values.drop(columns = ['rel_readmit_90d', 'readmit_30d', 'readmit_90d'], inplace = True)
 
     return {
-        "coefs": all_coefs,
-        "metrics_log": all_metrics_logs,
-        "pred_values": all_pred_values,
+        "coefs": coefs,
+        "metrics_log": metrics_log,
+        "pred_values": pred_values,
+        "cv_log": cv_log
     }
 
 def build_thresholds(values):
@@ -319,18 +341,24 @@ def calc_threshold_metrics(thresholds, metrics):
 
     for model_threshold in thresholds.columns:
 
-        if(model_threshold not in ['readmit_30d', 'readmit_90d']):
+        data: dict[str, float] = {}
 
-            true_col = ('readmit_30d' if 'd30' in model_threshold else 'readmit_90d')
+        if(model_threshold != 'rel_readmit_30d'):
 
-            metrics.loc['TP', model_threshold] = ((thresholds[model_threshold] == 1) & (thresholds[true_col] == 1)).sum()
-            metrics.loc['FP', model_threshold] = ((thresholds[model_threshold] == 1) & (thresholds[true_col] == 0)).sum()
-            metrics.loc['FN', model_threshold] = ((thresholds[model_threshold] == 0) & (thresholds[true_col] == 1)).sum()
-            metrics.loc['TN', model_threshold] = ((thresholds[model_threshold] == 0) & (thresholds[true_col] == 0)).sum()
+            true_col = 'rel_readmit_30d'
+
+            data.update({
+                'TP' : ((thresholds[model_threshold] == 1) & (thresholds[true_col] == 1)).sum(),
+                'FP' : ((thresholds[model_threshold] == 1) & (thresholds[true_col] == 0)).sum(),
+                'FN' : ((thresholds[model_threshold] == 0) & (thresholds[true_col] == 1)).sum(),
+                'TN' : ((thresholds[model_threshold] == 0) & (thresholds[true_col] == 0)).sum()
+            })
 
             y_true = thresholds[true_col].astype(int)
 
-            metrics = get_discrete_metrics(y_true, thresholds[model_threshold], model_threshold, metrics, transposed = True)
+            data.update(get_discrete_metrics(y_true, thresholds[model_threshold]))
+
+            metrics[model_threshold] = pd.Series(data)
 
     return metrics
 

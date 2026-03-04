@@ -40,9 +40,31 @@ diagnosis_targets = {
     'trauma': {'417163006'},
     'intoxication': {'1149322001'}
 }
+basic_set = {
+  '138875005', #snomed concept
+  '404684003', #clinical finding
+  '64572001', #disease(disorder)
+  '844005', #behaviour finding
+  '362965005', #disorder of body system
+  '417163006', #injury
+  '76712006' #disorder of digestive organ
+  '118228005', #functional finding
+  '27624003', #chronic disease
+  '105612003', #Injury of internal organ
+  '302768007', #Employment finding
+  '384821006', #mental state bs
+  '365526009', #job details finding
+  '34014006', #viral disease, could be different viruses
+  '128139000', # Inflammatory disorder
+  '22253000', #Pain
+   '118228005', #Finding by function
+   '302292003', #finding of trunk structure
+   '363171009', #Inflammation of specific body systems
+}
 viral_codes = {'34014006'}
 main_diags_output_cols = ['main_diagnosis_code', 'main_diagnosis_name', 'main_diagnosis_type',
 'num_of_disorders', 'num_of_findings']
+
 config_data = {
     "procedures": {
     "state": Path("D:\Python Projects\Hospital readmission risk\data\intermediate\procedures_snomed_state.json"),
@@ -276,9 +298,68 @@ config_data = {
                 """,
             "write_path" : r"D:\Python Projects\Hospital readmission risk\data\processed\main_diagnoses.csv"
         }
+    },
+    "related_diagnoses": {
+        "state" : Path("D:\Python Projects\Hospital readmission risk\data\intermediate\diagnosess_snomed_state.json"),
+        "output_cols": ['is_related'],
+        "train": {
+            "data_path": r"D:\Python Projects\Hospital readmission risk\data\raw\train_diagnoses_and_following.csv",
+            "dictionary_path": r"D:\Python Projects\Hospital readmission risk\data\processed\dictionaries\train_diagnoses_dictionary.csv",
+            "sql": """
+            with sec_codes as (
+                select 
+                stay_id,
+                following_stay_id as fol_id,
+                readmit_30d,
+                readmit_90d,
+                main.main_diagnosis_code sec_code
+                from `hospital-readmission-4.helper_tables.train_helper_utilization` hu
+                left join `hospital-readmission-4.data_slim.train_main_diagnoses_nat` main
+                on hu.following_stay_id = main.id
+                )
+                SELECT
+                sec.stay_id,
+                main.main_diagnosis_code as code,
+                sec.fol_id, 
+                sec.sec_code,
+                readmit_30d,
+                readmit_90d
+                FROM sec_codes sec
+                left join `hospital-readmission-4.data_slim.train_main_diagnoses_nat` main
+                on main.id = sec.stay_id
+            """,
+            "write_path": r"D:\Python Projects\Hospital readmission risk\data\processed\train_related_diagnoses.csv"
+        },
+        "test": {
+            "data_path": r"D:\Python Projects\Hospital readmission risk\data\raw\diagnoses_and_following.csv",
+            "dictionary_path": r"D:\Python Projects\Hospital readmission risk\data\processed\dictionaries\diagnoses_dictionary.csv",
+            "sql": """
+            with sec_codes as (
+                select 
+                stay_id,
+                following_stay_id as fol_id,
+                readmit_30d,
+                readmit_90d,
+                main.main_diagnosis_code sec_code
+                from `hospital-readmission-4.helper_tables.helper_utilization` hu
+                left join `hospital-readmission-4.data_slim.main_diagnoses` main
+                on hu.following_stay_id = main.id
+                )
+                SELECT
+                sec.stay_id,
+                main.main_diagnosis_code as code,
+                sec.fol_id, 
+                sec.sec_code,
+                readmit_30d,
+                readmit_90d
+                FROM sec_codes sec
+                left join `hospital-readmission-4.data_slim.main_diagnoses` main
+                on main.id = sec.stay_id
+            """,
+            "write_path": r"D:\Python Projects\Hospital readmission risk\data\processed\related_diagnoses.csv"
     }
     }
-
+}
 concept_path = r"D:\Python Projects\Hospital readmission risk\data\concepts"
 BASE = "https://termbrowser.nhs.uk/sct-browser-api/snomed"
 EDITION = "uk-edition"
@@ -288,3 +369,4 @@ BACKOFF_SECONDS = 2.0
 REQUEST_COUNT = 0
 CACHE: dict[str, str] = {}
 RESULTS: dict[str, dict[str, bool]] = {} 
+ANCESTORS: dict[str, set[str]] = {}

@@ -804,3 +804,10 @@ Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharg
 Tasks:
 
 - Gotta rebuild main_diagnoses and dependent diagnoses and index_stays
+---
+### 2026-03-03
+- If any table is created from drive, a copy needs to be created for BQ API to query it well
+
+- Both index_stays constructed
+
+- Ran full models, crossval sucks, metrics are not the best

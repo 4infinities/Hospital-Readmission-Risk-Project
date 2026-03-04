@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import pandas as pd
 from data import load_data
-from dictionary_config import config_data, concept_path, viral_codes, BASE, EDITION, RELEASE, MAX_RETRIES, BACKOFF_SECONDS, REQUEST_COUNT, CACHE, RESULTS
+from dictionary_config import config_data, concept_path, viral_codes, basic_set, BASE, EDITION, RELEASE, MAX_RETRIES, BACKOFF_SECONDS, REQUEST_COUNT, CACHE, RESULTS, ANCESTORS
 
 session = requests.Session()
 
@@ -37,7 +37,7 @@ def load_main_config(dict_type = 'main_diagnoses', source_type = 'train'):
 
 def load_state(state_path: Path):
 
-    global CACHE, RESULTS
+    global CACHE, RESULTS, ANCESTORS
 
     if not state_path.exists():
 
@@ -55,11 +55,18 @@ def load_state(state_path: Path):
         for code, flags in raw_results.items()
             }
 
+    raw_ancestors = data.get("ancestors", {})
+    ANCESTORS = {code: set(ancestor_list) for code, ancestor_list in raw_ancestors.items()}
+
 def save_state(state_path: Path):
 
     data = {
         "cache": CACHE,
         "results": RESULTS,
+        "ancestors": {
+        code: list(ancestor_set)
+        for code, ancestor_set in ANCESTORS.items()
+                    }
     }
     
     with state_path.open("w", encoding="utf-8") as f:
@@ -321,6 +328,55 @@ def find_main_disorder(disorders: set, state_path) -> str:
 
     return find_least_children(suspects, state_path)
 
+def find_all_ancestors(concept_id: str, basic_set: set, targets = {}, state_path = None):
+
+    global REQUEST_COUNT
+
+    if concept_id in ANCESTORS:
+        return ANCESTORS[concept_id]
+
+    ancestors : set[str] = set()
+    frontier = {concept_id}
+    visited = set()
+
+    for depth in range(10):
+
+        new_frontier = set()
+
+        for cid in frontier:
+
+            if cid in visited or cid in basic_set:
+                continue
+            
+            c = get_concept(cid, targets, state_path)
+
+            if c is {}:
+                continue
+
+            parents = get_parent_ids(c)
+
+            for parent in parents:
+
+                if parent in basic_set:
+                    continue
+
+                ancestors.add(parent)
+                new_frontier.add(parent)
+            
+        if not new_frontier:
+            break
+        
+        frontier = new_frontier
+
+    ANCESTORS[concept_id] = ancestors
+
+    REQUEST_COUNT += 1
+
+    if REQUEST_COUNT % 50 == 0 and state_path is not None:
+        save_state(state_path)
+            
+    return ancestors
+
 def get_codes(data) -> set(str()):
 
     raw_codes = pd.Series(data.values.ravel()).dropna()
@@ -407,6 +463,48 @@ def build_flags(data: pd.DataFrame, targets):
 
     cols = [col for col in data.columns if not col.startswith("name")]
     data[cols] = data[cols].map(lambda x: int(x))
+
+def get_relation(concept_id1, concept_id2, basic_set: set, state_path = None):
+
+    if pd.isna(concept_id1) or pd.isna(concept_id2):
+        return 0
+
+    ancestors1 = find_all_ancestors(str(int(concept_id1)), basic_set, state_path = state_path)
+
+    if is_or_has_ancestor_in(str(int(concept_id2)), 
+                            targets = {}, 
+                            target_ids = ancestors1, 
+                            flag = '', 
+                            state_path = state_path):
+        return 1
+
+    return -1
+
+def build_relations(data, state_path):
+
+    data.set_index('stay_id', inplace = True)
+    
+    rows = []
+    for row in data.itertuples():
+
+        is_related = get_relation(row.code, row.sec_code, basic_set, state_path)
+        
+        rows.append({
+            'stay_id': row.Index,
+            'is_related' : is_related,
+            #'relation_list' : str(relation_list)
+        })
+
+    relations = pd.DataFrame(rows).set_index('stay_id')
+
+    flag_cols = ['readmit_30d', 'readmit_90d']
+
+    relations[flag_cols] = data[flag_cols]
+
+    relations['rel_readmit_30d'] = (relations['readmit_30d'] * relations['is_related']).clip(lower = 0)
+    relations['rel_readmit_90d'] = (relations['readmit_90d'] * relations['is_related']).clip(lower = 0)
+
+    return relations
 
 def get_description(concept_id: str, targets = {}):
 
