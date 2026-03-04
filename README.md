@@ -811,3 +811,5 @@ Tasks:
 - Both index_stays constructed
 
 - Ran full models, crossval sucks, metrics are not the best
+
+-Gotta build costs, but models look promising
