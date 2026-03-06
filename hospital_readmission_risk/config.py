@@ -181,3 +181,9 @@ cv_scoring = ["roc_auc", "average_precision"]
 proba_metrics = ['roc', 'pr', 'brier_loss_total']
 
 pred_metrics = ['precision', 'recall', 'f1']
+
+cost_cols = ['stay_id', 'cost_per_day_stay','total_readmission_cost','avg_cost_of_prev_stays']
+
+def_prob_red = 0.1 #default value for probability reduction if a patient stays for extra day in the hospital
+
+def_desired_prob_red = 0.2 # default value for desired probability of reduction for the intervention

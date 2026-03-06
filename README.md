@@ -813,3 +813,8 @@ Tasks:
 - Ran full models, crossval sucks, metrics are not the best
 
 -Gotta build costs, but models look promising
+
+---
+### 2026-03-04 
+
+- Built mapping of desired probability reduction and daily probability reduction, nothing worked well
