@@ -818,3 +818,7 @@ Tasks:
 ### 2026-03-04 
 
 - Built mapping of desired probability reduction and daily probability reduction, nothing worked well
+
+- vast goddamn majority of related readmissions is lung cancer. Gotta find a way to treat lung cancer effectively or to deep dive into records for extra data on interventions
+
+- intervention type is still key, most of readmit_30d that are unrelated or unknown, are still with lung cancer in the end.
