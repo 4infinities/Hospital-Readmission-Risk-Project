@@ -1,49 +1,63 @@
+"""
+Configuration for the Hospital Readmission Risk project.
+
+Defines:
+- model specs and hyperparameters
+- BigQuery credentials and SQL
+- feature lists and metrics
+- default cost / intervention assumptions
+"""
+
+# Models to train and evaluate.
 models = [
     {
         "name": "logreg",
         "params": {
-    'class_weight': 'balanced', 
-    'solver': 'saga', 
-    'max_iter': 1000
+            "class_weight": "balanced",
+            "solver": "saga",
+            "max_iter": 1000,
         },
     },
     {
         "name": "rf",
         "params": {
-    'n_estimators': 250,
-    'min_samples_split': 10,
-    'min_samples_leaf': 5,
-    'max_features': 0.6,
-    'max_depth': None,
-    'class_weight': 'balanced_subsample',
-    "random_state": 42,
+            "n_estimators": 250,
+            "min_samples_split": 10,
+            "min_samples_leaf": 5,
+            "max_features": 0.6,
+            "max_depth": None,
+            "class_weight": "balanced_subsample",
+            "random_state": 42,
         },
     },
     {
         "name": "lightgbm",
         "params": {
-    'subsample': 0.7,
-    'reg_lambda': 0.25,
-    'reg_alpha': 0.5,
-    'num_leaves': 127,
-    'n_estimators': 200,
-    'min_child_samples': 10,
-    'max_depth': -1,
-    'learning_rate': 0.05,
-    'colsample_bytree': 0.9,
-    "objective" : "binary", 
-    "force_col_wise" : True,
-    "is_unbalance" : True,
-    "random_state": 42
+            "subsample": 0.7,
+            "reg_lambda": 0.25,
+            "reg_alpha": 0.5,
+            "num_leaves": 127,
+            "n_estimators": 200,
+            "min_child_samples": 10,
+            "max_depth": -1,
+            "learning_rate": 0.05,
+            "colsample_bytree": 0.9,
+            "objective": "binary",
+            "force_col_wise": True,
+            "is_unbalance": True,
+            "random_state": 42,
         },
     },
 ]
+
+# BigQuery auth and project.
 credentials = r"D:\Python Projects\Hospital readmission risk\.secrets\hospital-readmission-4-code.json"
 project_name = "hospital-readmission-4"
 
+# Train data: local cache and source query.
 train_data_path = r"D:\Python Projects\Hospital readmission risk\data\cleaned\train_index_stay.csv"
-train_sql =  """
-    SELECT
+train_sql = """
+SELECT
   patient_id,
   patient_age,
   gender,
@@ -99,11 +113,12 @@ train_sql =  """
   total_readmission_cost,
   following_unplanned_admission_flag
 FROM `hospital-readmission-4.helper_tables.train_index_stay`;
-    """
+"""
 
+# Test data: local cache and source query.
 test_data_path = r"D:\Python Projects\Hospital readmission risk\data\cleaned\test_index_stay.csv"
 test_sql = """
-    SELECT
+SELECT
   patient_id,
   patient_age,
   gender,
@@ -159,31 +174,45 @@ test_sql = """
   total_readmission_cost,
   following_unplanned_admission_flag
 FROM `hospital-readmission-4.helper_tables.index_stay`;
-    """
-    
+"""
+
+# Numeric features used in preprocessing / modeling.
 numeric_cols = [
-    'patient_age', 'gender', 'length_of_stay', 'stay_type',
-    'is_disorder', 'is_symptom', 'inflammation', 'musculoskeletal', 'nervous',
-    'respiratory', 'cardiac', 'renal', 'trauma', 'intoxication', 'num_disorders',
-    'num_findings', 'num_chronic_conditions', 'num_procedures', 'has_diabetes', 
-    'has_cancer', 'has_hiv', 'has_hf', 'has_alz', 'has_ckd', 'had_surgery',
-    'has_lf',  'admission_cost',
-    'total_procedure_costs', 'total_medication_costs', 'total_stay_cost', 
-    'admissions_365d', 'tot_length_of_stay_365d', 'avg_cost_of_prev_stays',
-    'is_planned', 'readmit_30d', 'readmit_90d', 'rel_readmit_30d', 'rel_readmit_90d'
-    ]
+    "patient_age", "gender", "length_of_stay", "stay_type",
+    "is_disorder", "is_symptom", "inflammation", "musculoskeletal",
+    "nervous", "respiratory", "cardiac", "renal", "trauma",
+    "intoxication", "num_disorders", "num_findings",
+    "num_chronic_conditions", "num_procedures", "has_diabetes",
+    "has_cancer", "has_hiv", "has_hf", "has_alz", "has_ckd",
+    "had_surgery", "has_lf", "admission_cost",
+    "total_procedure_costs", "total_medication_costs",
+    "total_stay_cost", "admissions_365d",
+    "tot_length_of_stay_365d", "avg_cost_of_prev_stays",
+    "is_planned", "readmit_30d", "readmit_90d",
+    "rel_readmit_30d", "rel_readmit_90d",
+]
 
-log_cols = ['total_stay_cost', 'avg_cost_of_prev_stays', 'total_procedure_costs',
-    'total_medication_costs']
+# Columns to log-transform.
+log_cols = [
+    "total_stay_cost",
+    "avg_cost_of_prev_stays",
+    "total_procedure_costs",
+    "total_medication_costs",
+]
 
+# Evaluation metrics.
 cv_scoring = ["roc_auc", "average_precision"]
+proba_metrics = ["roc", "pr", "brier_loss_total"]
+pred_metrics = ["precision", "recall", "f1"]
 
-proba_metrics = ['roc', 'pr', 'brier_loss_total']
+# Cost analysis columns.
+cost_cols = [
+    "stay_id",
+    "cost_per_day_stay",
+    "total_readmission_cost",
+    "avg_cost_of_prev_stays",
+]
 
-pred_metrics = ['precision', 'recall', 'f1']
-
-cost_cols = ['stay_id', 'cost_per_day_stay','total_readmission_cost','avg_cost_of_prev_stays']
-
-def_prob_red = 0.1 #default value for probability reduction if a patient stays for extra day in the hospital
-
-def_desired_prob_red = 0.2 # default value for desired probability of reduction for the intervention
+# Default intervention assumptions.
+def_prob_red = 0.1
+def_desired_prob_red = 0.2
