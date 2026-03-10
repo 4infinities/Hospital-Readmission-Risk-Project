@@ -739,7 +739,7 @@ no reason to do it, main are stress, pregnancy, other BS
 - gotta rebuild diagnoses dictionary for all
 //done
 
--started rebuilding helper_clinical_creation, gotta rebuild planned stuff and related surgeries
+- started rebuilding helper_clinical_creation, gotta rebuild planned stuff and related surgeries
 ---
 ### 2026-02-27
 
@@ -768,7 +768,7 @@ Finding: if there was a (urgetcare/inpatient/emergency) encounter, then discharg
 
 - Rebuilt main_diagnoses with respect to grouped encounters, main issues noted only with pregnancy and anemia/metabolic syndrom X
 
--Possibly finished diagnoses relations but not tested yet
+- Possibly finished diagnoses relations but not tested yet
 ---
 ### 2026-03-01
 
@@ -822,3 +822,37 @@ Tasks:
 - vast goddamn majority of related readmissions is lung cancer. Gotta find a way to treat lung cancer effectively or to deep dive into records for extra data on interventions
 
 - intervention type is still key, most of readmit_30d that are unrelated or unknown, are still with lung cancer in the end.
+
+---
+###2026-03-06
+
+- loaded observations into BQ
+
+- maybe careplans are meant to last for more than 60 days if the enddate is not given?
+
+- it looks like there is a careplan for every cancerous encounter, which is not limited to 60 days
+
+- why are full time employment and carcinoma of lung related??
+
+- rebuilt related_diagnosis_builder by fixing is_or_has_ancestor_in in dictionaries
+
+- Gotta rebuild index_stay and models with it
+
+---
+#2026-09-03
+
+- Careplans have got reasons to be implemented, I can filter encounters by relation to careplan reasoncode
+
+- Gotta update the logic of creating planned readmissions. If planned flag is taken from careplans, it must check whether main_code of this stay_id is related to careplan reason_code
+
+- Never terminate a careplan, because they can be long-lasting
+
+- built careplan_related_encounters
+
+- after rebuilding test set only 47/106761  are related readmissions in 30 days, 110/106761 in 90 days, in index_stay for test data it is 686/66489 simple readmissions in 30 days, mb not related and only 24/66465 related readmissions in 30 days
+
+- recreated both index_stays
+
+- rebuilt both models, they seem bad, gotta reoptimize hyperparameters and see what I can do with costs and build them
+
+- Obtained results and an "avoided" table , where all the mapped results are tracked
