@@ -44,7 +44,7 @@ def make_train_test_split(X, y, test_size: float = 0.2, random_state: int = 42):
     return X_train, X_test, y_train, y_test
 
 
-def model_config_builder(models: list[dict]) -> dict:
+def model_config_builder(models: list[dict], set_params = True) -> dict:
     """Build model instances from the config.models list."""
     model_dict = {
         "logreg": LogisticRegression,
@@ -52,12 +52,12 @@ def model_config_builder(models: list[dict]) -> dict:
         "lightgbm": LGBMClassifier,
     }
 
-    models_with_params: dict[str, object] = {}
+    models_built: dict[str, object] = {}
     for model in models:
         cls = model_dict[model["name"]]
-        models_with_params[model["name"]] = cls(**model["params"])
+        models_built[model["name"]] = (cls(**model["params"]) if set_params else cls())
 
-    return models_with_params
+    return models_built
 
 
 def set_name(model_name: str, d30: bool = True) -> str:

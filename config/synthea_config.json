@@ -1,0 +1,67 @@
+{
+    "synthea": {
+      "synthea_home": "F:\\Synthea",
+      "jar_name": "synthea-with-dependencies.jar",
+      "synthea_csv_dir": "output\\csv"
+    },
+    "profiles": {
+    "mock": {
+    "output_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\mock",
+      "num_patients": 100,
+      "seed": 100,
+      "clinician_seed": 100,
+      "state": "California",
+      "years_of_history": 2,
+      "files_to_copy": [
+        "patients.csv",
+        "encounters.csv",
+        "careplans.csv",
+        "claims.csv",
+        "organizations.csv",
+        "procedures.csv",
+        "conditions.csv",
+        "medications.csv"
+      ],
+      "delete_source_files": true
+    },
+    "train": {
+    "output_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\train",
+      "num_patients": 50000,
+      "seed": 100,
+      "clinician_seed": 100,
+      "state": "California",
+      "years_of_history": 10,
+      "files_to_copy": [
+        "patients.csv",
+        "encounters.csv",
+        "careplans.csv",
+        "claims.csv",
+        "organizations.csv",
+        "procedures.csv",
+        "conditions.csv",
+        "medications.csv"
+      ],
+      "delete_source_files": true
+    },
+    "test": {
+    "output_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\test",
+      "num_patients": 20000,
+      "seed": 42,
+      "clinician_seed": 42,
+      "state": "California",
+      "years_of_history": 8,
+      "files_to_copy": [
+        "patients.csv",
+        "encounters.csv",
+        "careplans.csv",
+        "claims.csv",
+        "organizations.csv",
+        "procedures.csv",
+        "conditions.csv",
+        "medications.csv"
+      ],
+      "delete_source_files": true
+    }
+    }
+}
+ 

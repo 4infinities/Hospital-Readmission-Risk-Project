@@ -863,3 +863,7 @@ Tasks:
 - Mapped all values, obtained maximum results ranging from the best unrealistic 86% reductions to -1% as the worst possible result. The best and the most realistic one is -26%($2M) in standard setting (daily reduction 10%, target 20-25%, real reduction 27%). Even in rather pessimistic scenarios like 5% daily reduction, 20% target reduction - obtained best reduction of 21% of costs($1.6M). 
 
 - The best model is RF_d30_0.8, even 14% precision, 14% recall, 0.14 f1 is enough for such results, MB many of low-cost are targeted as false positives, which is fine
+
+- Run first hyperparameter optimization, haven't updated it yet, mb gotta rerun in order to reoptimize
+
+- Started resructuring the entire project to apply OOP and move to production-like deployment
