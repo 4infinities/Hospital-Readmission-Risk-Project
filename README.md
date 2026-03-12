@@ -867,3 +867,8 @@ Tasks:
 - Run first hyperparameter optimization, haven't updated it yet, mb gotta rerun in order to reoptimize
 
 - Started resructuring the entire project to apply OOP and move to production-like deployment
+
+---
+#2026-11-03
+
+- Built OOP pipeline until the point where the slim_tables are created

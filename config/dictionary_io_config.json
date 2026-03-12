@@ -1,0 +1,35 @@
+{
+    "procedures": {
+        "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\procedures_snomed_state.json",
+        "data_path" : "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\dictionaries\\{{PROFILE}}unique_procedures.csv",
+        "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\10_unique_procedrues_creation.sql",
+        "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}procedures_dictionary.csv"
+    },
+    "diagnoses": {
+        "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\diagnosess_snomed_state.json",
+        "data_path" : "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\dictionaries\\{{PROFILE}}unique_diagnoses.csv",
+        "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\09_unique_diagnoses_creation.sql",
+        "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}diagnoses_dictionary.csv"
+    },
+    "main_diagnoses": {
+        "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\diagnosess_snomed_state.json",
+        "dictionary_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}diagnoses_dictionary.csv",
+        "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\{{PROFILE}}diagnoses_per_stays.csv",
+        "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\11_diagnoses_per_stays_selection.sql",
+        "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}main_diagnoses.csv"
+    },
+    "careplans_related_diagnoses": {
+        "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\diagnosess_snomed_state.json",
+        "dictionary_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}diagnoses_dictionary.csv",
+        "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\{{PROFILE}}diagnoses_and_careplans.csv",
+        "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\12_diagnoses_and_careplans_selection.sql",
+        "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\{{PROFILE}}careplans_related_encounters.csv"
+    },
+    "related_diagnoses": {
+        "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\diagnosess_snomed_state.json",
+        "dictionary_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}diagnoses_dictionary.csv",
+        "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\{{PROFILE}}diagnoses_and_following.csv",
+        "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\13_diagnoses_and_following_selection.sql",
+        "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\{{PROFILE}}careplans_related_encounters.csv"
+    }
+}
