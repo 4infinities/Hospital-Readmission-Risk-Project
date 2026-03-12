@@ -1,5 +1,5 @@
 {
-  "_id": "692da9f65e56651e0192a1bb",
+  "_id": "69a5ccf94f668b990bf9efbf",
   "memberships": [
     {
       "type": "SIMPLE_REFSET",
@@ -10249,22 +10249,13 @@
         "effectiveTime": "20020131",
         "module": "900000000000012004"
       },
-      "langMemberships": [
+      "refsetMemberships": [
         {
-          "descriptionId": "2707301000000119",
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "2707301000000119",
           "refset": {
-            "conceptId": "999001261000000100",
-            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
-            "definitionStatus": "Primitive",
-            "statedDescendants": 0,
-            "inferredDescendants": 0,
-            "active": true,
-            "effectiveTime": "20190601",
-            "module": "999000041000000102"
-          },
-          "acceptability": {
-            "conceptId": "900000000000549004",
-            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
             "definitionStatus": "Primitive",
             "statedDescendants": 0,
             "inferredDescendants": 0,
@@ -10272,41 +10263,24 @@
             "effectiveTime": "20020131",
             "module": "900000000000012004"
           },
-          "uuid": "6ba895f6-cb2e-4d29-b98c-c1e67f5aeb58",
+          "cidValue": {
+            "conceptId": "900000000000483008",
+            "defaultTerm": "Outdated component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "b5f2de38-f5df-428e-9508-d45bb006844a",
           "active": true,
-          "effectiveTime": "20251119",
-          "module": "999000041000000102"
-        },
-        {
-          "descriptionId": "2707301000000119",
-          "refset": {
-            "conceptId": "900000000000508004",
-            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
-            "definitionStatus": "Primitive",
-            "statedDescendants": 0,
-            "inferredDescendants": 0,
-            "active": true,
-            "effectiveTime": "20020131",
-            "module": "900000000000012004"
-          },
-          "acceptability": {
-            "conceptId": "900000000000549004",
-            "defaultTerm": "Acceptable (foundation metadata concept)",
-            "definitionStatus": "Primitive",
-            "statedDescendants": 0,
-            "inferredDescendants": 0,
-            "active": true,
-            "effectiveTime": "20020131",
-            "module": "900000000000012004"
-          },
-          "uuid": "d3aa0f13-e978-4540-b533-079e7206333b",
-          "active": true,
-          "effectiveTime": "20251119",
+          "effectiveTime": "20260211",
           "module": "999000041000000102"
         }
       ],
-      "active": true,
-      "effectiveTime": "20251119",
+      "active": false,
+      "effectiveTime": "20260211",
       "module": "999000041000000102"
     },
     {
@@ -10577,6 +10551,92 @@
       ],
       "active": false,
       "effectiveTime": "20220706",
+      "module": "999000041000000102"
+    },
+    {
+      "descriptionId": "2805761000000114",
+      "conceptId": "138875005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "41.5.0_20260211000001 UK clinical extension",
+      "length": 43,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "2805761000000114",
+          "refset": {
+            "conceptId": "999001261000000100",
+            "defaultTerm": "National Health Service realm language reference set (clinical part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "2879f08e-356a-4fae-89aa-c123b7dc532a",
+          "active": true,
+          "effectiveTime": "20260211",
+          "module": "999000041000000102"
+        },
+        {
+          "descriptionId": "2805761000000114",
+          "refset": {
+            "conceptId": "900000000000508004",
+            "defaultTerm": "Great Britain English language reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "b6c2b75d-6918-415a-8d7b-f51cece1a14e",
+          "active": true,
+          "effectiveTime": "20260211",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20260211",
       "module": "999000041000000102"
     },
     {
@@ -13370,6 +13430,66 @@
       "module": "999000041000000102"
     },
     {
+      "descriptionId": "3860481000001112",
+      "conceptId": "138875005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "41.3.0_20251217000001 UK drug extension",
+      "length": 39,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "3860481000001112",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "900000000000483008",
+            "defaultTerm": "Outdated component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "958cd190-613c-44ad-b740-1657b0c30253",
+          "active": true,
+          "effectiveTime": "20260114",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20260114",
+      "module": "999000041000000102"
+    },
+    {
       "descriptionId": "3875531000001114",
       "conceptId": "138875005",
       "type": {
@@ -14055,22 +14175,13 @@
         "effectiveTime": "20020131",
         "module": "900000000000012004"
       },
-      "langMemberships": [
+      "refsetMemberships": [
         {
-          "descriptionId": "5132961000001119",
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "5132961000001119",
           "refset": {
-            "conceptId": "999000691000001104",
-            "defaultTerm": "National Health Service realm language reference set (pharmacy part) (foundation metadata concept)",
-            "definitionStatus": "Primitive",
-            "statedDescendants": 0,
-            "inferredDescendants": 0,
-            "active": true,
-            "effectiveTime": "20190601",
-            "module": "999000041000000102"
-          },
-          "acceptability": {
-            "conceptId": "900000000000549004",
-            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
             "definitionStatus": "Primitive",
             "statedDescendants": 0,
             "inferredDescendants": 0,
@@ -14078,14 +14189,24 @@
             "effectiveTime": "20020131",
             "module": "900000000000012004"
           },
-          "uuid": "281d0524-31b7-42e8-86b0-354001c5b36d",
+          "cidValue": {
+            "conceptId": "900000000000483008",
+            "defaultTerm": "Outdated component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "a150ad00-0554-4ddb-9ca1-db8d5a06cebc",
           "active": true,
-          "effectiveTime": "20251119",
+          "effectiveTime": "20251217",
           "module": "999000041000000102"
         }
       ],
-      "active": true,
-      "effectiveTime": "20251119",
+      "active": false,
+      "effectiveTime": "20251217",
       "module": "999000041000000102"
     },
     {
@@ -14506,6 +14627,125 @@
       ],
       "active": false,
       "effectiveTime": "20251022",
+      "module": "999000041000000102"
+    },
+    {
+      "descriptionId": "8398631000001111",
+      "conceptId": "138875005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "41.4.0_20260114000001 UK drug extension",
+      "length": 39,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "refsetMemberships": [
+        {
+          "type": "ATTRIBUTE_VALUE",
+          "referencedComponentId": "8398631000001111",
+          "refset": {
+            "conceptId": "900000000000490003",
+            "defaultTerm": "Description inactivation indicator attribute value reference set (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "cidValue": {
+            "conceptId": "900000000000483008",
+            "defaultTerm": "Outdated component (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "8c0ed2e1-885a-40e0-b363-fd702b4b7884",
+          "active": true,
+          "effectiveTime": "20260211",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": false,
+      "effectiveTime": "20260211",
+      "module": "999000041000000102"
+    },
+    {
+      "descriptionId": "10239221000001119",
+      "conceptId": "138875005",
+      "type": {
+        "conceptId": "900000000000013009",
+        "defaultTerm": "Synonym (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "lang": "en",
+      "term": "41.5.0_20260211000001 UK drug extension",
+      "length": 39,
+      "ics": {
+        "conceptId": "900000000000017005",
+        "defaultTerm": "Entire term case sensitive (core metadata concept)",
+        "definitionStatus": "Primitive",
+        "statedDescendants": 0,
+        "inferredDescendants": 0,
+        "active": true,
+        "effectiveTime": "20020131",
+        "module": "900000000000012004"
+      },
+      "langMemberships": [
+        {
+          "descriptionId": "10239221000001119",
+          "refset": {
+            "conceptId": "999000691000001104",
+            "defaultTerm": "National Health Service realm language reference set (pharmacy part) (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20190601",
+            "module": "999000041000000102"
+          },
+          "acceptability": {
+            "conceptId": "900000000000549004",
+            "defaultTerm": "Acceptable (foundation metadata concept)",
+            "definitionStatus": "Primitive",
+            "statedDescendants": 0,
+            "inferredDescendants": 0,
+            "active": true,
+            "effectiveTime": "20020131",
+            "module": "900000000000012004"
+          },
+          "uuid": "986b1c28-5e0d-47cb-9f93-bbf5b76cfe25",
+          "active": true,
+          "effectiveTime": "20260211",
+          "module": "999000041000000102"
+        }
+      ],
+      "active": true,
+      "effectiveTime": "20260211",
       "module": "999000041000000102"
     },
     {
@@ -19766,7 +20006,7 @@
   "defaultTerm": "SNOMED CT Concept (SNOMED RT+CTV3)",
   "definitionStatus": "Primitive",
   "statedDescendants": 0,
-  "inferredDescendants": 829337,
+  "inferredDescendants": 830482,
   "active": true,
   "effectiveTime": "20020131",
   "module": "900000000000207008"

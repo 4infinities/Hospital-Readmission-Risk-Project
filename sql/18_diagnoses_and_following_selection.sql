@@ -6,8 +6,8 @@ WITH
       readmit_30d,
       readmit_90d,
       main.main_diagnosis_code sec_code
-    FROM `hospital-readmission-4.helper_tables.train_helper_utilization` hu
-    LEFT JOIN `hospital-readmission-4.data_slim.train_main_diagnoses_nat` main
+    FROM {{DATASET_HELPERS}}.{{PROFILE}}helper_utilization hu
+    LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}main_diagnoses main
       ON hu.following_stay_id = main.id
   )
 SELECT
@@ -18,5 +18,5 @@ SELECT
   readmit_30d,
   readmit_90d
 FROM sec_codes sec
-LEFT JOIN `hospital-readmission-4.data_slim.train_main_diagnoses_nat` main
+LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}main_diagnoses main
   ON main.id = sec.stay_id

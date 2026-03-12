@@ -872,3 +872,18 @@ Tasks:
 #2026-11-03
 
 - Built OOP pipeline until the point where the slim_tables are created
+
+- The first dictionaries are in csv forms but not yet automatically loaded into BQ, gotta build a module load_dictionaries within the BigQueryLoader
+---
+
+#2026-12-03
+
+- Query 12 is changed from main_diagnoses_nat to main_diagnoses to check the pipeline, but gotta rewrite that part for bigger diagnoses tables with google drive
+
+- pipeline to index_stay done, no data sanity checks yet
+
+- sanity checks written but gotta recheck the sanity check queries themselves
+
+- sanity checks are done
+
+- Got to find a way to run uploads through google drive

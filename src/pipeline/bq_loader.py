@@ -45,29 +45,6 @@ class BigQueryLoader:
         """
         Build a BigQueryLoader and a profile dict from a named profile
         in the JSON config.
-
-        JSON structure:
-
-        {
-          "project_id": "...",
-          "location": "...",
-          "profiles": {
-            "mock": {
-              "dataset": "mock_raw_data",
-              "local_input_dir": "D:/.../mock"
-            },
-            ...
-          }
-        }
-
-        Returns
-        -------
-        loader : BigQueryLoader
-            Configured loader instance.
-        profile_cfg : dict
-            Dict containing:
-              - "dataset": dataset_id for this profile
-              - "local_input_dir": local path with CSVs
         """
         cfg = cls._load_json_config(config_path)
 
@@ -101,6 +78,8 @@ class BigQueryLoader:
             location=location,
             dataset_id=dataset_id,
             client=client,
+            profile_name=profile_name,
+            config=cfg,
         )
 
         profile_cfg_resolved = {
@@ -118,23 +97,16 @@ class BigQueryLoader:
         location: str,
         dataset_id: str,
         client: bigquery.Client | None = None,
+        profile_name: str | None = None,
+        config: Dict[str, Any] | None = None,
     ):
-        """
-        Parameters
-        ----------
-        project_id : str
-            GCP project ID.
-        location : str
-            BigQuery location, e.g. "europe-west4".
-        dataset_id : str
-            Dataset name for this profile (e.g. "mock_raw_data").
-        client : bigquery.Client or None
-            If None, a new client is created.
-        """
+
         self.project_id = project_id
         self.location = location
         self.dataset_id = dataset_id
         self.client = client or bigquery.Client(project=project_id, location=location)
+        self.profile_name = profile_name
+        self._config = config or {}
 
     @property
     def full_dataset_id(self) -> str:
@@ -156,6 +128,34 @@ class BigQueryLoader:
         except Exception:
             logger.info("Creating dataset: %s", self.full_dataset_id)
             self.client.create_dataset(dataset_ref)
+
+    def profile_prefix(self) -> str:
+        """
+        PROFILE prefix for table names in slim/helper datasets.
+        train -> 'train_'
+        mock  -> 'mock_'
+        test/other -> ''
+        """
+        if self.profile_name == "train":
+            return "train_"
+        if self.profile_name == "mock":
+            return "mock_"
+        return ""
+
+    def with_dataset(self, dataset_id: str) -> "BigQueryLoader":
+        """
+        Return a new BigQueryLoader attached to a different dataset
+        but the same project, location, and client.
+        """
+        return BigQueryLoader(
+            project_id=self.project_id,
+            location=self.location,
+            dataset_id=dataset_id,
+            client=self.client,
+            profile_name=self.profile_name,
+            config=self._config,
+        )
+
 
     def load_one_csv(
         self,
@@ -253,10 +253,93 @@ class BigQueryLoader:
             )
 
     def load_dictionaries(
-        self,
-        profile_cfg: Dict[str, Any],
-        write_disposition: str = bigquery.WriteDisposition.WRITE_TRUNCATE,
+    self,
+    dir_key: str,
+    write_disposition: str = bigquery.WriteDisposition.WRITE_TRUNCATE,
     ) -> None:
+        """
+        Load dictionary CSVs for this loader's profile into the helpers dataset.
+        - Uses self.profile_name for file filtering and table prefixing.
+        - Uses self._config['dataset_helpers'] and self._config['dictionaries_dir'].
+        """
+        if self.profile_name is None:
+            raise ValueError(
+                "profile_name is not set on BigQueryLoader; required for load_dictionaries."
+            )
 
-        A = 1
+        cfg = self._config or {}
+        helpers_dataset = cfg.get("dataset_helpers")
+        dictionaries_dir = cfg.get(dir_key)
+
+        if not helpers_dataset or not dictionaries_dir:
+            raise KeyError(
+                f"Config must contain 'dataset_helpers' and {dir_key} "
+                "to use load_dictionaries."
+            )
+
+        profile_name = self.profile_name
+        prefix_for_tables = self.profile_prefix()
+
+        dict_dir_path = Path(dictionaries_dir).expanduser().resolve()
+        if not dict_dir_path.is_dir():
+            raise NotADirectoryError(
+                f"dictionaries_dir is not a directory: {dict_dir_path}"
+            )
+
+        dict_loader = self.with_dataset(helpers_dataset)
+        dict_loader.ensure_dataset_exists()
+
+        logger.info(
+            "Loading dictionary CSVs for profile '%s' from %s into dataset %s "
+            "with table prefix '%s'",
+            profile_name,
+            dict_dir_path,
+            dict_loader.full_dataset_id,
+            prefix_for_tables,
+        )
+
+        csv_files = sorted(dict_dir_path.glob("*.csv"))
+        if not csv_files:
+            logger.warning("No dictionary CSV files found in %s", dict_dir_path)
+
+        for csv_path in csv_files:
+            filename = csv_path.name
+
+            if profile_name not in filename:
+                logger.debug(
+                    "Skipping dictionary file %s (profile '%s' not in name)",
+                    filename,
+                    profile_name,
+                )
+                continue
+
+            stem = csv_path.stem
+
+            base = stem.replace(f"{profile_name}_", "", 1)
+            base = base.replace(f"{profile_name}-", "", 1)
+            base = base.replace(profile_name, "", 1)
+            base = base.lstrip("_").lstrip("-")
+
+            if not base:
+                logger.warning(
+                    "Derived empty base table name from file %s for profile %s, skipping.",
+                    filename,
+                    profile_name,
+                )
+                continue
+
+            table_name = f"{prefix_for_tables}{base}"
+
+            logger.info(
+                "Loading dictionary file %s into table %s.%s",
+                csv_path,
+                dict_loader.full_dataset_id,
+                table_name,
+            )
+
+            dict_loader.load_one_csv(
+                local_csv_path=csv_path,
+                table_name=table_name,
+                write_disposition=write_disposition,
+            )
 

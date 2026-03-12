@@ -3,10 +3,6 @@
     "location": "europe-west4",
     "credentials_path": "D:\\Python Projects\\Hospital readmission risk\\.secrets\\healthcare-test-486920-3276e7afa16e.json",
     "dataset" : "{{PROFILE}}raw_data",
-    "procedures" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}procedures_dictionary.csv",
-    "diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}diagnoses_dictionary.csv",
-    "main_diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\{{PROFILE}}main_diagnoses.csv",
-    "careplans_related_diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\{{PROFILE}}careplans_related_encounters.csv",
     "related_diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\{{PROFILE}}careplans_related_encounters.csv",
     "profiles": {
         "mock": {
@@ -23,6 +19,9 @@
         }
     },
     "dataset_slim": "data_slim",
-    "dataset_helpers": "helper_tables"
+    "dataset_helpers": "helper_tables",
+    "dictionaries_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries",
+    "careplans_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\careplans",
+    "related_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\related"
 }
   
