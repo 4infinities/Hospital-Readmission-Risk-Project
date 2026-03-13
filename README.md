@@ -887,3 +887,9 @@ Tasks:
 - sanity checks are done
 
 - Got to find a way to run uploads through google drive//no need for that as API handles huge uploads
+
+- Hyperparameter tuner is constructed, gotta test it now somehow, but need more data
+
+- index_stay table has messed up name of csv file when loaded, underscore missing after mock
+
+---
