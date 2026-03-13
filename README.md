@@ -886,4 +886,4 @@ Tasks:
 
 - sanity checks are done
 
-- Got to find a way to run uploads through google drive
+- Got to find a way to run uploads through google drive//no need for that as API handles huge uploads
