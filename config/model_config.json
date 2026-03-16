@@ -1,79 +1,210 @@
 {
-    "data": {
-        "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\index_stay\\{{PROFILE}}index_stay.csv",
-        "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\20_index_stay_selection.sql",
-        "numeric_cols": [
-        "patient_age", "gender", "length_of_stay", "stay_type",
-        "is_disorder", "is_symptom", "inflammation", "musculoskeletal",
-        "nervous", "respiratory", "cardiac", "renal", "trauma",
-        "intoxication", "num_disorders", "num_findings",
-        "num_chronic_conditions", "num_procedures", "has_diabetes",
-        "has_cancer", "has_hiv", "has_hf", "has_alz", "has_ckd",
-        "had_surgery", "has_lf", "admission_cost",
-        "total_procedure_costs", "total_medication_costs",
-        "total_stay_cost", "admissions_365d",
-        "tot_length_of_stay_365d", "avg_cost_of_prev_stays",
-        "is_planned", "readmit_30d", "readmit_90d",
-        "rel_readmit_30d", "rel_readmit_90d"
-        ],
-        "log_cols": [
-        "total_stay_cost",
-        "avg_cost_of_prev_stays",
-        "total_procedure_costs",
-        "total_medication_costs"
-        ]
-    },
-    "models": {
+  "data": {
+    "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\index_stay\\{{PROFILE}}index_stay.csv",
+    "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\20_index_stay_selection.sql",
+    "numeric_cols": [
+      "patient_age",
+      "gender",
+      "length_of_stay",
+      "stay_type",
+      "is_disorder",
+      "is_symptom",
+      "inflammation",
+      "musculoskeletal",
+      "nervous",
+      "respiratory",
+      "cardiac",
+      "renal",
+      "trauma",
+      "intoxication",
+      "num_disorders",
+      "num_findings",
+      "num_chronic_conditions",
+      "num_procedures",
+      "has_diabetes",
+      "has_cancer",
+      "has_hiv",
+      "has_hf",
+      "has_alz",
+      "has_ckd",
+      "had_surgery",
+      "has_lf",
+      "admission_cost",
+      "total_procedure_costs",
+      "total_medication_costs",
+      "total_stay_cost",
+      "admissions_365d",
+      "tot_length_of_stay_365d",
+      "avg_cost_of_prev_stays",
+      "is_planned",
+      "readmit_30d",
+      "readmit_90d",
+      "rel_readmit_30d",
+      "rel_readmit_90d"
+    ],
+    "log_cols": [
+      "total_stay_cost",
+      "avg_cost_of_prev_stays",
+      "total_procedure_costs",
+      "total_medication_costs"
+    ]
+  },
+  "models_dir": "D:\\Python Projects\\Hospital readmission risk\\.secrets\\models",
+  "models": {
     "logreg": {
-        "active": true,
-        "estimator_type": "sklearn_logistic_regression",
-        "search_space": {
-            "logreg__class_weight": ["balanced"],
-            "logreg__solver": ["saga"],
-            "logreg__max_iter": [100, 500, 1000, 2000]
-            },
-        "best_params": null,
-        "best_score": null
-        },
+      "active": true,
+      "estimator_type": "sklearn_logistic_regression",
+      "search_space": {
+        "logreg__class_weight": [
+          "balanced"
+        ],
+        "logreg__solver": [
+          "saga"
+        ],
+        "logreg__max_iter": [
+          100,
+          500,
+          1000,
+          2000
+        ]
+      },
+      "best_params": {
+        "logreg__solver": "saga",
+        "logreg__max_iter": 100,
+        "logreg__class_weight": "balanced"
+      },
+      "best_score": 0.06277073825845428
+    },
     "rf": {
-        "active": true,
-        "estimator_type": "sklearn_random_forest",
-            "search_space": {
-            "rf__n_estimators": [100, 200, 300, 500, 1000],
-            "rf__max_depth": [null, 4, 6, 8, 10],
-            "rf__min_samples_split": [2, 10, 20, 50],
-            "rf__min_samples_leaf": [1, 5, 10, 20],
-            "rf__max_features": ["sqrt", 0.3, 0.5],
-            "rf__class_weight": ["balanced_subsample"]
-            },
-        "best_params": null,
-        "best_score": null
-        },
+      "active": true,
+      "estimator_type": "sklearn_random_forest",
+      "search_space": {
+        "rf__n_estimators": [
+          100,
+          200,
+          300,
+          500,
+          1000
+        ],
+        "rf__max_depth": [
+          null,
+          4,
+          6,
+          8,
+          10
+        ],
+        "rf__min_samples_split": [
+          2,
+          10,
+          20,
+          50
+        ],
+        "rf__min_samples_leaf": [
+          1,
+          5,
+          10,
+          20
+        ],
+        "rf__max_features": [
+          "sqrt",
+          0.3,
+          0.5
+        ],
+        "rf__class_weight": [
+          "balanced_subsample"
+        ]
+      },
+      "best_params": {
+        "rf__n_estimators": 300,
+        "rf__min_samples_split": 10,
+        "rf__min_samples_leaf": 5,
+        "rf__max_features": 0.3,
+        "rf__max_depth": null,
+        "rf__class_weight": "balanced_subsample"
+      },
+      "best_score": 0.11002428619812847
+    },
     "lightgbm": {
-        "active": true,
-        "estimator_type": "lightgbm_classifier",
-        "search_space": {
-            "lightgbm__n_estimators": [50, 100, 200, 300, 400],
-            "lightgbm__learning_rate": [0.01, 0.03, 0.05, 0.07],
-            "lightgbm__num_leaves": [63, 100, 128, 180, 256],
-            "lightgbm__max_depth": [-1, 6, 8, 10],
-            "lightgbm__subsample": [0.5, 0.6, 0.7, 0.8],
-            "lightgbm__colsample_bytree": [0.5, 0.6, 0.7, 0.8],
-            "lightgbm__min_child_samples": [2, 5, 10, 20],
-            "lightgbm__reg_lambda": [0.0, 0.5, 1],
-            "lightgbm__reg_alpha": [0.0, 1, 5, 10]
-            },
-        "best_params": null,
-        "best_score": null
-        }
-    },
-    "cv": {
-        "n_splits": 5,
-        "scoring": "roc_auc",
-        "shuffle": true,
-        "random_state": 42
-    },
-    "tuning": {
+      "active": true,
+      "estimator_type": "lightgbm_classifier",
+      "search_space": {
+        "lightgbm__n_estimators": [
+          50,
+          100,
+          200,
+          300,
+          400
+        ],
+        "lightgbm__learning_rate": [
+          0.01,
+          0.03,
+          0.05,
+          0.07
+        ],
+        "lightgbm__num_leaves": [
+          63,
+          100,
+          128,
+          180,
+          256
+        ],
+        "lightgbm__max_depth": [
+          -1,
+          6,
+          8,
+          10
+        ],
+        "lightgbm__subsample": [
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "lightgbm__colsample_bytree": [
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "lightgbm__min_child_samples": [
+          2,
+          5,
+          10,
+          20
+        ],
+        "lightgbm__reg_lambda": [
+          0.0,
+          0.5,
+          1
+        ],
+        "lightgbm__reg_alpha": [
+          0.0,
+          1,
+          5,
+          10
+        ]
+      },
+      "best_params": {
+        "lightgbm__subsample": 0.7,
+        "lightgbm__reg_lambda": 1,
+        "lightgbm__reg_alpha": 0.0,
+        "lightgbm__num_leaves": 63,
+        "lightgbm__n_estimators": 300,
+        "lightgbm__min_child_samples": 10,
+        "lightgbm__max_depth": -1,
+        "lightgbm__learning_rate": 0.01,
+        "lightgbm__colsample_bytree": 0.7
+      },
+      "best_score": 0.13896196232121838
+    }
+  },
+  "cv": {
+    "n_splits": 5,
+    "scoring": "roc_auc",
+    "shuffle": true,
+    "random_state": 42
+  },
+  "tuning": {
     "n_iter": 50,
     "scoring": "average_precision",
     "n_splits": 5,
@@ -81,5 +212,5 @@
     "random_state": 42,
     "n_jobs": -1,
     "verbose": 3
-    }
+  }
 }

@@ -168,6 +168,7 @@ class DictionaryBuilder:
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
                 cache_path=data_path,
+                query=True
                 )
         try:
             build_dictionary(data, targets, state_path)
@@ -194,6 +195,7 @@ class DictionaryBuilder:
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
                 cache_path=data_path,
+                query=True
                 )
         try:
             build_dictionary(data, targets, state_path)
@@ -223,6 +225,7 @@ class DictionaryBuilder:
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
                 cache_path=data_path,
+                query=True
                 )
         load_state(state_path)
 
@@ -252,6 +255,7 @@ class DictionaryBuilder:
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
                 cache_path=data_path,
+                query=True
                 )
         relations = build_diagnoses_related(data, state_path = state_path)
         pack_dictionary(relations, write_path)
@@ -276,6 +280,7 @@ class DictionaryBuilder:
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
                 cache_path=data_path,
+                query=True
                 )
         relations = build_careplan_relations(data, state_path = state_path)
         pack_dictionary(relations, write_path)

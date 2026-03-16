@@ -893,3 +893,15 @@ Tasks:
 - index_stay table has messed up name of csv file when loaded, underscore missing after mock
 
 ---
+#2026-13-03
+
+- hyperparameters tuned on a bigger mock dataset
+
+- constructed model_config_manager, model_registry and evaluator, changed config to test that on real project data, created a test cell in ipynb, but haven't tested yet
+
+- gotta fix the part where I obtain pred_values
+
+---
+#2026-16-03
+
+- Finished entrie pipeline from generating Synthea data to obtaining metrics

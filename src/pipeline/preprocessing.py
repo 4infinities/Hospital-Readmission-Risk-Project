@@ -107,7 +107,6 @@ class DataPreprocessor:
     def load_and_preprocess(
         self,
         transformer,
-        profile_name: str,
         force_query: bool = False,
     ) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -118,7 +117,7 @@ class DataPreprocessor:
         force_query: if True, always hit BigQuery (ignore cache)
         """
         # 1) Resolve cache path from template
-        data_path_str = self.data_path_template.replace("{{PROFILE}}", profile_name)
+        data_path_str = self.data_path_template.replace("{{PROFILE}}", transformer.profile_prefix)
         cache_path = str(Path(data_path_str).expanduser().resolve())
 
         # 2) Load SQL text from file, then apply transformer placeholders
