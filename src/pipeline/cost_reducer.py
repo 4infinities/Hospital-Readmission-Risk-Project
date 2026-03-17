@@ -22,6 +22,7 @@ class CostReducer:
     prob_red_max: float
     desired_prob_red_min: float
     desired_prob_red_max: float
+    artifacts_dir: Path
 
     # ------------------------
     # Construction helpers
@@ -31,6 +32,7 @@ class CostReducer:
     def from_config(
         cls, 
         json_path: str | Path,
+        tuning: bool = False,
         ) -> "CostReducer":
         """Optional: load config from JSON if you want later."""
         path = Path(json_path)
@@ -38,15 +40,22 @@ class CostReducer:
         with path.open("r", encoding="utf-8") as f:
             data = json.load(f)
 
+        index_path = data["data_path"]
+
+        if tuning:
+            index_path = data["tuning_path"]
+
+        artifacts_dir = Path("data") / "artifacts"
         return cls(
-            index_path=data["data_path"],
+            index_path=index_path,
             cost_cols=data["cost_cols"],
             def_prob_red=float(data["def_prob_red"]),
             def_desired_prob_red=float(data["def_desired_prob_red"]),
             prob_red_min=float(data["prob_red_min"]),
             prob_red_max=float(data["prob_red_max"]),
             desired_prob_red_min=float(data["desired_prob_red_min"]),
-            desired_prob_red_max=float(data["desired_prob_red_max"])
+            desired_prob_red_max=float(data["desired_prob_red_max"]),
+            artifacts_dir=artifacts_dir
         )
 
     # ------------------------
@@ -116,9 +125,11 @@ class CostReducer:
     ) -> pd.Series:
         pct_saved = pd.Series(index=total_saved.index, name="total_pct_saved")
         for key, value in total_saved.items():
-            pct_saved[key] = value / (
-                total_readmit_30d if "_d30" in key else total_readmit_90d
-            )
+            denom = total_readmit_30d if "_d30" in key else total_readmit_90d
+            if denom <= 0 or not np.isfinite(denom):
+                pct_saved[key] = 0.0
+            else:
+                pct_saved[key] = value / denom
         return pct_saved
 
     def _estimate_cost_reduction_single(
@@ -127,6 +138,7 @@ class CostReducer:
         df_thresholds: pd.DataFrame,
         prob_red: float,
         desired_prob_red: float,
+        tuning: bool = False
     ) -> pd.DataFrame:
         gains = pd.DataFrame(index=df_cost.index)
 
@@ -155,10 +167,18 @@ class CostReducer:
         totals = gains.sum(axis=0)
         totals.name = "total_avoided"
 
-        total_readmit_30d = df_cost[df_cost["readmit_30d"] == 1]["total_readmission_cost"].sum()
-        total_readmit_90d = df_cost[df_cost["readmit_90d"] == 1]["total_readmission_cost"].sum()
-        pct_saved = self._calc_pct_saved(totals, total_readmit_30d, total_readmit_90d)
+        cols30 = df_thresholds['readmit_30d'] == 1
+        if not tuning:
+            cols90 = df_thresholds['readmit_90d'] == 1
 
+        total_readmit_30d = df_cost[cols30]["total_readmission_cost"].sum()
+        total_readmit_90d = 0 if tuning else df_cost[cols90]["total_readmission_cost"].sum()
+        if total_readmit_30d == 0:
+            total_readmit_30d = np.nan  # or a small epsilon
+        if total_readmit_90d == 0:
+            total_readmit_90d = np.nan
+
+        pct_saved = self._calc_pct_saved(totals, total_readmit_30d, total_readmit_90d)
         return pd.concat([gains, totals.to_frame().T, pct_saved.to_frame().T])
 
     # ------------------------
@@ -179,20 +199,25 @@ class CostReducer:
         df_cost_full = self._cost_reduction_preprocessor(df_pred)
 
         # 2. Subset to validation fold indices
+        """Useless??"""
         df_cost = df_cost_full.loc[fold_index]
-        df_thresholds_fold = df_thresholds.loc[fold_index]
+        #df_thresholds_fold = df_thresholds.loc[fold_index]
 
         # 3. Single scenario with defaults
         result = self._estimate_cost_reduction_single(
             df_cost=df_cost,
-            df_thresholds=df_thresholds_fold,
+            df_thresholds=df_thresholds,
             prob_red=self.def_prob_red,
             desired_prob_red=self.def_desired_prob_red,
+            tuning=True
         )
 
         # 4. Extract total_pct_saved row, take max across thresholds
+        result = result.replace([np.inf, -np.inf], np.nan).fillna(0)
         pct_row = result.loc["total_pct_saved"]
         score = float(pct_row.max())
+        if not np.isfinite(score):
+            score = 0.0
         return score
 
     def map_estimate_cost_reduction(
@@ -252,5 +277,12 @@ class CostReducer:
                     pct_saved = pd.Series(result.loc["total_pct_saved"])
                     pct_saved.name = f"total_pct_avoided_{desired_r}_{r}"
                     pct_avoided = pd.concat([pct_avoided, pct_saved.to_frame().T])
+
+        out_dir = self.artifacts_dir
+
+        avoided_path = out_dir / "avoided.csv"
+        avoided.to_csv(avoided_path, index=True)
+        pct_path = out_dir / "pct_avoided.csv"
+        pct_avoided.to_csv(pct_path, index=True)
 
         return mapping, avoided, pct_avoided

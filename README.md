@@ -905,3 +905,16 @@ Tasks:
 #2026-16-03
 
 - Finished entrie pipeline from generating Synthea data to obtaining metrics
+
+---
+#2026-17-03
+
+- Working on targeted hyperparameter tuning to optimize cost reduction and not classic metrics
+
+- Building a dataframe report for constructed models
+
+- Need to be parsing dataset_end_date somehow
+
+- Reports are now printed well, however the cost reductions are not as good as before
+
+- Created and saved report, now at 11% save from RF 0.9, maybe gotta retune hyperparams or whatever

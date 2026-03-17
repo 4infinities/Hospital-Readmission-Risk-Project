@@ -20,6 +20,11 @@ from sklearn.pipeline import Pipeline
 from .model_registry import ModelRegistry
 from .model_config_manager import ModelConfigManager
 
+from pathlib import Path
+from typing import Optional
+
+import numpy as np
+import pandas as pd
 
 @dataclass
 class Evaluator:
@@ -89,14 +94,6 @@ class Evaluator:
     # Save path
     # ------------------------------------------------------------------   
 
-    def _ensure_dir(self) -> Path:
-        """
-        Ensure data/artifacts exists and return its Path.
-        """
-        path = self.artifacts_dir
-        path.mkdir(parents=True, exist_ok=True)
-        return path
-
     def save_predictions_to_csv(
         self,
         pred_values: pd.DataFrame,
@@ -108,7 +105,7 @@ class Evaluator:
           - metrics_log.csv
         Overwrites on each run.
         """
-        out_dir = self._ensure_dir()
+        out_dir = self.artifacts_dir
 
         pred_path = out_dir / "pred_values.csv"
         pred_values.to_csv(pred_path, index=True)
@@ -128,7 +125,7 @@ class Evaluator:
           - threshold_metrics.csv
         Overwrites on each run.
         """
-        out_dir = self._ensure_dir()
+        out_dir = self.artifacts_dir
 
         thr_path = out_dir / "thresholds.csv"
         thresholds.to_csv(thr_path, index=True)
@@ -189,17 +186,21 @@ class Evaluator:
 
             # Evaluate both horizons: 30d and 90d
             for is_30d in [True, False]:
-                target_col = "readmit_30d" if is_30d else "readmit_90d"
-                model_key = f"{name}_{'d30' if is_30d else 'd90'}"
-
-                y_true = y[target_col]
-
                 # Load final fitted model from registry
+                target_col = "readmit_30d" if is_30d else "readmit_90d"
                 pipe = self.registry.load_model(
                     name=name,
                     target=target_col,
                     suffix=suffix,
                 )
+
+                if pipe is None:
+                    continue
+
+                model_key = f"{name}_{'d30' if is_30d else 'd90'}"
+
+                y_true = y[target_col]
+
 
                 y_proba = pipe.predict_proba(X)[:, 1]
                 y_pred = pipe.predict(X)
@@ -244,7 +245,7 @@ class Evaluator:
 
         for col in values.columns:
             if "_d" in col:  # probability columns (e.g. logreg_d30, rf_d90)
-                for t in [round(t, 2) for t in np.arange(0.05, 1, 0.05)]:
+                for t in [round(t, 2) for t in np.arange(0.5, 1, 0.05)]:
                     thresholds[f"{col}_{t}"] = (values[col] >= t).astype(int)
             else:
                 thresholds[col] = values[col]
@@ -299,5 +300,137 @@ class Evaluator:
             "thresholds": thresholds,
             "threshold_metrics": metrics,
         }
+
+    def build_performance_report(
+        self,
+        pct_avoided: pd.DataFrame,
+        avoided: pd.DataFrame,
+        threshold_metrics: pd.DataFrame,
+        dataset_end_date: pd.Timestamp,
+    ) -> pd.DataFrame:
+        """
+        Build a one-row-per-model performance report.
+
+        Parameters
+        ----------
+        pct_avoided : DataFrame
+            Single-row DF, columns like 'logreg_d30_0.5', 'rf_d90_0.75', ...
+            Values are % of readmission cost avoided at that threshold.
+        avoided : DataFrame
+            Single-row DF, same columns as pct_avoided, values are absolute
+            readmission cost avoided.
+        threshold_metrics : DataFrame
+            Rows: TP, FP, FN, TN, precision, recall, f1.
+            Columns: same threshold names as pct_avoided / avoided (or subset).
+        model_file_dir : Path
+            Directory containing model files, named e.g. 'logreg_d30.pkl'.
+        dataset_end_date : Timestamp
+            End date of the dataset used for training.
+        """
+
+        if pct_avoided.empty:
+            raise ValueError("pct_avoided is empty.")
+        if avoided.empty:
+            raise ValueError("avoided is empty.")
+
+        # We assume there is one interesting row (e.g. 'total_pct_avoided_0.2_0.1').
+        pct_row = pct_avoided.iloc[0]
+        avoided_row = avoided.iloc[0]
+
+        # Track best threshold per model_group
+        best_by_group: dict[str, dict[str, Optional[float]]] = {}
+
+        """GOOD"""
+        for col in pct_row.index:
+            # Skip columns that are not present in threshold_metrics at all
+            # (you said that's acceptable).
+            if col not in threshold_metrics:
+                continue
+            # Parse 'logreg_d30_0.5' -> model_group='logreg_d30', threshold='0.5'
+            try:
+                model_group, threshold_str = col.rsplit("_", 1)
+            except ValueError:
+                # Column name doesn't follow pattern; skip
+                continue
+
+            pct_value = pct_row[col]
+            cost_value = avoided_row[col]
+
+            group_info = best_by_group.get(model_group)
+            if group_info is None:
+                best_by_group[model_group] = {
+                    "col": col,
+                    "threshold": float(threshold_str),
+                    "pct_saved": pct_value,
+                    "cost_saved": cost_value,
+                }
+            else:
+                # Replace if this threshold has higher pct_saved
+                if pct_value > group_info["pct_saved"]:
+                    group_info["col"] = col
+                    group_info["threshold"] = threshold_str
+                    group_info["pct_saved"] = pct_value
+                    group_info["cost_saved"] = cost_value
+        """GOOD"""
+        rows = []
+
+        for model_group, info in best_by_group.items():
+            best_col = info["col"]
+            best_threshold = info["threshold"]
+            best_pct_saved = info["pct_saved"]
+            best_cost_saved = info["cost_saved"]
+
+            # Default metric values
+            tp = fp = fn = tn = np.nan
+            precision = recall = f1 = np.nan
+
+            if best_col in threshold_metrics:
+                    # threshold_metrics rows: TP, FP, FN, TN, precision, recall, f1
+                    # case-sensitive: adjust if your actual row labels differ
+                def safe_get(row_name: str, col_name: str) -> float:
+                    if row_name in threshold_metrics.index:
+                        return threshold_metrics.loc[row_name, col_name]
+                    return np.nan
+
+                tp = threshold_metrics.loc["TP", best_col]
+                fp = safe_get("FP", best_col)
+                fn = safe_get("FN", best_col)
+                tn = safe_get("TN", best_col)
+                precision = safe_get("precision", best_col)
+                recall = safe_get("recall", best_col)
+                f1 = safe_get("f1", best_col)
+
+                # Training date from model file (e.g. 'logreg_d30.pkl')
+            models_dir = Path(self.cfg_mgr.get_models_dir())
+            model_path = models_dir / f"{model_group}.pkl"
+            print("DEBUG model_path:", model_path, "exists:", model_path.exists())
+            if model_path.exists():
+                print("gets in")
+                train_date = pd.to_datetime(model_path.stat().st_mtime, unit="s")
+            else:
+                train_date = pd.NaT
+
+            rows.append(
+                    {
+                        "model_name": model_group,
+                        "best_threshold": float(best_threshold),
+                        "pct_cost_saved": float(best_pct_saved),
+                        "cost_saved": float(best_cost_saved),
+                        "train_date": train_date,
+                        "dataset_end_date": dataset_end_date,
+                        "tp": tp,
+                        "tn": tn,
+                        "fp": fp,
+                        "fn": fn,
+                        "precision": precision,
+                        "recall": recall,
+                        "f1": f1,
+                    }
+                )
+
+        report_df = pd.DataFrame(rows).set_index("model_name").sort_index()
+        report_path = str(self.artifacts_dir) + r"\report.csv"
+        report_df.to_csv(report_path)
+        return report_df
 
     

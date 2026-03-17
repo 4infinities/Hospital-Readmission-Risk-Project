@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import joblib
+import re
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -117,9 +118,11 @@ class ModelRegistry:
         """
         self.models_dir.mkdir(parents=True, exist_ok=True)
 
-        base = f"{name}__{target}"
+        flag = 'd30' if target == 'readmit_30d' else 'd90'
+
+        base = f"{name}_{flag}"
         if suffix:
-            base = f"{base}__{suffix}"
+            base = f"{base}_{suffix}"
 
         filename = f"{base}.pkl"
         return self.models_dir / filename
@@ -210,10 +213,13 @@ class ModelRegistry:
         name: str,
         target: str,
         suffix: Optional[str] = None,
-    ) -> Pipeline:
+    ) -> Optional[Pipeline]:
         """
         Load a fitted Pipeline from disk.
         """
         path = self._build_model_path(name=name, target=target, suffix=suffix)
-        return joblib.load(path)
+        if path.exists():
+            return joblib.load(path)
+
+        return None
 
