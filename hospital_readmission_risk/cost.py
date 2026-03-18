@@ -41,9 +41,7 @@ def calc_intervention_days(
 
 def estimate_intervention_cost(
     stay_data: pd.Series,
-    intervention_days: int,
-    prob_red: float = def_prob_red,
-    desired_prob_red: float = def_desired_prob_red,
+    intervention_days: int
 ) -> float:
     """Estimate intervention cost for one stay given extra days."""
     extra_day_stay_cost = np.nanmax(
@@ -59,12 +57,10 @@ def estimate_gain(
     model: str,
     int_days: int,
     true_prob_red: float,
-    prob_red: float = def_prob_red,
-    desired_prob_red: float = def_desired_prob_red,
 ) -> float:
     """Estimate net gain (avoided cost minus intervention cost) for one stay."""
     if threshold_flag == 1:
-        intervention_cost = estimate_intervention_cost(row, int_days, prob_red, desired_prob_red)
+        intervention_cost = estimate_intervention_cost(row, int_days)
         exp_avoided_cost = true_prob_red * row[model] * row["total_readmission_cost"]
         return float(exp_avoided_cost - intervention_cost)
     return 0.0
@@ -73,12 +69,11 @@ def estimate_gain(
 def calc_pct_saved(
     total_saved: pd.Series,
     total_readmit_30d: float,
-    total_readmit_90d: float,
 ) -> pd.Series:
     """Compute percentage saved for all model thresholds."""
     pct_saved = pd.Series(index=total_saved.index, name="total_pct_saved")
     for key, value in total_saved.items():
-        pct_saved[key] = value / (total_readmit_30d if "_d30" in key else total_readmit_90d)
+        pct_saved[key] = value / total_readmit_30d
     return pct_saved
 
 
@@ -109,8 +104,6 @@ def estimate_cost_reduction(
                     model,
                     intervention_days,
                     true_prob_reduction,
-                    prob_red,
-                    desired_prob_red,
                 )
 
             gains = gains.join(pd.Series(data=model_gain, name=col_name))
@@ -119,8 +112,8 @@ def estimate_cost_reduction(
     totals.name = "total_avoided"
 
     total_readmit_30d = df_cost[df_cost["readmit_30d"] == 1]["total_readmission_cost"].sum()
-    total_readmit_90d = df_cost[df_cost["readmit_90d"] == 1]["total_readmission_cost"].sum()
-    pct_saved = calc_pct_saved(totals, total_readmit_30d, total_readmit_90d)
+
+    pct_saved = calc_pct_saved(totals, total_readmit_30d)
 
     return pd.concat([gains, totals.to_frame().T, pct_saved.to_frame().T])
 
@@ -153,6 +146,10 @@ def map_estimate_cost_reduction(
                     desired_prob_red=desired_r,
                 )
 
+                map_name = f"D:\\Python Projects\\Hospital readmission risk\\scripts\\data\\artifacts\\map_{desired_r}_{r}_old.csv"
+
+                mapping[desired_r][r].to_csv(map_name)
+
                 saved_costs = pd.Series(mapping[desired_r][r].loc["total_avoided"])
                 saved_costs.name = f"total_avoided_{desired_r}_{r}"
                 avoided = pd.concat([avoided, saved_costs.to_frame().T])
@@ -161,4 +158,7 @@ def map_estimate_cost_reduction(
                 pct_saved.name = f"total_pct_avoided_{desired_r}_{r}"
                 pct_avoided = pd.concat([pct_avoided, pct_saved.to_frame().T])
 
+    avoided.to_csv("D:\\Python Projects\\Hospital readmission risk\\scripts\\data\\artifacts\\avoided_old.csv")
+    pct_avoided.to_csv("D:\\Python Projects\\Hospital readmission risk\\scripts\\data\\artifacts\\pct_avoided_old.csv")
     return mapping, avoided, pct_avoided
+

@@ -55,7 +55,7 @@ credentials = r"D:\Python Projects\Hospital readmission risk\.secrets\hospital-r
 project_name = "hospital-readmission-4"
 
 # Train data: local cache and source query.
-train_data_path = r"D:\Python Projects\Hospital readmission risk\data\cleaned\train_index_stay.csv"
+train_data_path = r"D:\Python Projects\Hospital readmission risk\data\processed\train_index_stay_old.csv"
 train_sql = """
 SELECT
   patient_id,
@@ -116,7 +116,7 @@ FROM `hospital-readmission-4.helper_tables.train_index_stay`;
 """
 
 # Test data: local cache and source query.
-test_data_path = r"D:\Python Projects\Hospital readmission risk\data\cleaned\test_index_stay.csv"
+test_data_path = r"D:\Python Projects\Hospital readmission risk\data\processed\test_index_stay_old.csv"
 test_sql = """
 SELECT
   patient_id,

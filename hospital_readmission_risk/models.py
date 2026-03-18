@@ -11,6 +11,7 @@ Responsibilities:
 
 import pandas as pd
 import numpy as np
+import joblib
 
 from sklearn.model_selection import (
     StratifiedKFold,
@@ -23,6 +24,7 @@ from sklearn.metrics import (
     precision_recall_fscore_support,
     brier_score_loss,
 )
+from pathlib import Path
 from config import cv_scoring, proba_metrics, pred_metrics
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -77,6 +79,40 @@ def get_cv_columns() -> list[str]:
 def build_pipeline(model_name: str, model) -> Pipeline:
     """Create a pipeline with standard scaling and the given model."""
     return Pipeline([("scaler", StandardScaler()), (model_name, model)])
+
+def _build_model_path(
+        name: str,
+        suffix: str = "",
+    ) -> Path:
+        """
+        Build filesystem path for a saved model.
+
+        Examples:
+        - models/logreg__readmit_30d.pkl
+        - models/logreg__readmit_30d__v1.pkl  (if suffix='v1')
+        """
+        models_dir = Path("D:\\Python Projects\\Hospital readmission risk\\.secrets\\models")
+        models_dir.mkdir(parents=True, exist_ok=True)
+
+        base = f"{name}"
+        if suffix != "":
+            base = f"{base}_{suffix}"
+
+        filename = f"{base}.pkl"
+        return models_dir / filename
+
+
+def save_model(
+        name: str,
+        estimator: Pipeline,
+        suffix: str = "",
+    ) -> Path:
+        """
+        Save a fitted Pipeline to disk.
+        """
+        path = _build_model_path(name=name, suffix=suffix)
+        joblib.dump(estimator, path)
+        return path
 
 
 # ---------------------------------------------------------------------
@@ -133,6 +169,11 @@ def train_model(
         cv_log = evaluate_with_cv(pipe, X, y, model_name_full, cv_log)
 
     pipe.fit(X, y)
+    model_path = save_model(
+        name=model_name_full,
+        estimator=pipe,
+        suffix="old"
+        )
     return pipe, model_name_full, cv_log
 
 
@@ -299,7 +340,7 @@ def build_both_models(
         d30=True,
         skip_cross_val=skip_cross_val,
     )
-
+    """
     coefs, metrics_log, pred_values, cv_log = build_model(
         X_train,
         y_train,
@@ -314,7 +355,7 @@ def build_both_models(
         d30=False,
         skip_cross_val=skip_cross_val,
     )
-
+    """
     return coefs, metrics_log, pred_values, cv_log
 
 
@@ -359,7 +400,9 @@ def build_and_evaluate_models(
         )
 
     if "rel_readmit_30d" in pred_values.columns:
-        pred_values = pred_values.drop(columns=["rel_readmit_30d", "rel_readmit_90d"])
+        pred_values = pred_values.drop(columns=["rel_readmit_30d", "rel_readmit_90d", "readmit_90d"])
+
+    pred_values.to_csv("D:\\Python Projects\\Hospital readmission risk\\scripts\\data\\artifacts\\pred_values_old.csv")
 
     return {
         "coefs": coefs,
@@ -441,5 +484,8 @@ def build_threshold_metrics(values: pd.DataFrame):
     metrics = pd.DataFrame(index=metrics_index)
 
     metrics = calc_threshold_metrics(thresholds, metrics)
+
+    thresholds.to_csv("D:\\Python Projects\\Hospital readmission risk\\scripts\\data\\artifacts\\thresholds_old.csv")
+    metrics.to_csv("D:\\Python Projects\\Hospital readmission risk\\scripts\\data\\artifacts\\threshold_metrics_old.csv")
 
     return thresholds, metrics
