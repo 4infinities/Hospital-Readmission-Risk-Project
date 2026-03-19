@@ -103,3 +103,30 @@ creation step. Dictionary creation queries are NOT yet refactored — do not ass
 - Do not modify .venv-old.
 - Do not commit .pkl files, .env, or GCP service account JSONs.
 - Do not add scalers or encoders to DataPreprocessor.
+
+## Session Protocol
+
+### At the end of every session, or when approaching usage limits, output a HANDOFF.md file containing:
+1. A summary of every file changed and what was changed
+2. The exact task in progress and where it was left off
+3. The next 3 steps to continue from where we stopped
+4. Any architectural decisions made that should be remembered
+5. Any issues or surprises encountered
+
+Save it to the project root as HANDOFF.md.
+
+### At the start of every session:
+- Read CLAUDE.md first
+- If HANDOFF.md exists at project root, read it second
+- Confirm understanding of both before doing anything
+- State what you are about to do and wait for confirmation before making changes
+
+### After completing each major task, automatically update HANDOFF.md with:
+- What was just completed
+- Current status
+- What comes next
+
+Do this without being asked. Do not wait until end of session.
+
+### When presenting plans, dependency orders, or summaries: use compact 
+bullet or table format only. No narrative prose for structured information.

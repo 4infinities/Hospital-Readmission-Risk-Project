@@ -1,7 +1,11 @@
+-- helper_clinical: one row per encounter, computes clinical flags, diagnosis category flags,
+-- chronic condition counts, specific disease presence flags, planned-stay flag, and surgery recency flag
+-- Depends on: encounters_slim, claims_slim, procedures_slim, procedures_dictionary,
+--             diagnoses_dictionary, main_diagnoses, careplans_related_encounters
 CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_clinical
 AS (
   WITH
-    -- explode claims into one row per (stay, code) so we can see which of them are disorders
+    -- Unpivot all 8 claim diagnosis columns into one row per (stay_id, code) for join-based lookups
     claims_long AS (
       SELECT DISTINCT
         stay_id, code
@@ -26,13 +30,13 @@ AS (
   FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis6 IS NOT NULL and currentillnessdate <= {{END_DATE}}
   UNION ALL
   SELECT encounter AS stay_id, CAST(diagnosis7 AS INT64) AS code
-  FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= {{END_DATE}} 
+  FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= {{END_DATE}}
   UNION ALL
   SELECT encounter AS stay_id, CAST(diagnosis8 AS INT64) AS code
   FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis8 IS NOT NULL and currentillnessdate <= {{END_DATE}}
         ) t
     ),
-    -- every row is a patient, their diagnosis and stay_id where they got this diagnosis, and what is the start of it
+    -- All (patient, diagnosis code, encounter_start) tuples — used to compute chronic condition history
     patient_diagnoses AS (
       SELECT
         e.patient,
@@ -43,6 +47,7 @@ AS (
         ON e.id = c.stay_id
         where e.stop <= {{END_DATE}}
     ),
+    -- Count of distinct qualifying procedures per encounter (is_procedure = 1 in procedures_dictionary)
     procedures AS (
       SELECT
         proc.encounter AS stay_id,
@@ -55,6 +60,7 @@ AS (
       GROUP BY proc.encounter
       HAVING MAX(proc.stop) <= {{END_DATE}}
     ),
+    -- Subset of patient_diagnoses limited to codes flagged is_chronic in diagnoses_dictionary
     chronic_patient_codes AS (
       SELECT
         pd.patient,
@@ -65,6 +71,7 @@ AS (
         ON pd.code = dict.code
       WHERE dict.is_chronic = 1
     ),
+    -- Earliest encounter date per patient per chronic code (lifetime onset, not per-stay)
     first_chronic_per_code AS (
       SELECT
         patient,
@@ -73,6 +80,7 @@ AS (
       FROM chronic_patient_codes
       GROUP BY patient, code
     ),
+    -- For each encounter, count how many distinct chronic conditions the patient had before or at that encounter
     chronic_conditions AS (
       SELECT
         e.id AS stay_id,
@@ -88,6 +96,7 @@ AS (
       FROM {{DATASET_SLIM}}.encounters_slim e
       where e.stop <= {{END_DATE}}
     ),
+    -- For each patient, find the first claim date per specific disease flag (diabetes, cancer, etc.)
     patient_condition_starts AS (
       SELECT
         claims.patientid AS patient,
@@ -110,6 +119,7 @@ AS (
       where claims.currentillnessdate <= {{END_DATE}}
       GROUP BY claims.patientid
     ),
+    -- Flag each encounter: 1 if the patient already had the specific disease before this encounter started
     patient_conditions AS (
       SELECT
         e.id AS stay_id,
@@ -167,6 +177,7 @@ AS (
         ON pcs.patient = e.patient
       where e.stop <= {{END_DATE}}
     ),
+    -- Find encounters that follow a planning procedure (is_planning = 1); row_number = 1 means first post-plan encounter
     plans_by_procedure AS (
       SELECT
         e.id AS stay_id,
@@ -183,6 +194,7 @@ AS (
         AND e.start > proc.start
         AND e.stop <= {{END_DATE}}
     ),
+    -- Retain only the first post-planning-procedure encounter per patient as "planned"
     plans_by_procedure_flag AS (
       SELECT
         stay_id,
@@ -190,6 +202,7 @@ AS (
       FROM plans_by_procedure
       WHERE num_after_plan = 1
     ),
+    -- Combine procedure-based and careplan-based planned-stay signals into a single is_planned flag
     planned_stays as (
       SELECT
         e.id as stay_id,
@@ -202,6 +215,7 @@ AS (
         ON e.id = proc.stay_id
       where e.stop <= {{END_DATE}}
     ),
+    -- For each encounter, compute days since each prior surgery (is_surgery = 1 in procedures_dictionary)
     surgeries_and_dates AS (
       SELECT
         date_diff(e.start, proc.start, day) AS days_from_surgery,
@@ -217,6 +231,7 @@ AS (
         AND e.start > proc.start
         and e.stop <= {{END_DATE}}
     ),
+    -- Flag encounter as had_surgery = 1 if any prior surgery occurred within 730 days
     surgeries AS (
       SELECT
         e.id AS stay_id,
@@ -232,6 +247,7 @@ AS (
       where e.stop <= {{END_DATE}}
       GROUP BY e.id
     )
+  -- Final assembly: join all CTEs onto encounters_slim; one output row per encounter
   SELECT
     e.id AS stay_id,
     dict.code AS main_code,

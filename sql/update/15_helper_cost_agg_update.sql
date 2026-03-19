@@ -1,10 +1,20 @@
--- helper_cost_aggregation: one row per encounter with summed procedure costs, medication costs,
--- total stay cost (max of claim cost vs component sum), and cost per day
+-- helper_cost_aggregation incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
+-- Window: DATE_TRUNC(window_start_date, MONTH) - INTERVAL 2 MONTH to window_end_date
 -- Depends on: encounters_slim, procedures_slim, medications_slim (no dictionary dependency)
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_cost_aggregation
-AS
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_end   DATE DEFAULT {{END_DATE}};
+
+-- Remove window rows before recalculation
+DELETE FROM {{DATASET_HELPERS}}.helper_cost_aggregation
+WHERE stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);
+
+-- Reinsert recalculated rows for the two-month window
+INSERT INTO {{DATASET_HELPERS}}.helper_cost_aggregation
 WITH
-  -- Sum all procedure base costs per encounter
+  -- Sum all procedure base costs per encounter in the window
   procedure_costs AS (
     SELECT
       e.id,
@@ -12,10 +22,10 @@ WITH
     FROM {{DATASET_SLIM}}.encounters_slim e
     LEFT JOIN {{DATASET_SLIM}}.procedures_slim proc
       ON e.id = proc.encounter
-    where e.stop <= {{END_DATE}}
+    WHERE e.start >= window_start AND e.stop <= window_end
     GROUP BY e.id
   ),
-  -- Sum all medication total costs per encounter
+  -- Sum all medication total costs per encounter in the window
   medication_costs AS (
     SELECT
       e.id,
@@ -23,7 +33,7 @@ WITH
     FROM {{DATASET_SLIM}}.encounters_slim e
     LEFT JOIN {{DATASET_SLIM}}.medications_slim med
       ON e.id = med.encounter
-    where e.stop <= {{END_DATE}}
+    WHERE e.start >= window_start AND e.stop <= window_end
     GROUP BY e.id
   )
 -- Final output: combine costs; total_stay_cost = max(claim cost, component sum) to handle billing discrepancies
@@ -52,4 +62,4 @@ LEFT JOIN procedure_costs proc
   ON e.id = proc.id
 LEFT JOIN medication_costs med
   ON e.id = med.id
-  where e.stop <= {{END_DATE}}
+WHERE e.start >= window_start AND e.stop <= window_end;

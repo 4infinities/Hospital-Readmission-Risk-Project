@@ -7,6 +7,8 @@ import json
 import numpy as np
 import pandas as pd
 
+from src.utils.logger import get_logger
+
 
 @dataclass
 class CostReducer:
@@ -27,6 +29,9 @@ class CostReducer:
     # ------------------------
     # Construction helpers
     # ------------------------
+
+    def __post_init__(self):
+        self.logger = get_logger(__name__)
 
     @classmethod
     def from_config(

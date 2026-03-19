@@ -1,5 +1,7 @@
+-- Slim claims: retain diagnosis codes (SNOMED) and illness date; inner join to encounters_slim scopes to valid encounters only
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.claims_slim
-  CLUSTER BY encounter
+  PARTITION BY DATE_TRUNC(currentillnessdate, MONTH)
+  CLUSTER BY patientid, encounter
 AS
 SELECT
   cl.appointmentid AS encounter,
@@ -14,5 +16,6 @@ SELECT
   cl.diagnosis8,
   cl.currentillnessdate,
 FROM {{DATASET_RAW}}.claims cl
+-- Only keep claims linked to encounters that passed encounters_slim filters
 JOIN {{DATASET_SLIM}}.encounters_slim e
   ON cl.appointmentid = e.id

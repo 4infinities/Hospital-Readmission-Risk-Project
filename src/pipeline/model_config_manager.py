@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from src.utils.logger import get_logger
+
 
 class ModelConfigManager:
     """
@@ -48,6 +50,7 @@ class ModelConfigManager:
     # ---------- instance part ----------
 
     def __init__(self, cfg: Dict[str, Any], config_path: str):
+        self.logger = get_logger(__name__)
         self._cfg = cfg
         self._config_path = str(Path(config_path).expanduser().resolve())
 

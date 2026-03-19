@@ -20,6 +20,8 @@ from sklearn.pipeline import Pipeline
 from .model_registry import ModelRegistry
 from .model_config_manager import ModelConfigManager
 
+from src.utils.logger import get_logger
+
 from pathlib import Path
 from typing import Optional
 
@@ -43,6 +45,9 @@ class Evaluator:
     registry: ModelRegistry
     cfg_mgr: ModelConfigManager
     reports_dir: cfg_mgr.get_reports_dir()
+
+    def __post_init__(self):
+        self.logger = get_logger(__name__)
 
     # ------------------------------------------------------------------
     # Metric helpers
@@ -408,9 +413,9 @@ class Evaluator:
             else:
                 model_path = models_dir / f"{model_group}.pkl"
 
-            print("DEBUG model_path:", model_path, "exists:", model_path.exists())
+            self.logger.debug("model_path: %s, exists: %s", model_path, model_path.exists())
             if model_path.exists():
-                print("gets in")
+                self.logger.debug("Loading train_date from model file: %s", model_path)
                 train_date = pd.to_datetime(model_path.stat().st_mtime, unit="s")
             else:
                 train_date = pd.NaT

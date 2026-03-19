@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import logging
 import os
 from pathlib import Path
 from typing import Dict, Any, Tuple
@@ -9,7 +8,7 @@ from typing import Dict, Any, Tuple
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-logger = logging.getLogger(__name__)
+from src.utils.logger import get_logger
 
 
 class BigQueryLoader:
@@ -101,6 +100,7 @@ class BigQueryLoader:
         config: Dict[str, Any] | None = None,
     ):
 
+        self.logger = get_logger(__name__)
         self.project_id = project_id
         self.location = location
         self.dataset_id = dataset_id
@@ -124,9 +124,9 @@ class BigQueryLoader:
 
         try:
             self.client.get_dataset(dataset_ref)
-            logger.info("Dataset already exists: %s", self.full_dataset_id)
+            self.logger.info("Dataset already exists: %s", self.full_dataset_id)
         except Exception:
-            logger.info("Creating dataset: %s", self.full_dataset_id)
+            self.logger.info("Creating dataset: %s", self.full_dataset_id)
             self.client.create_dataset(dataset_ref)
 
     def profile_prefix(self) -> str:
@@ -186,7 +186,7 @@ class BigQueryLoader:
             raise FileNotFoundError(f"CSV not found: {local_csv_path}")
 
         table_id = f"{self.full_dataset_id}.{table_name}"
-        logger.info("Loading CSV into BigQuery table: %s", table_id)
+        self.logger.info("Loading CSV into BigQuery table: %s", table_id)
 
         job_config = bigquery.LoadJobConfig(
             source_format=bigquery.SourceFormat.CSV,
@@ -203,7 +203,7 @@ class BigQueryLoader:
             )
 
         result = load_job.result()  # wait for job to complete
-        logger.info(
+        self.logger.info(
             "Loaded %s rows into %s", result.output_rows, table_id
         )
 
@@ -234,7 +234,7 @@ class BigQueryLoader:
                 f"local_input_dir is not a directory: {local_input_dir}"
             )
 
-        logger.info("Loading CSVs from %s into dataset %s", local_input_dir, self.full_dataset_id)
+        self.logger.info("Loading CSVs from %s into dataset %s", local_input_dir, self.full_dataset_id)
 
         # Ensure dataset exists before loading
         self.ensure_dataset_exists()
@@ -242,7 +242,7 @@ class BigQueryLoader:
         # For each *.csv file, use its stem as the table name
         csv_files = sorted(local_input_dir.glob("*.csv"))
         if not csv_files:
-            logger.warning("No CSV files found in %s", local_input_dir)
+            self.logger.warning("No CSV files found in %s", local_input_dir)
 
         for csv_path in csv_files:
             table_name = csv_path.stem  # "patients.csv" -> "patients"
@@ -289,7 +289,7 @@ class BigQueryLoader:
         dict_loader = self.with_dataset(helpers_dataset)
         dict_loader.ensure_dataset_exists()
 
-        logger.info(
+        self.logger.info(
             "Loading dictionary CSVs for profile '%s' from %s into dataset %s "
             "with table prefix '%s'",
             profile_name,
@@ -300,13 +300,13 @@ class BigQueryLoader:
 
         csv_files = sorted(dict_dir_path.glob("*.csv"))
         if not csv_files:
-            logger.warning("No dictionary CSV files found in %s", dict_dir_path)
+            self.logger.warning("No dictionary CSV files found in %s", dict_dir_path)
 
         for csv_path in csv_files:
             filename = csv_path.name
 
             if profile_name not in filename:
-                logger.debug(
+                self.logger.debug(
                     "Skipping dictionary file %s (profile '%s' not in name)",
                     filename,
                     profile_name,
@@ -321,7 +321,7 @@ class BigQueryLoader:
             base = base.lstrip("_").lstrip("-")
 
             if not base:
-                logger.warning(
+                self.logger.warning(
                     "Derived empty base table name from file %s for profile %s, skipping.",
                     filename,
                     profile_name,
@@ -330,7 +330,7 @@ class BigQueryLoader:
 
             table_name = f"{prefix_for_tables}{base}"
 
-            logger.info(
+            self.logger.info(
                 "Loading dictionary file %s into table %s.%s",
                 csv_path,
                 dict_loader.full_dataset_id,

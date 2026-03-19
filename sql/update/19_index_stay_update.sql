@@ -1,10 +1,19 @@
--- index_stay: final feature table — one row per clinical encounter group within the training/evaluation window
--- Assembles all features from grouped helpers; this is the direct input to DataPreprocessor
+-- index_stay incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
+-- Final feature table — must run AFTER all helpers and related_diagnoses are updated
 -- Depends on: encounters_slim, patients_slim, helper_clinical_grouped, helper_cost_aggregation_grouped,
 --             helper_utilization, related_diagnoses
--- Note: joins helper_clinical_grouped (not helper_clinical) — features are at the encounter-group grain
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.index_stay
-AS
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_end   DATE DEFAULT {{END_DATE}};
+
+-- Remove window rows before recalculation
+DELETE FROM {{DATASET_HELPERS}}.index_stay
+WHERE stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);
+
+-- Reinsert recalculated rows for the two-month window; one row per clinical encounter group
+INSERT INTO {{DATASET_HELPERS}}.index_stay
 SELECT
   e.patient AS patient_id,
   -- Age computed at admission time from patient birthdate
@@ -76,12 +85,10 @@ LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation_grouped cost
   ON cost.stay_id = e.id
 LEFT JOIN {{DATASET_HELPERS}}.helper_utilization util
   ON util.stay_id = e.id
-left join {{DATASET_HELPERS}}.related_diagnoses rel
-on e.id = rel.stay_id
+LEFT JOIN {{DATASET_HELPERS}}.related_diagnoses rel
+  ON e.id = rel.stay_id
 WHERE
   -- Restrict to clinical encounter types only
   e.encounterclass IN ('urgentcare', 'emergency', 'inpatient')
-  -- START_DATE and END_DATE define the training/evaluation window
-  AND util.start > {{START_DATE}}
-  AND e.stop <= {{END_DATE}}
-
+  -- Restrict to the two-month window
+  AND e.start >= window_start AND e.stop <= window_end;

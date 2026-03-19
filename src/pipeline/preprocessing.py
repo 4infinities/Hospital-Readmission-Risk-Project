@@ -4,6 +4,8 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
+from src.utils.logger import get_logger
+
 
 class DataPreprocessor:
     """
@@ -61,6 +63,7 @@ class DataPreprocessor:
         log_cols: list[str],
         drop_dummy_cols: list[str] | None = None,
     ):
+        self.logger = get_logger(__name__)
         self.data_path_template = data_path_template
         self.sql_path = sql_path
         self.numeric_cols = numeric_cols

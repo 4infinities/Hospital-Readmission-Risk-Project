@@ -1,10 +1,21 @@
--- helper_clinical_grouped: one row per encounter GROUP (consecutive encounters < 12h apart)
--- aggregates helper_clinical flags across all member encounters; restricted to urgentcare/emergency/inpatient groups
+-- helper_clinical_grouped incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
+-- Full patient history is used for group boundary detection; output restricted to window group representatives
 -- Depends on: encounters_slim, helper_clinical, main_diagnoses, diagnoses_dictionary
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_clinical_grouped
-AS
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_end   DATE DEFAULT {{END_DATE}};
+
+-- Remove window group rows before recalculation (stay_id = group representative encounter id)
+DELETE FROM {{DATASET_HELPERS}}.helper_clinical_grouped
+WHERE stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);
+
+-- Reinsert recalculated group rows whose representative encounter falls in the two-month window
+INSERT INTO {{DATASET_HELPERS}}.helper_clinical_grouped
 WITH
   -- Assign type_flag rank per encounter class; detect group boundary when gap to prior stop >= 12h
+  -- Full history up to window_end required for correct cumulative group_number assignment
   group_flags AS (
     SELECT
       id,
@@ -30,7 +41,7 @@ WITH
         ELSE 1
         END AS group_change
     FROM {{DATASET_SLIM}}.encounters_slim
-  where stop <= {{END_DATE}}
+    WHERE stop <= window_end
   ),
   -- Cumulative sum of group_change yields a monotonically increasing group_number per patient
   clusters AS (
@@ -111,6 +122,7 @@ WITH
     GROUP BY final.group_id
   )
 -- Final output: attach main diagnosis and category flags from the group representative encounter
+-- Only output groups whose representative encounter falls within the two-month window
 SELECT
   flag.stay_id,
   dict.code AS main_code,
@@ -143,3 +155,7 @@ LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
   ON flag.stay_id = main.id
 LEFT JOIN {{DATASET_HELPERS}}.diagnoses_dictionary dict
   ON main.main_diagnosis_code = dict.code
+WHERE flag.stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);

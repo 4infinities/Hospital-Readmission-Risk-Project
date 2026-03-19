@@ -20,6 +20,8 @@ except ImportError:
 from pipeline.model_config_manager import ModelConfigManager
 from pipeline.cost_reducer import CostReducer
 
+from src.utils.logger import get_logger
+
 
 class HyperparameterTuner:
     """
@@ -46,6 +48,7 @@ class HyperparameterTuner:
             evaluate each top_frac and take the maximum % cost saved as the score.
             If None, defaults to np.arange(0.05, 0.55, 0.05).
         """
+        self.logger = get_logger(__name__)
         self.config_mgr = config_mgr
         self.target_col = target_col
         if top_fracs is None:
@@ -112,10 +115,11 @@ class HyperparameterTuner:
 
         cost_reducer = CostReducer.from_config(cost_config_path, tuning=True)
         top_fracs = self.top_fracs
+        logger = self.logger
 
         def _score(estimator, X_val, y_val):
             # 1. Predict probabilities for the positive class
-            print(f"[SCORER] fold size={len(X_val)}, model={model_name}")
+            logger.debug("[SCORER] fold size=%d, model=%s", len(X_val), model_name)
             proba = estimator.predict_proba(X_val)[:, 1]
 
             # 2. Base prediction DataFrame
@@ -136,9 +140,9 @@ class HyperparameterTuner:
                 cutoff = 1 - frac
                 flags = (proba >= cutoff).astype(int)
 
-                print(
-                    f"[SCORER] frac={frac}, cutoff={cutoff:.4f}, "
-                    f"pos_flags={flags.sum()}, neg_flags={(flags == 0).sum()}"
+                logger.debug(
+                    "[SCORER] frac=%s, cutoff=%.4f, pos_flags=%d, neg_flags=%d",
+                    frac, cutoff, flags.sum(), (flags == 0).sum()
                 )
                 # Column name must contain "_d" so _separate_model_threshold works.
                 # Example name: "logreg_d30_0.10"
@@ -225,9 +229,9 @@ class HyperparameterTuner:
             # Build cost-based scorer for this model
             score = self._make_cost_savings_scorer(model_name=model_name, cost_config_path=cost_config_path)
 
-            print(f"y_target: {y_target}")
-            print(f"estimator: {estimator}")
-            print(f"scorer: {score}")
+            self.logger.debug("y_target: %s", y_target)
+            self.logger.debug("estimator: %s", estimator)
+            self.logger.debug("scorer: %s", score)
 
             search = RandomizedSearchCV(
                 estimator=estimator,
@@ -247,4 +251,4 @@ class HyperparameterTuner:
 
             self.config_mgr.set_best_params(model_name, best_params)
             self.config_mgr.set_best_score(model_name, best_score)
-            print(f"{model_name}: best cost-based score (pct_saved) is {best_score}")
+            self.logger.info("%s: best cost-based score (pct_saved) is %s", model_name, best_score)

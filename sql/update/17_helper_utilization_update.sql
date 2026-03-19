@@ -1,10 +1,21 @@
--- helper_utilization: one row per clinical encounter group; computes 365-day lookback utilization,
--- previous stay details, readmission flags (30d/90d), and the following unplanned admission flag
+-- helper_utilization incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
+-- Full patient history used for pairwise lookback/followup; output restricted to window group representatives
 -- Depends on: encounters_slim, helper_cost_aggregation_grouped, helper_clinical_grouped
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_utilization
-AS
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_end   DATE DEFAULT {{END_DATE}};
+
+-- Remove window rows before recalculation
+DELETE FROM {{DATASET_HELPERS}}.helper_utilization
+WHERE stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);
+
+-- Reinsert recalculated rows for the two-month window
+INSERT INTO {{DATASET_HELPERS}}.helper_utilization
 WITH
   -- Assign type_flag rank and detect group boundaries (same logic as other grouped tables)
+  -- Full history up to window_end required for correct group_number assignment
   group_flags AS (
     SELECT
       id,
@@ -31,7 +42,7 @@ WITH
         ELSE 1
         END AS group_change
     FROM {{DATASET_SLIM}}.encounters_slim
-  where stop <= {{END_DATE}}
+    WHERE stop <= window_end
   ),
   -- Cumulative sum yields monotonically increasing group_number per patient
   clusters AS (
@@ -107,6 +118,7 @@ WITH
         AND clust.group_number = sas.group_number
   ),
   -- Deduplicate to one row per clinical group (urgentcare/emergency/inpatient only)
+  -- Full history retained here so pairwise joins can reference all prior/following inpatient stays
   encounters_pure AS (
     SELECT DISTINCT
       group_id AS id, patient, start, stop, length_of_encounter, encounterclass
@@ -209,6 +221,7 @@ WITH
   )
 -- Final output: combine prev_data and follow_data; suppress readmit flags if following stay is planned;
 -- following_unplanned_admission_flag = 1 only if the following stay was unplanned
+-- Restrict to encounters whose group representative falls within the two-month window
 SELECT
   pre.stay_id,
   e.encounterclass,
@@ -229,8 +242,8 @@ SELECT
   IF(IF(help_clin.is_planned = 1, 0, fol.readmit_90d) = 0, 0, 1)
     AS following_unplanned_admission_flag
 FROM prev_data pre
-left join encounters_pure e
-on pre.stay_id = e.id
+LEFT JOIN encounters_pure e
+  ON pre.stay_id = e.id
 LEFT JOIN follow_data fol
   ON pre.stay_id = fol.stay_id
 -- Join to following stay's clinical flags to determine if it was planned
@@ -240,4 +253,7 @@ LEFT JOIN {{DATASET_HELPERS}}.helper_clinical_grouped help_clin
 LEFT JOIN
   {{DATASET_HELPERS}}.helper_cost_aggregation_grouped help_cost
   ON help_cost.stay_id = fol.following_stay_id
-
+WHERE pre.stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);

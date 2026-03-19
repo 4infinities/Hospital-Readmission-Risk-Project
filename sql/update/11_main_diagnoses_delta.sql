@@ -1,7 +1,9 @@
--- Feed query for DictionaryBuilder (main_diagnoses): for every encounter, determine its group_id and attach all diagnosis codes from claims
--- Used by DictionaryBuilder.build_main_diagnoses to identify the representative (main) diagnosis for each encounter group
+-- main_diagnoses delta: return encounter-group-diagnosis data for encounters in the new window
+-- Feed for DictionaryBuilder: compute main_diagnosis_code and append-only to main_diagnoses
+-- Full patient history used for correct group boundary detection; output scoped to new window encounters
+-- Depends on: encounters_slim, claims_slim
 WITH
--- Assign a type_flag rank to each encounter class and detect group boundaries (< 12h gap = same group)
+-- Full history up to END_DATE required for correct cumulative group_number assignment
 group_flags AS (
   SELECT
     id,
@@ -26,9 +28,8 @@ group_flags AS (
       ELSE 1
     END AS group_change
   FROM {{DATASET_SLIM}}.encounters_slim
-  where stop <= {{END_DATE}}
+  WHERE stop <= {{END_DATE}}
 ),
--- Cumulative sum of group_change gives each encounter a monotonically increasing group number per patient
 clusters AS (
   SELECT
     id,
@@ -42,7 +43,6 @@ clusters AS (
     ) group_number
   FROM group_flags
 ),
--- Within each group, elect the representative encounter (highest type_flag, then earliest start)
 best_stay_per_group AS (
   SELECT
     patient,
@@ -57,7 +57,6 @@ best_stay_per_group AS (
     ) AS rn
   FROM clusters
 ),
--- Map every individual encounter to the group_id of its representative encounter
 final_groups AS (
   SELECT
     clust.id,
@@ -68,7 +67,6 @@ final_groups AS (
    AND best.group_number = clust.group_number
    AND best.rn = 1
 ),
--- Flatten claims to one row per encounter with all 8 diagnosis columns
 claims AS (
   SELECT DISTINCT
     encounter AS id,
@@ -81,9 +79,9 @@ claims AS (
     diagnosis7,
     diagnosis8
   FROM {{DATASET_SLIM}}.claims_slim
-  where currentillnessdate <= {{END_DATE}}
+  WHERE currentillnessdate > {{START_DATE}} AND currentillnessdate <= {{END_DATE}}
 )
--- Final output: each encounter with its group_id and all raw diagnosis codes
+-- Output only encounters in the new window; full history above is only for group boundary accuracy
 SELECT
   final.id,
   final.group_id,
@@ -98,3 +96,7 @@ SELECT
 FROM final_groups final
 LEFT JOIN claims cl
   ON final.id = cl.id
+WHERE final.id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start > {{START_DATE}} AND stop <= {{END_DATE}}
+);

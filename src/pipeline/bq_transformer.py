@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import logging
 import pandas as pd
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
@@ -9,7 +8,7 @@ from typing import Dict, Any, List, Tuple
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-logger = logging.getLogger(__name__)
+from src.utils.logger import get_logger
 
 
 class BigQueryTransformer:
@@ -104,6 +103,7 @@ class BigQueryTransformer:
         helpers_dataset_id:str,
         client: bigquery.Client,
     ):
+        self.logger = get_logger(__name__)
         self.project_id = project_id
         self.location = location
         self.raw_dataset_id = raw_dataset_id       # e.g. train_raw_data
@@ -150,9 +150,9 @@ class BigQueryTransformer:
 
             try:
                 self.client.get_dataset(dataset_ref)
-                logger.info("Dataset already exists: %s", full_id)
+                self.logger.info("Dataset already exists: %s", full_id)
             except Exception:
-                logger.info("Creating dataset: %s", full_id)
+                self.logger.info("Creating dataset: %s", full_id)
                 self.client.create_dataset(dataset_ref)
 
     # ---------- core helpers ----------
@@ -176,10 +176,10 @@ class BigQueryTransformer:
         """
         Execute a SQL statement and wait for completion.
         """
-        logger.info("Running query:\n%s", sql)
+        self.logger.info("Running query:\n%s", sql)
         job = self.client.query(sql)
         job.result()
-        logger.info("Query finished.")
+        self.logger.info("Query finished.")
 
     # ---------- public API: run a sequence ----------
 
@@ -206,7 +206,7 @@ class BigQueryTransformer:
         query_paths: List[str] = recipe.get("queries", [])[recipes_id]
 
         if not query_paths:
-            logger.warning("No queries found in recipe: %s", recipe_path)
+            self.logger.warning("No queries found in recipe: %s", recipe_path)
             return
 
         base_dir = Path(project_root).expanduser().resolve() if project_root else Path.cwd()
@@ -343,7 +343,7 @@ class BigQueryTransformer:
                 "[D3] helper_clinical has no rows with num_procedures > 0."
             )
 
-        logger.info("helper_clinical sanity checks passed.")
+        self.logger.info("helper_clinical sanity checks passed.")
 
 
     def run_helper_cost_sanity_checks(
@@ -456,7 +456,7 @@ class BigQueryTransformer:
                 f"[E4] helper_cost_aggregation_grouped has negative cost values: {neg_group_any}."
             )
 
-        logger.info("helper_cost sanity checks passed.")
+        self.logger.info("helper_cost sanity checks passed.")
 
     def run_helper_utilization_sanity_checks(
         self,
@@ -570,4 +570,4 @@ class BigQueryTransformer:
                 "rows with readmit_90d=1 but NULL days_to_readmit."
             )
 
-        logger.info("helper_utilization sanity checks passed.")
+        self.logger.info("helper_utilization sanity checks passed.")

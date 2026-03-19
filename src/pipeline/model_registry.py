@@ -14,6 +14,8 @@ from lightgbm import LGBMClassifier
 
 from pipeline.model_config_manager import ModelConfigManager
 
+from src.utils.logger import get_logger
+
 
 @dataclass
 class ModelRegistry:
@@ -33,6 +35,9 @@ class ModelRegistry:
     # ------------------------------------------------------------------
     # Construction
     # ------------------------------------------------------------------
+
+    def __post_init__(self):
+        self.logger = get_logger(__name__)
 
     @classmethod
     def from_config(cls, config_path: str, models_dir: Optional[str] = None) -> "ModelRegistry":

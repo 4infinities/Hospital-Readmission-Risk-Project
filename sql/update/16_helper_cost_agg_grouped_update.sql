@@ -1,8 +1,21 @@
--- helper_cost_aggregation_grouped: one row per encounter GROUP; sums costs across all member encounters and computes group-level length and daily cost
+-- helper_cost_aggregation_grouped incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
+-- Full patient history is used for group boundary detection; output restricted to window group representatives
 -- Depends on: encounters_slim, helper_cost_aggregation
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_cost_aggregation_grouped as
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_end   DATE DEFAULT {{END_DATE}};
+
+-- Remove window group rows before recalculation (stay_id = group representative encounter id)
+DELETE FROM {{DATASET_HELPERS}}.helper_cost_aggregation_grouped
+WHERE stay_id IN (
+  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  WHERE start >= window_start AND stop <= window_end
+);
+
+-- Reinsert recalculated group rows whose representative encounter falls in the two-month window
+INSERT INTO {{DATASET_HELPERS}}.helper_cost_aggregation_grouped
 WITH
   -- Assign type_flag rank and detect group boundaries (same logic as clinical grouping)
+  -- Full history up to window_end required for correct cumulative group_number assignment
   group_flags AS (
     SELECT
       id,
@@ -29,7 +42,7 @@ WITH
         ELSE 1
         END AS group_change
     FROM {{DATASET_SLIM}}.encounters_slim
-  where stop <= {{END_DATE}}
+    WHERE stop <= window_end
   ),
   -- Cumulative sum yields a monotonically increasing group_number per patient
   clusters AS (
@@ -65,13 +78,13 @@ WITH
     FROM clusters
   ),
   -- Compute total group length as span from earliest start to latest stop (floored at 1 day)
-  starts_and_stops as(
-    select
-    patient,
-    group_number,
-    greatest(date_diff(max(stop), min(start), day), 1) length_of_encounter
-    from clusters
-    group by patient, group_number
+  starts_and_stops AS (
+    SELECT
+      patient,
+      group_number,
+      greatest(date_diff(max(stop), min(start), day), 1) length_of_encounter
+    FROM clusters
+    GROUP BY patient, group_number
   ),
   -- Map each member encounter to its group_id, length, and class label
   final_groups AS (
@@ -94,22 +107,30 @@ WITH
         best.patient = clust.patient
         AND best.group_number = clust.group_number
         AND best.rn = 1
-    left join starts_and_stops sas
-    on clust.patient = sas.patient
-    and clust.group_number = sas.group_number
+    LEFT JOIN starts_and_stops sas
+      ON clust.patient = sas.patient
+      AND clust.group_number = sas.group_number
   )
-
 -- Aggregate costs from helper_cost_aggregation across all clinical group members; cost_per_day uses group-level length
-select
-group_id as stay_id,
-max(final.length_of_encounter) as length_of_encounter,
-max(hc.admission_cost) as admission_cost,
-sum(hc.total_procedure_costs) as total_procedure_costs,
-sum(hc.total_medication_costs) as total_medication_costs,
-sum(hc.total_stay_cost) as total_stay_cost,
-round((sum(hc.total_procedure_costs) + sum(hc.total_medication_costs))/max(final.length_of_encounter), 2) as cost_per_day_stay
-from final_groups final
-left join {{DATASET_HELPERS}}.helper_cost_aggregation hc
-on final.id = hc.stay_id
-where final.encounterclass in ('urgentcare', 'inpatient', 'emergency')
-group by final.group_id
+-- Only output groups whose representative encounter falls within the two-month window
+SELECT
+  group_id AS stay_id,
+  max(final.length_of_encounter) AS length_of_encounter,
+  max(hc.admission_cost) AS admission_cost,
+  sum(hc.total_procedure_costs) AS total_procedure_costs,
+  sum(hc.total_medication_costs) AS total_medication_costs,
+  sum(hc.total_stay_cost) AS total_stay_cost,
+  round(
+    (sum(hc.total_procedure_costs) + sum(hc.total_medication_costs))
+    / max(final.length_of_encounter),
+    2) AS cost_per_day_stay
+FROM final_groups final
+LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation hc
+  ON final.id = hc.stay_id
+WHERE
+  final.encounterclass IN ('urgentcare', 'inpatient', 'emergency')
+  AND final.group_id IN (
+    SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+    WHERE start >= window_start AND stop <= window_end
+  )
+GROUP BY final.group_id;

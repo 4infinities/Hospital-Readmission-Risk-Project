@@ -1,3 +1,5 @@
+-- DataPreprocessor feed query: select all columns from index_stay for the training/evaluation window
+-- Executed by BigQueryTransformer.fetch_to_dataframe; result is passed directly to DataPreprocessor.preprocess_df
 SELECT
   patient_id,
   patient_age,

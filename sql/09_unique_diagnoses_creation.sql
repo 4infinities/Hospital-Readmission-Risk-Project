@@ -1,4 +1,7 @@
+-- Feed query for DictionaryBuilder: collect every distinct SNOMED diagnosis code seen up to END_DATE
+-- across all 8 claim diagnosis columns and conditions_slim, then attach a human-readable name where available
 WITH all_codes AS (
+  -- Unpivot all 8 diagnosis columns from claims into a single code column, unioning with conditions codes
   SELECT DISTINCT CAST(diagnosis1 AS INT64) AS code
   FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis1 IS NOT NULL and currentillnessdate <= {{END_DATE}}
   UNION DISTINCT
@@ -18,18 +21,20 @@ WITH all_codes AS (
   FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis6 IS NOT NULL and currentillnessdate <= {{END_DATE}}
   UNION DISTINCT
   SELECT DISTINCT CAST(diagnosis7 AS INT64) AS code
-  FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= {{END_DATE}} 
+  FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= {{END_DATE}}
   UNION DISTINCT
   SELECT DISTINCT CAST(diagnosis8 AS INT64) AS code
   FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis8 IS NOT NULL and currentillnessdate <= {{END_DATE}}
 
   UNION DISTINCT
 
+  -- Also include codes from conditions_slim (may have codes not present in claims)
   SELECT DISTINCT CAST(code AS INT64) AS code
   FROM {{DATASET_SLIM}}.conditions_slim
   where stop <= {{END_DATE}}
 )
 
+-- Attach the human-readable name from conditions_slim; NULL where code exists only in claims
 SELECT
   ac.code,
   c.diagnosis_name

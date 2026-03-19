@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import sys
-import logging
 from pathlib import Path
 from typing import Dict, Any, Tuple, Optional
 
@@ -26,7 +25,7 @@ from pipeline.dictionary_config import (
     main_diags_output_cols,
 )
 
-logger = logging.getLogger(__name__)
+from src.utils.logger import get_logger
 
 
 class DictionaryBuilder:
@@ -55,6 +54,7 @@ class DictionaryBuilder:
         self.project_id = self.bq_config["project_id"]
         self.dataset_slim = self.bq_config["dataset_slim"]
         self.dataset_helpers = self.bq_config.get("dataset_helpers")
+        self.logger = get_logger(__name__)
 
     # ---------- generic helpers ----------
 
@@ -163,7 +163,7 @@ class DictionaryBuilder:
             need_dictionary_path=False,
         )
 
-        logger.info("Building %s dictionary for %s split", dict_type, source_type)
+        self.logger.info("Building %s dictionary for %s split", dict_type, source_type)
         load_state(state_path)
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
@@ -190,7 +190,7 @@ class DictionaryBuilder:
             need_dictionary_path=False,
         )
 
-        logger.info("Building %s dictionary for %s split", dict_type, source_type)
+        self.logger.info("Building %s dictionary for %s split", dict_type, source_type)
         load_state(state_path)
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
@@ -219,8 +219,8 @@ class DictionaryBuilder:
             need_dictionary_path=True,
         )
 
-        logger.info("Building main_diagnoses for %s split", source_type)
-        logger.info("Dictionary path: %s", dictionary_path)
+        self.logger.info("Building main_diagnoses for %s split", source_type)
+        self.logger.info("Dictionary path: %s", dictionary_path)
 
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
@@ -249,8 +249,8 @@ class DictionaryBuilder:
             need_dictionary_path=True,
         )
 
-        logger.info("Building related_diagnoses for %s split", source_type)
-        logger.info("Dictionary path: %s", dictionary_path)
+        self.logger.info("Building related_diagnoses for %s split", source_type)
+        self.logger.info("Dictionary path: %s", dictionary_path)
 
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
@@ -272,10 +272,10 @@ class DictionaryBuilder:
             need_dictionary_path=True,
         )
 
-        logger.info(
+        self.logger.info(
             "Building careplans_related_diagnoses for %s split", source_type
         )
-        logger.info("Dictionary path: %s", dictionary_path)
+        self.logger.info("Dictionary path: %s", dictionary_path)
 
         data = self.transformer.fetch_to_dataframe(
                 sql=sql,
