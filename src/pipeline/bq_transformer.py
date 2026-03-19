@@ -35,7 +35,6 @@ class BigQueryTransformer:
     def from_profile(
         cls,
         config_path: str,
-        profile_name: str,
     ) -> Tuple["BigQueryTransformer", Dict[str, str]]:
         """
         Create a transformer bound to a given profile using bq_config.json.
@@ -62,13 +61,7 @@ class BigQueryTransformer:
         location = cfg["location"]
         dataset_slim = cfg["dataset_slim"]
         dataset_helpers = cfg["dataset_helpers"]
-        profiles = cfg["profiles"]
-
-        if profile_name not in profiles:
-            raise KeyError(f"Profile '{profile_name}' not found in config")
-
-        profile_cfg = profiles[profile_name]
-        raw_dataset = profile_cfg["dataset"]      # per-profile raw dataset
+        raw_dataset = cfg["dataset"]
         credentials_path = cfg.get("credentials_path")
 
         # Build credentials if a path is provided
@@ -91,12 +84,10 @@ class BigQueryTransformer:
             raw_dataset_id=raw_dataset,
             slim_dataset_id=dataset_slim,
             helpers_dataset_id=dataset_helpers,
-            profile_name=profile_name,
             client=client,
         )
 
         profile_info = {
-            "profile_name": profile_name,
             "raw_dataset": raw_dataset,
             "dataset_slim": dataset_slim,
         }
@@ -111,7 +102,6 @@ class BigQueryTransformer:
         raw_dataset_id: str,
         slim_dataset_id: str,
         helpers_dataset_id:str,
-        profile_name: str,
         client: bigquery.Client,
     ):
         self.project_id = project_id
@@ -119,7 +109,6 @@ class BigQueryTransformer:
         self.raw_dataset_id = raw_dataset_id       # e.g. train_raw_data
         self.slim_dataset_id = slim_dataset_id     # e.g. data_slim
         self.helpers_dataset_id = helpers_dataset_id
-        self.profile_name = profile_name
         self.client = client
 
         self._ensure_extra_datasets_exist_once()
@@ -144,21 +133,6 @@ class BigQueryTransformer:
         Fully qualified slim dataset: project.dataset_slim
         """
         return f"{self.project_id}.{self.helpers_dataset_id}"
-
-    @property
-    def profile_prefix(self) -> str:
-        """
-        PROFILE prefix for table names in slim dataset.
-        train -> 'train_'
-        mock  -> 'mock_'
-        test  -> ''
-        """
-        if self.profile_name == "train":
-            return "train_"
-        if self.profile_name == "mock":
-            return "mock_"
-        # default for test or any other: no prefix
-        return ""
 
     # ---------- dataset creation (one-time) ----------
 
@@ -196,7 +170,6 @@ class BigQueryTransformer:
         sql = sql.replace("{{DATASET_RAW}}", self.dataset_raw_fq)
         sql = sql.replace("{{DATASET_SLIM}}", self.dataset_slim_fq)
         sql = sql.replace("{{DATASET_HELPERS}}", self.dataset_helpers_fq)
-        sql = sql.replace("{{PROFILE}}", self.profile_prefix)
         return sql
 
     def _run_query(self, sql: str) -> None:

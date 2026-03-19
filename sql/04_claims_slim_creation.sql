@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_SLIM}}.{{PROFILE}}claims_slim
+CREATE OR REPLACE TABLE {{DATASET_SLIM}}.claims_slim
   CLUSTER BY encounter
 AS
 SELECT
@@ -14,5 +14,5 @@ SELECT
   cl.diagnosis8,
   cl.currentillnessdate,
 FROM {{DATASET_RAW}}.claims cl
-JOIN {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
+JOIN {{DATASET_SLIM}}.encounters_slim e
   ON cl.appointmentid = e.id

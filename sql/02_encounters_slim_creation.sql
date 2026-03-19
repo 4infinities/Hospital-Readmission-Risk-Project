@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_SLIM}}.{{PROFILE}}encounters_slim
+CREATE OR REPLACE TABLE {{DATASET_SLIM}}.encounters_slim
   CLUSTER BY id, patient, stop
 AS (
   WITH
@@ -10,7 +10,7 @@ AS (
       SELECT
         id AS patient_id,
         deathdate
-      FROM {{DATASET_SLIM}}.{{PROFILE}}patients_slim
+      FROM {{DATASET_SLIM}}.patients_slim
     )
   SELECT
     e.id,

@@ -918,3 +918,8 @@ Tasks:
 - Reports are now printed well, however the cost reductions are not as good as before
 
 - Created and saved report, now at 11% save from RF 0.9, maybe gotta retune hyperparams or whatever
+
+---
+#2026-18-03
+
+- Started refactoring project for continuous flow, created slim tables again

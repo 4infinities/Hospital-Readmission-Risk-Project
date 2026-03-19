@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_SLIM}}.{{PROFILE}}careplans_slim
+CREATE OR REPLACE TABLE {{DATASET_SLIM}}.careplans_slim
   CLUSTER BY encounter, patient
 AS
 SELECT
@@ -9,5 +9,5 @@ SELECT
   care.description,
   care.reasoncode as code
 FROM {{DATASET_RAW}}.careplans care
-JOIN {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
+JOIN {{DATASET_SLIM}}.encounters_slim e
   ON care.encounter = e.id

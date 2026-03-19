@@ -307,6 +307,7 @@ class Evaluator:
         avoided: pd.DataFrame,
         threshold_metrics: pd.DataFrame,
         dataset_end_date: pd.Timestamp,
+        suffix: str = None
     ) -> pd.DataFrame:
         """
         Build a one-row-per-model performance report.
@@ -402,7 +403,11 @@ class Evaluator:
 
                 # Training date from model file (e.g. 'logreg_d30.pkl')
             models_dir = Path(self.cfg_mgr.get_models_dir())
-            model_path = models_dir / f"{model_group}.pkl"
+            if suffix is not None:
+                model_path = models_dir / f"{model_group}_{suffix}.pkl"
+            else:
+                model_path = models_dir / f"{model_group}.pkl"
+
             print("DEBUG model_path:", model_path, "exists:", model_path.exists())
             if model_path.exists():
                 print("gets in")
@@ -430,7 +435,9 @@ class Evaluator:
 
         report_df = pd.DataFrame(rows).set_index("model_name").sort_index()
         report_path = str(self.artifacts_dir) + r"\report.csv"
-        report_df.to_csv(report_path)
-        return report_df
+        report_old = pd.read_csv(report_path).set_index("model_name").sort_index()
+        report = pd.concat([report_old, report_df])
+        report.to_csv(report_path)
+        return report
 
     

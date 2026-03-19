@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_SLIM}}.{{PROFILE}}procedures_slim
+CREATE OR REPLACE TABLE {{DATASET_SLIM}}.procedures_slim
   CLUSTER BY encounter
 AS
 SELECT
@@ -10,5 +10,5 @@ SELECT
   proc.description,
   proc.base_cost
 FROM {{DATASET_RAW}}.procedures proc
-JOIN {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
+JOIN {{DATASET_SLIM}}.encounters_slim e
   ON proc.encounter = e.id

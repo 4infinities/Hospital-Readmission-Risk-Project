@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_SLIM}}.{{PROFILE}}conditions_slim
+CREATE OR REPLACE TABLE {{DATASET_SLIM}}.conditions_slim
   CLUSTER BY code
 AS
 SELECT
@@ -13,7 +13,7 @@ SELECT
     ')',
     '') AS diagnosis_type
 FROM  {{DATASET_RAW}}.conditions cond
-JOIN {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
+JOIN {{DATASET_SLIM}}.encounters_slim e
   ON cond.encounter = e.id
 WHERE
   coalesce(

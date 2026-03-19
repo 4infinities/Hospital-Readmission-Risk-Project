@@ -1,21 +1,17 @@
 {
-    "project_id": "hospital-readmission-4",
+    "project_id": "healthcare-test-486920",
     "location": "europe-west4",
-    "credentials_path": "D:\\Python Projects\\Hospital readmission risk\\.secrets\\hospital-readmission-4-code.json",
-    "dataset" : "{{PROFILE}}raw_data",
-    "related_diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\{{PROFILE}}careplans_related_encounters.csv",
+    "credentials_path": "D:\\Python Projects\\Hospital readmission risk\\.secrets\\healthcare-test-486920-3276e7afa16e.json",
+    "dataset" : "raw_data",
+    "related_diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\careplans_related_encounters.csv",
     "profiles": {
         "mock": {
-            "dataset" : "mock_raw_data",
+            "dataset" : "raw_data",
             "local_input_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\mock"
         },
-        "train": {
-            "dataset" : "train_raw_data",
-            "local_input_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\train"
-        },
-        "test": {
+        "refactor": {
             "dataset" : "raw_data",
-            "local_input_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\test"
+            "local_input_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea"
         }
     },
     "dataset_slim": "data_slim",

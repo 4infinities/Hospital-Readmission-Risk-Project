@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_SLIM}}.{{PROFILE}}medications_slim
+CREATE OR REPLACE TABLE {{DATASET_SLIM}}.medications_slim
   CLUSTER BY encounter
 AS
 SELECT
@@ -11,5 +11,5 @@ SELECT
   m.dispenses,
   m.totalcost
 FROM {{DATASET_RAW}}.medications m
-JOIN {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
+JOIN {{DATASET_SLIM}}.encounters_slim e
   ON m.encounter = e.id

@@ -22,7 +22,8 @@ group_flags AS (
       THEN 0
       ELSE 1
     END AS group_change
-  FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim
+  FROM {{DATASET_SLIM}}.encounters_slim
+  where stop <= {{END_DATE}}
 ),
 clusters AS (
   SELECT
@@ -72,7 +73,8 @@ claims AS (
     diagnosis6,
     diagnosis7,
     diagnosis8
-  FROM {{DATASET_SLIM}}.{{PROFILE}}claims_slim
+  FROM {{DATASET_SLIM}}.claims_slim
+  where currentillnessdate <= {{END_DATE}}
 )
 SELECT
   final.id,
