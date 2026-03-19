@@ -94,6 +94,9 @@ class ModelConfigManager:
     def get_models_dir(self) -> Optional[str]:
         return self._cfg.get("models_dir")
 
+    def get_reports_dir(self) -> Optional[str]:
+        return self._cfg.get("data", {})["reports_dir"]
+
     def list_models(self) -> List[str]:
         """List all model names defined under 'models'."""
         return list(self._cfg.get("models", {}).keys())

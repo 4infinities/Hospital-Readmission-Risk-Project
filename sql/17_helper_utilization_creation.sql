@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.{{PROFILE}}helper_utilization
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_utilization
 AS
 WITH
   group_flags AS (
@@ -26,7 +26,8 @@ WITH
           THEN 0
         ELSE 1
         END AS group_change
-    FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim
+    FROM {{DATASET_SLIM}}.encounters_slim
+  where stop <= {{END_DATE}}
   ),
   clusters AS (
     SELECT
@@ -130,7 +131,7 @@ WITH
         pure.patient = inp.patient
         AND inp.stop < pure.start
     LEFT JOIN
-      {{DATASET_HELPERS}}.{{PROFILE}}helper_cost_aggregation_grouped
+      {{DATASET_HELPERS}}.helper_cost_aggregation_grouped
         help_cost
       ON inp.id = help_cost.stay_id
   ),
@@ -210,9 +211,9 @@ left join encounters_pure e
 on pre.stay_id = e.id
 LEFT JOIN follow_data fol
   ON pre.stay_id = fol.stay_id
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}helper_clinical_grouped help_clin
+LEFT JOIN {{DATASET_HELPERS}}.helper_clinical_grouped help_clin
   ON help_clin.stay_id = fol.following_stay_id
 LEFT JOIN
-  {{DATASET_HELPERS}}.{{PROFILE}}helper_cost_aggregation_grouped help_cost
+  {{DATASET_HELPERS}}.helper_cost_aggregation_grouped help_cost
   ON help_cost.stay_id = fol.following_stay_id
 

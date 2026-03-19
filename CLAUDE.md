@@ -61,7 +61,7 @@ net cost savings (not AUC/F1). Scorer runs full CostReducer logic per candidate.
 - Feature space is FIXED at first build. New codes map to existing flags only.
 - y_test is NOT stored — target design: outcomes retrieved from BQ index stay table 
 at next iteration. ⚠ NOT YET IMPLEMENTED — current pipeline stores y_test explicitly.
-- Watermark pattern: last_processed_date and next_end_date stored in config (⚠ NOT YET IMPLEMENTED — dates should be month-end dates e.g. 2015-01-31)
+- Watermark pattern: last_processed_date and next_end_date stored in some config (⚠ NOT YET IMPLEMENTED — dates should be month-end dates e.g. 2015-01-31)
 - Imbalance handling: LR=class_weight='balanced', RF=balanced_subsample, LGBM=is_unbalance=True.
 - Readmission definition: UNPLANNED only. Careplan-related readmissions are excluded.
 - Related unplanned readmission flags and 90-day flags are calculated purely for visualization later

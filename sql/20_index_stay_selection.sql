@@ -53,4 +53,4 @@ SELECT
   following_stay_id,
   total_readmission_cost,
   following_unplanned_admission_flag
-FROM {{DATASET_HELPERS}}.{{PROFILE}}index_stay
+FROM {{DATASET_HELPERS}}.index_stay

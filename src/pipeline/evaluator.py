@@ -42,7 +42,7 @@ class Evaluator:
 
     registry: ModelRegistry
     cfg_mgr: ModelConfigManager
-    artifacts_dir: Path = Path("data") / "artifacts"
+    reports_dir: cfg_mgr.get_reports_dir()
 
     # ------------------------------------------------------------------
     # Metric helpers
@@ -105,7 +105,7 @@ class Evaluator:
           - metrics_log.csv
         Overwrites on each run.
         """
-        out_dir = self.artifacts_dir
+        out_dir = self.reports_dir
 
         pred_path = out_dir / "pred_values.csv"
         pred_values.to_csv(pred_path, index=True)
@@ -125,7 +125,7 @@ class Evaluator:
           - threshold_metrics.csv
         Overwrites on each run.
         """
-        out_dir = self.artifacts_dir
+        out_dir = self.reports_dir
 
         thr_path = out_dir / "thresholds.csv"
         thresholds.to_csv(thr_path, index=True)
@@ -393,7 +393,7 @@ class Evaluator:
                         return threshold_metrics.loc[row_name, col_name]
                     return np.nan
 
-                tp = threshold_metrics.loc["TP", best_col]
+                tp = safe_get("TP", best_col)
                 fp = safe_get("FP", best_col)
                 fn = safe_get("FN", best_col)
                 tn = safe_get("TN", best_col)
@@ -434,7 +434,7 @@ class Evaluator:
                 )
 
         report_df = pd.DataFrame(rows).set_index("model_name").sort_index()
-        report_path = str(self.artifacts_dir) + r"\report.csv"
+        report_path = str(self.reports_dir) + r"\report.csv"
         report_old = pd.read_csv(report_path).set_index("model_name").sort_index()
         report = pd.concat([report_old, report_df])
         report.to_csv(report_path)

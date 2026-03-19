@@ -6,8 +6,8 @@ WITH
       readmit_30d,
       readmit_90d,
       main.main_diagnosis_code sec_code
-    FROM {{DATASET_HELPERS}}.{{PROFILE}}helper_utilization hu
-    LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}main_diagnoses main
+    FROM {{DATASET_HELPERS}}.helper_utilization hu
+    LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
       ON hu.following_stay_id = main.id
   )
 SELECT
@@ -18,5 +18,5 @@ SELECT
   readmit_30d,
   readmit_90d
 FROM sec_codes sec
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}main_diagnoses main
+LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
   ON main.id = sec.stay_id

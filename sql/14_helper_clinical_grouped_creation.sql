@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.{{PROFILE}}helper_clinical_grouped
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_clinical_grouped
 AS
 WITH
   group_flags AS (
@@ -25,7 +25,8 @@ WITH
           THEN 0
         ELSE 1
         END AS group_change
-    FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim
+    FROM {{DATASET_SLIM}}.encounters_slim
+  where stop <= {{END_DATE}}
   ),
   clusters AS (
     SELECT
@@ -93,7 +94,7 @@ WITH
       MAX(hc.is_planned) AS is_planned,
       MAX(hc.had_surgery) AS had_surgery
     FROM final_groups final
-    LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}helper_clinical hc
+    LEFT JOIN {{DATASET_HELPERS}}.helper_clinical hc
       ON final.id = hc.stay_id
     WHERE final.encounterclass IN ('urgentcare', 'inpatient', 'emergency')
     GROUP BY final.group_id
@@ -126,7 +127,7 @@ SELECT
   flag.is_planned,
   flag.had_surgery
 FROM flags flag
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}main_diagnoses main
+LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
   ON flag.stay_id = main.id
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}diagnoses_dictionary dict
+LEFT JOIN {{DATASET_HELPERS}}.diagnoses_dictionary dict
   ON main.main_diagnosis_code = dict.code

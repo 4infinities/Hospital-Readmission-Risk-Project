@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.{{PROFILE}}index_stay
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.index_stay
 AS
 SELECT
   e.patient AS patient_id,
@@ -55,18 +55,19 @@ SELECT
   util.following_stay_id,
   util.total_stay_cost AS total_readmission_cost,
   util.following_unplanned_admission_flag
-FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
-LEFT JOIN {{DATASET_SLIM}}.{{PROFILE}}patients_slim p
+FROM {{DATASET_SLIM}}.encounters_slim e
+LEFT JOIN {{DATASET_SLIM}}.patients_slim p
   ON e.patient = p.id
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}helper_clinical clin
+LEFT JOIN {{DATASET_HELPERS}}.helper_clinical clin
   ON clin.stay_id = e.id
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}helper_cost_aggregation_grouped cost
+LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation_grouped cost
   ON cost.stay_id = e.id
-LEFT JOIN {{DATASET_HELPERS}}.{{PROFILE}}helper_utilization util
+LEFT JOIN {{DATASET_HELPERS}}.helper_utilization util
   ON util.stay_id = e.id
-left join {{DATASET_HELPERS}}.{{PROFILE}}related_diagnoses rel
+left join {{DATASET_HELPERS}}.related_diagnoses rel
 on e.id = rel.stay_id
 WHERE
   e.encounterclass IN ('urgentcare', 'emergency', 'inpatient')
-  AND util.start > timestamp("2018-01-01")
+  AND util.start > {{START_DATE}}
+  AND e.stop <= {{END_DATE}}
 

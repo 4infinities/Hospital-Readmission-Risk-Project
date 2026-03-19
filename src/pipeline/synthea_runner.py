@@ -3,8 +3,11 @@ import json
 import logging
 import shutil
 import subprocess
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Iterable
 from pathlib import Path
+from datetime import date
+import calendar
+
 
 logger = logging.getLogger(__name__)
 
@@ -284,5 +287,16 @@ class SyntheaRunner:
         # Actually run the Java process; check=True raises if Synthea fails
         subprocess.run(cmd, cwd=str(self.synthea_home), check=True)
 
-        # After successful run, copy CSVs from Synthea to your project
-        return self._move_synthea_csvs()
+        self._move_synthea_csvs()
+
+        # Compute start_date: today shifted back by years_of_history years
+        today = date.today()
+        start_date = today.replace(year=today.year - years_of_history)
+
+        # Compute end_date: start_date + 10 years, clamped to last day of that month
+        end_year = start_date.year + 10
+        end_month = start_date.month
+        last_day = calendar.monthrange(end_year, end_month)[1]
+        end_date = date(end_year, end_month, last_day)
+
+        return start_date.isoformat(), end_date.isoformat()

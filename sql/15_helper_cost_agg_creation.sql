@@ -1,22 +1,24 @@
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.{{PROFILE}}helper_cost_aggregation
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_cost_aggregation
 AS
 WITH
   procedure_costs AS (
     SELECT
       e.id,
       coalesce(round(sum(proc.base_cost), 2), 0) AS total_procedure_costs
-    FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
-    LEFT JOIN {{DATASET_SLIM}}.{{PROFILE}}procedures_slim proc
+    FROM {{DATASET_SLIM}}.encounters_slim e
+    LEFT JOIN {{DATASET_SLIM}}.procedures_slim proc
       ON e.id = proc.encounter
+    where e.stop <= {{END_DATE}}
     GROUP BY e.id
   ),
   medication_costs AS (
     SELECT
       e.id,
       coalesce(round(sum(med.totalcost), 2), 0) AS total_medication_costs
-    FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
-    LEFT JOIN {{DATASET_SLIM}}.{{PROFILE}}medications_slim med
+    FROM {{DATASET_SLIM}}.encounters_slim e
+    LEFT JOIN {{DATASET_SLIM}}.medications_slim med
       ON e.id = med.encounter
+    where e.stop <= {{END_DATE}}
     GROUP BY e.id
   )
 SELECT
@@ -38,8 +40,9 @@ SELECT
         + med.total_medication_costs)
       / greatest(date_diff(e.stop, e.start, day), 1),
     2) AS cost_per_day_stay,
-FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim e
+FROM {{DATASET_SLIM}}.encounters_slim e
 LEFT JOIN procedure_costs proc
   ON e.id = proc.id
 LEFT JOIN medication_costs med
   ON e.id = med.id
+  where e.stop <= {{END_DATE}}

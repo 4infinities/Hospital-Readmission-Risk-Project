@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.{{PROFILE}}helper_cost_aggregation_grouped as
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_cost_aggregation_grouped as
 WITH
   group_flags AS (
     SELECT
@@ -25,7 +25,8 @@ WITH
           THEN 0
         ELSE 1
         END AS group_change
-    FROM {{DATASET_SLIM}}.{{PROFILE}}encounters_slim
+    FROM {{DATASET_SLIM}}.encounters_slim
+  where stop <= {{END_DATE}}
   ),
   clusters AS (
     SELECT
@@ -100,7 +101,7 @@ sum(hc.total_medication_costs) as total_medication_costs,
 sum(hc.total_stay_cost) as total_stay_cost,
 round((sum(hc.total_procedure_costs) + sum(hc.total_medication_costs))/max(final.length_of_encounter), 2) as cost_per_day_stay
 from final_groups final
-left join {{DATASET_HELPERS}}.{{PROFILE}}helper_cost_aggregation hc
+left join {{DATASET_HELPERS}}.helper_cost_aggregation hc
 on final.id = hc.stay_id
 where final.encounterclass in ('urgentcare', 'inpatient', 'emergency')
 group by final.group_id
