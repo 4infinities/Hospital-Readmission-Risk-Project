@@ -1,6 +1,6 @@
 -- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.encounters_slim
-  PARTITION BY DATE_TRUNC(DATE(stop), MONTH)
+  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
   CLUSTER BY patient, encounterclass
 AS (
   WITH
@@ -38,7 +38,8 @@ AS (
       'urgentcare',
       'outpatient',
       'ambulatory',
-      'virtual')
+      'virtual',
+      'wellness')
     -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
     AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
     -- Exclude encounters that occurred after the patient died

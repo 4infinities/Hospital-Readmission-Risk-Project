@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\(''D:/Python Projects/Hospital readmission risk/config/$f''\\)\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(done)",
+      "Bash(.venv/Scripts/python.exe -c \"from src.utils.logger import get_logger; l = get_logger\\(''test''\\); l.info\\(''ok''\\)\")",
+      "Bash(.venv/Scripts/jupyter nbconvert:*)",
+      "Bash(.venv/Scripts/python.exe -c \":*)",
+      "Bash(.venv/Scripts/python.exe scripts/_mock_runner_tmp.py)"
+    ]
+  }
+}

@@ -3,12 +3,14 @@
         "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\procedures_snomed_state.json",
         "data_path" : "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\dictionaries\\unique_procedures.csv",
         "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\10_unique_procedrues_creation.sql",
+        "sql_delta": "D:\\Python Projects\\Hospital readmission risk\\sql\\update\\10_unique_procedures_delta.sql",
         "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\procedures_dictionary.csv"
     },
     "diagnoses": {
         "state" : "D:\\Python Projects\\Hospital readmission risk\\data\\intermediate\\diagnosess_snomed_state.json",
         "data_path" : "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\dictionaries\\unique_diagnoses.csv",
         "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\09_unique_diagnoses_creation.sql",
+        "sql_delta": "D:\\Python Projects\\Hospital readmission risk\\sql\\update\\09_unique_diagnoses_delta.sql",
         "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\diagnoses_dictionary.csv"
     },
     "main_diagnoses": {
@@ -16,6 +18,7 @@
         "dictionary_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\diagnoses_dictionary.csv",
         "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\diagnoses_per_stays.csv",
         "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\11_diagnoses_per_stays_selection.sql",
+        "sql_delta": "D:\\Python Projects\\Hospital readmission risk\\sql\\update\\11_main_diagnoses_delta.sql",
         "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\main_diagnoses.csv"
     },
     "careplans_related_diagnoses": {
@@ -23,6 +26,7 @@
         "dictionary_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\diagnoses_dictionary.csv",
         "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\diagnoses_and_careplans.csv",
         "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\12_diagnoses_and_careplans_selection.sql",
+        "sql_delta": "D:\\Python Projects\\Hospital readmission risk\\sql\\update\\12_careplans_related_encounters_delta.sql",
         "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\careplans\\careplans_related_encounters.csv"
     },
     "related_diagnoses": {
@@ -30,6 +34,7 @@
         "dictionary_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries\\diagnoses_dictionary.csv",
         "data_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\diagnoses_and_following.csv",
         "sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\18_diagnoses_and_following_selection.sql",
+        "sql_delta": "D:\\Python Projects\\Hospital readmission risk\\sql\\update\\18_related_diagnoses_delta.sql",
         "write_path": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\related\\related_diagnoses.csv"
     }
 }

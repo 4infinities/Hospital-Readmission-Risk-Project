@@ -8,6 +8,7 @@ group_flags AS (
     patient,
     start,
     CASE encounterclass
+      when 'wellness' then 0
       WHEN 'ambulatory' THEN 1
       WHEN 'outpatient' THEN 2
       WHEN 'virtual' THEN 3

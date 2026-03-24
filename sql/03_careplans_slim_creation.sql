@@ -1,6 +1,6 @@
 -- Slim careplans: inner join to encounters_slim to retain only careplans linked to valid encounters
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.careplans_slim
-  PARTITION BY DATE_TRUNC(stop, MONTH)
+  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
   CLUSTER BY patient, encounter
 AS
 SELECT

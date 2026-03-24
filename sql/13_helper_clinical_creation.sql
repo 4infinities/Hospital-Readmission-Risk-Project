@@ -215,10 +215,11 @@ AS (
         ON e.id = proc.stay_id
       where e.stop <= {{END_DATE}}
     ),
-    -- For each encounter, compute days since each prior surgery (is_surgery = 1 in procedures_dictionary)
+    -- For each encounter, compute days since each prior surgery and carry the surgery date
     surgeries_and_dates AS (
       SELECT
         date_diff(e.start, proc.start, day) AS days_from_surgery,
+        proc.start AS surgery_date,
         e.id AS stay_id,
       FROM {{DATASET_SLIM}}.encounters_slim e
       LEFT JOIN {{DATASET_SLIM}}.procedures_slim proc
@@ -231,16 +232,22 @@ AS (
         AND e.start > proc.start
         and e.stop <= {{END_DATE}}
     ),
-    -- Flag encounter as had_surgery = 1 if any prior surgery occurred within 730 days
+    -- Flag encounter as had_surgery = 1 if any prior surgery within 730 days; store most recent surgery date
     surgeries AS (
       SELECT
         e.id AS stay_id,
-        max(
+        MAX(
           CASE
             WHEN coalesce(surg.days_from_surgery, 1000) < 730
               THEN 1
             ELSE 0
-            END) AS had_surgery
+            END) AS had_surgery,
+        MAX(
+          CASE
+            WHEN coalesce(surg.days_from_surgery, 1000) < 730
+              THEN surg.surgery_date
+            ELSE NULL
+            END) AS last_surgery_date
       FROM {{DATASET_SLIM}}.encounters_slim e
       LEFT JOIN surgeries_and_dates surg
         ON e.id = surg.stay_id
@@ -250,6 +257,7 @@ AS (
   -- Final assembly: join all CTEs onto encounters_slim; one output row per encounter
   SELECT
     e.id AS stay_id,
+    e.patient AS patient_id,
     dict.code AS main_code,
     dict.name AS main_name,
     COALESCE(dict.is_disorder, 0) AS is_disorder,
@@ -275,6 +283,7 @@ AS (
     pc.has_lf,
     ps.is_planned,
     coalesce(surg.had_surgery, 0) AS had_surgery,
+    surg.last_surgery_date,
   FROM {{DATASET_SLIM}}.encounters_slim e
   LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
     ON e.id = main.id

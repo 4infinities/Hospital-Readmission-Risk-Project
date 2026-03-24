@@ -20,4 +20,4 @@ WHERE
     {{END_DATE}}
   )
   -- Scope to new window encounters only
-  AND e.start > {{START_DATE}} AND e.stop <= {{END_DATE}};
+  AND e.start > LAST_DAY(DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH) AND e.stop <= {{END_DATE}};

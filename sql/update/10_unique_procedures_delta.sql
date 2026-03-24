@@ -5,7 +5,7 @@ SELECT DISTINCT
   code,
   description AS name
 FROM {{DATASET_SLIM}}.procedures_slim
-WHERE stop > {{START_DATE}} AND stop <= {{END_DATE}}
+WHERE stop > LAST_DAY(DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH) AND stop <= {{END_DATE}}
   AND code NOT IN (
     SELECT code FROM {{DATASET_HELPERS}}.procedures_dictionary
   );

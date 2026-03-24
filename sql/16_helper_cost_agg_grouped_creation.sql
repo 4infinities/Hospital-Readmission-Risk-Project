@@ -10,6 +10,7 @@ WITH
       start,
       stop,
       CASE encounterclass
+      when 'wellness' then 0
         WHEN 'ambulatory' THEN 1
         WHEN 'outpatient' THEN 2
         WHEN 'virtual' THEN 3
@@ -77,9 +78,11 @@ WITH
   final_groups AS (
     SELECT
       clust.id,
+      clust.patient,
       best.group_id,
       sas.length_of_encounter,
       CASE best.type_flag
+        when 0 then 'wellness'
         WHEN 1 THEN 'ambulatory'
         WHEN 2 THEN 'outpatient'
         WHEN 3 THEN 'virtual'
@@ -102,6 +105,7 @@ WITH
 -- Aggregate costs from helper_cost_aggregation across all clinical group members; cost_per_day uses group-level length
 select
 group_id as stay_id,
+ANY_VALUE(final.patient) AS patient_id,
 max(final.length_of_encounter) as length_of_encounter,
 max(hc.admission_cost) as admission_cost,
 sum(hc.total_procedure_costs) as total_procedure_costs,

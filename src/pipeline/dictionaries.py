@@ -525,7 +525,7 @@ def build_flags(data: pd.DataFrame, targets: dict):
 
         if flag == "is_procedure":
             data[flag] = ~data[flag]
-
+      
     cols = [col for col in data.columns if not col.startswith("name")]
     data[cols] = data[cols].map(lambda x: int(x))
 

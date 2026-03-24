@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date, timedelta
 import pandas as pd
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
@@ -181,26 +182,61 @@ class BigQueryTransformer:
         job.result()
         self.logger.info("Query finished.")
 
+    def load_sql(self, path: str) -> str:
+        """
+        Read a SQL file and apply BQ dataset placeholder replacements.
+        """
+        return self._transform_query(self._load_query_file(path))
+
+    @staticmethod
+    def _prev_end_date_safe(end_date: str) -> str:
+        """Return the last day of the prior calendar month as YYYY_MM_DD."""
+        d = date.fromisoformat(end_date)
+        prev_last = d.replace(day=1) - timedelta(days=1)
+        return prev_last.isoformat().replace("-", "_")
+
+    def load_sql_with_end_date(self, path: str, end_date: str) -> str:
+        """
+        Read a SQL file, apply BQ dataset placeholders, then substitute {{END_DATE}},
+        {{END_DATE_SAFE}}, and {{PREV_END_DATE_SAFE}}.
+
+        Parameters
+        ----------
+        end_date : str
+            Date string 'YYYY-MM-DD'; inserted as a quoted SQL DATE literal.
+            All window_start derivations are handled inside the SQL itself.
+        """
+        sql = self.load_sql(path)
+        sql = sql.replace("{{END_DATE}}", f"'{end_date}'")
+        sql = sql.replace("{{END_DATE_SAFE}}", end_date.replace("-", "_"))
+        sql = sql.replace("{{PREV_END_DATE_SAFE}}", self._prev_end_date_safe(end_date))
+        return sql
+
     # ---------- public API: run a sequence ----------
 
     def run_query_sequence(
         self,
         recipe_path: str,
         recipes_id: int,
-        project_root: str | None = None
+        project_root: str | None = None,
+        end_date: str | None = None,
     ) -> None:
         """
         Load a list of SQL file paths from a recipe JSON and execute them in order.
 
-        Recipe JSON:
-
-        {
-          "queries": [
-            "sql/base/01_patientsslim.sql",
-            "sql/base/02_encountersslim.sql",
-            ...
-          ]
-        }
+        Parameters
+        ----------
+        recipe_path : str
+            Path to the recipes JSON file.
+        recipes_id : int
+            Index into the ``queries`` array in the recipes file.
+        project_root : str or None
+            Base directory for resolving relative SQL paths.
+            Defaults to cwd.
+        end_date : str or None
+            If provided, substitute ``{{END_DATE}}`` with this value
+            (as a quoted DATE literal) in every SQL file before execution.
+            Required for update recipes (index 3, 4); omit for creation recipes.
         """
         recipe = self._load_json(recipe_path)
         query_paths: List[str] = recipe.get("queries", [])[recipes_id]
@@ -215,6 +251,11 @@ class BigQueryTransformer:
             full_path = base_dir / rel_path
             sql_raw = self._load_query_file(str(full_path))
             sql = self._transform_query(sql_raw)
+            if end_date is not None:
+                sql = sql.replace("{{END_DATE}}", f"'{end_date}'")
+                sql = sql.replace("{{END_DATE_SAFE}}", end_date.replace("-", "_"))
+                sql = sql.replace("{{PREV_END_DATE_SAFE}}", self._prev_end_date_safe(end_date))
+            self.logger.info("Running: %s", rel_path)
             self._run_query(sql)
 
     def fetch_to_dataframe(
@@ -247,6 +288,24 @@ class BigQueryTransformer:
             df.to_csv(cache_path, index=False)
 
         return df
+
+    def append_dataframe(self, df: "pd.DataFrame", table_fq: str) -> None:
+        """
+        Append a DataFrame to an existing BigQuery table (WRITE_APPEND).
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            DataFrame whose columns match the target BQ table schema.
+        table_fq : str
+            Fully-qualified table name: project.dataset.table
+        """
+        job_config = bigquery.LoadJobConfig(
+            write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+        )
+        job = self.client.load_table_from_dataframe(df, table_fq, job_config=job_config)
+        job.result()
+        self.logger.info("Appended %d rows to %s", len(df), table_fq)
 
     def run_helper_clinical_sanity_checks(
         self,

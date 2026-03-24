@@ -29,6 +29,7 @@ WITH
 -- Final output: combine costs; total_stay_cost = max(claim cost, component sum) to handle billing discrepancies
 SELECT
   e.id AS stay_id,
+  e.patient AS patient_id,
   e.base_encounter_cost AS admission_cost,
   proc.total_procedure_costs,
   med.total_medication_costs,

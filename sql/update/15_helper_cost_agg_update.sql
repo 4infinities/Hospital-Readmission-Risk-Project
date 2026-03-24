@@ -1,7 +1,7 @@
 -- helper_cost_aggregation incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
 -- Window: DATE_TRUNC(window_start_date, MONTH) - INTERVAL 2 MONTH to window_end_date
 -- Depends on: encounters_slim, procedures_slim, medications_slim (no dictionary dependency)
-DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH;
 DECLARE window_end   DATE DEFAULT {{END_DATE}};
 
 -- Remove window rows before recalculation
@@ -39,6 +39,7 @@ WITH
 -- Final output: combine costs; total_stay_cost = max(claim cost, component sum) to handle billing discrepancies
 SELECT
   e.id AS stay_id,
+  e.patient AS patient_id,
   e.base_encounter_cost AS admission_cost,
   proc.total_procedure_costs,
   med.total_medication_costs,

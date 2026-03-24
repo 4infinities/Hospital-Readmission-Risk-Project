@@ -174,6 +174,7 @@ class SyntheaRunner:
             "-p",
             str(num_patients),
             "--exporter.csv.export=true",
+            "--exporter.fhir.export=false",
             f"--exporter.years_of_history={years_of_history}",
             state,
         ]

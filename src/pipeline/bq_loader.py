@@ -252,6 +252,63 @@ class BigQueryLoader:
                 write_disposition=write_disposition,
             )
 
+    def load_monthly_segment(self, end_date: str) -> None:
+        """
+        Load one month's segmented CSVs into BQ monthly raw staging tables.
+
+        Reads segmented_path from config for the active profile.
+        For each of the 6 segmented tables, looks for:
+            {segmented_path}/{table}_{end_date}.csv
+        and loads it into:
+            {dataset}.{table}_{end_date_safe}
+        where end_date_safe = end_date with hyphens replaced by underscores.
+
+        Parameters
+        ----------
+        end_date : str
+            Month-end date string 'YYYY-MM-DD' (e.g. '2015-01-31').
+        """
+        if self.profile_name is None:
+            raise ValueError("profile_name is not set on BigQueryLoader.")
+
+        profile_cfg = self._config.get("profiles", {}).get(self.profile_name, {})
+        segmented_path = profile_cfg.get("segmented_path")
+        if not segmented_path:
+            raise KeyError(
+                f"'segmented_path' not found in config for profile '{self.profile_name}'"
+            )
+
+        seg_dir = Path(segmented_path).expanduser().resolve()
+        end_date_safe = end_date.replace("-", "_")
+
+        tables = [
+            "encounters",
+            "careplans",
+            "claims",
+            "conditions",
+            "medications",
+            "procedures",
+        ]
+
+        self.ensure_dataset_exists()
+
+        for table in tables:
+            csv_path = seg_dir / f"{table}_{end_date}.csv"
+            if not csv_path.is_file():
+                self.logger.error(
+                    "Monthly segment file not found: %s — expected at %s",
+                    f"{table}_{end_date}.csv",
+                    csv_path,
+                )
+                continue
+
+            table_name = f"{table}_{end_date_safe}"
+            self.load_one_csv(
+                local_csv_path=csv_path,
+                table_name=table_name,
+                write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
+            )
+
     def load_dictionaries(
     self,
     dir_key: str,

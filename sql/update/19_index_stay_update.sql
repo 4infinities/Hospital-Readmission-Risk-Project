@@ -2,7 +2,7 @@
 -- Final feature table — must run AFTER all helpers and related_diagnoses are updated
 -- Depends on: encounters_slim, patients_slim, helper_clinical_grouped, helper_cost_aggregation_grouped,
 --             helper_utilization, related_diagnoses
-DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH;
 DECLARE window_end   DATE DEFAULT {{END_DATE}};
 
 -- Remove window rows before recalculation

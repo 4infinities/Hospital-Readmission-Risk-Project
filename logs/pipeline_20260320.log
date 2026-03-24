@@ -1,0 +1,489 @@
+2026-03-20 15:55:35 | INFO     | pipeline.synthea_runner | Running Synthea with command: java -jar F:\Synthea\synthea-with-dependencies.jar -s 100 -cs 100 -p 1000 --exporter.csv.export=true --exporter.years_of_history=3 California
+2026-03-20 15:55:35 | INFO     | pipeline.synthea_runner | Synthea working directory: F:\Synthea
+2026-03-20 15:55:35 | INFO     | pipeline.synthea_runner | Synthea CSV directory: F:\Synthea\output\csv
+2026-03-20 15:55:35 | INFO     | pipeline.synthea_runner | Profile output_dir: D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock
+2026-03-20 15:55:35 | INFO     | pipeline.synthea_runner | Files to copy: {'procedures.csv', 'careplans.csv', 'patients.csv', 'organizations.csv', 'encounters.csv', 'conditions.csv', 'medications.csv', 'claims.csv'}
+2026-03-20 15:55:35 | INFO     | pipeline.synthea_runner | Delete source files after copy: True
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copying Synthea CSVs from F:\Synthea\output\csv to D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\procedures.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\procedures.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\procedures.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\careplans.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\careplans.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\careplans.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\patients.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\patients.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\patients.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\organizations.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\organizations.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\organizations.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\encounters.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\encounters.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\encounters.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\conditions.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\conditions.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\conditions.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\medications.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\medications.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\medications.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\claims.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\claims.csv
+2026-03-20 15:56:29 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\claims.csv
+2026-03-20 15:56:29 | INFO     | pipeline.bq_loader | Loading CSVs from D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock into dataset healthcare-test-486920.raw_data
+2026-03-20 15:56:29 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.raw_data
+2026-03-20 15:56:29 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.careplans
+2026-03-20 15:56:34 | INFO     | pipeline.bq_loader | Loaded 2272 rows into healthcare-test-486920.raw_data.careplans
+2026-03-20 15:56:34 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.claims
+2026-03-20 15:56:43 | INFO     | pipeline.bq_loader | Loaded 47764 rows into healthcare-test-486920.raw_data.claims
+2026-03-20 15:56:43 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.conditions
+2026-03-20 15:56:47 | INFO     | pipeline.bq_loader | Loaded 19543 rows into healthcare-test-486920.raw_data.conditions
+2026-03-20 15:56:47 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.encounters
+2026-03-20 15:56:51 | INFO     | pipeline.bq_loader | Loaded 27461 rows into healthcare-test-486920.raw_data.encounters
+2026-03-20 15:56:51 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.medications
+2026-03-20 15:56:56 | INFO     | pipeline.bq_loader | Loaded 20303 rows into healthcare-test-486920.raw_data.medications
+2026-03-20 15:56:56 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.organizations
+2026-03-20 15:56:59 | INFO     | pipeline.bq_loader | Loaded 2131 rows into healthcare-test-486920.raw_data.organizations
+2026-03-20 15:56:59 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.patients
+2026-03-20 15:57:02 | INFO     | pipeline.bq_loader | Loaded 1136 rows into healthcare-test-486920.raw_data.patients
+2026-03-20 15:57:02 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.procedures
+2026-03-20 15:57:12 | INFO     | pipeline.bq_loader | Loaded 61724 rows into healthcare-test-486920.raw_data.procedures
+2026-03-20 15:57:12 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 15:57:12 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 15:57:12 | INFO     | pipeline.bq_transformer | Running: sql/01_patients_slim_creation.sql
+2026-03-20 15:57:12 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim patients: retain only demographic columns needed downstream; cluster by id for join performance
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM healthcare-test-486920.raw_data.patients
+2026-03-20 15:57:18 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 15:57:18 | INFO     | pipeline.bq_transformer | Running: sql/02_encounters_slim_creation.sql
+2026-03-20 15:57:18 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.encounters_slim
+  PARTITION BY DATE_TRUNC(DATE(stop), MONTH)
+  CLUSTER BY patient, encounterclass
+AS (
+  WITH
+    -- Anchor point: latest encounter stop in raw data, used to exclude the most recent 30-day window (outcomes not yet known)
+    end_date AS (
+      SELECT MAX(stop) AS end_ts
+      FROM healthcare-test-486920.raw_data.encounters
+    ),
+    -- Pull patient deathdate for filtering out post-death encounters
+    p AS (
+      SELECT
+        id AS patient_id,
+        deathdate
+      FROM healthcare-test-486920.data_slim.patients_slim
+    )
+  SELECT
+    e.id,
+    e.start,
+    e.stop,
+    e.patient,
+    e.organization,
+    e.encounterclass,
+    e.base_encounter_cost,
+    e.total_claim_cost,
+    e.description
+  FROM healthcare-test-486920.raw_data.encounters e
+  LEFT JOIN p
+    ON e.patient = p.patient_id
+  CROSS JOIN end_date
+  WHERE
+    -- Keep only encounter classes used in the readmission model
+    e.encounterclass IN (
+      'inpatient',
+      'emergency',
+      'urgentcare',
+      'outpatient',
+      'ambulatory',
+      'virtual')
+    -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
+    AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
+    -- Exclude encounters that occurred after the patient died
+    AND e.stop < COALESCE(TIMESTAMP(deathdate), end_ts)
+)
+2026-03-20 15:58:44 | INFO     | pipeline.synthea_runner | Running Synthea with command: java -jar F:\Synthea\synthea-with-dependencies.jar -s 100 -cs 100 -p 1000 --exporter.csv.export=true --exporter.fhir.export=false --exporter.years_of_history=3 California
+2026-03-20 15:58:44 | INFO     | pipeline.synthea_runner | Synthea working directory: F:\Synthea
+2026-03-20 15:58:44 | INFO     | pipeline.synthea_runner | Synthea CSV directory: F:\Synthea\output\csv
+2026-03-20 15:58:44 | INFO     | pipeline.synthea_runner | Profile output_dir: D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock
+2026-03-20 15:58:44 | INFO     | pipeline.synthea_runner | Files to copy: {'claims.csv', 'organizations.csv', 'careplans.csv', 'procedures.csv', 'encounters.csv', 'patients.csv', 'conditions.csv', 'medications.csv'}
+2026-03-20 15:58:44 | INFO     | pipeline.synthea_runner | Delete source files after copy: True
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copying Synthea CSVs from F:\Synthea\output\csv to D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\claims.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\claims.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\claims.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\organizations.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\organizations.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\organizations.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\careplans.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\careplans.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\careplans.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\procedures.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\procedures.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\procedures.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\encounters.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\encounters.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\encounters.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\patients.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\patients.csv
+2026-03-20 15:59:22 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\patients.csv
+2026-03-20 15:59:23 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\conditions.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\conditions.csv
+2026-03-20 15:59:23 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\conditions.csv
+2026-03-20 15:59:23 | INFO     | pipeline.synthea_runner | Copied F:\Synthea\output\csv\medications.csv -> D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock\medications.csv
+2026-03-20 15:59:23 | INFO     | pipeline.synthea_runner | Deleted source file: F:\Synthea\output\csv\medications.csv
+2026-03-20 15:59:23 | INFO     | pipeline.bq_loader | Loading CSVs from D:\Python Projects\Hospital readmission risk\data\raw\Synthea\mock into dataset healthcare-test-486920.raw_data
+2026-03-20 15:59:23 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.raw_data
+2026-03-20 15:59:23 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.careplans
+2026-03-20 15:59:26 | INFO     | pipeline.bq_loader | Loaded 2264 rows into healthcare-test-486920.raw_data.careplans
+2026-03-20 15:59:26 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.claims
+2026-03-20 15:59:35 | INFO     | pipeline.bq_loader | Loaded 47446 rows into healthcare-test-486920.raw_data.claims
+2026-03-20 15:59:35 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.conditions
+2026-03-20 15:59:41 | INFO     | pipeline.bq_loader | Loaded 19512 rows into healthcare-test-486920.raw_data.conditions
+2026-03-20 15:59:41 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.encounters
+2026-03-20 15:59:46 | INFO     | pipeline.bq_loader | Loaded 27408 rows into healthcare-test-486920.raw_data.encounters
+2026-03-20 15:59:46 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.medications
+2026-03-20 15:59:51 | INFO     | pipeline.bq_loader | Loaded 20038 rows into healthcare-test-486920.raw_data.medications
+2026-03-20 15:59:51 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.organizations
+2026-03-20 15:59:54 | INFO     | pipeline.bq_loader | Loaded 2130 rows into healthcare-test-486920.raw_data.organizations
+2026-03-20 15:59:54 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.patients
+2026-03-20 15:59:57 | INFO     | pipeline.bq_loader | Loaded 1134 rows into healthcare-test-486920.raw_data.patients
+2026-03-20 15:59:57 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.procedures
+2026-03-20 16:00:04 | INFO     | pipeline.bq_loader | Loaded 61388 rows into healthcare-test-486920.raw_data.procedures
+2026-03-20 16:00:04 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:00:05 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:00:05 | INFO     | pipeline.bq_transformer | Running: sql/01_patients_slim_creation.sql
+2026-03-20 16:00:05 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim patients: retain only demographic columns needed downstream; cluster by id for join performance
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM healthcare-test-486920.raw_data.patients
+2026-03-20 16:00:07 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:00:07 | INFO     | pipeline.bq_transformer | Running: sql/02_encounters_slim_creation.sql
+2026-03-20 16:00:07 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.encounters_slim
+  PARTITION BY DATE_TRUNC(DATE(stop), MONTH)
+  CLUSTER BY patient, encounterclass
+AS (
+  WITH
+    -- Anchor point: latest encounter stop in raw data, used to exclude the most recent 30-day window (outcomes not yet known)
+    end_date AS (
+      SELECT MAX(stop) AS end_ts
+      FROM healthcare-test-486920.raw_data.encounters
+    ),
+    -- Pull patient deathdate for filtering out post-death encounters
+    p AS (
+      SELECT
+        id AS patient_id,
+        deathdate
+      FROM healthcare-test-486920.data_slim.patients_slim
+    )
+  SELECT
+    e.id,
+    e.start,
+    e.stop,
+    e.patient,
+    e.organization,
+    e.encounterclass,
+    e.base_encounter_cost,
+    e.total_claim_cost,
+    e.description
+  FROM healthcare-test-486920.raw_data.encounters e
+  LEFT JOIN p
+    ON e.patient = p.patient_id
+  CROSS JOIN end_date
+  WHERE
+    -- Keep only encounter classes used in the readmission model
+    e.encounterclass IN (
+      'inpatient',
+      'emergency',
+      'urgentcare',
+      'outpatient',
+      'ambulatory',
+      'virtual')
+    -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
+    AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
+    -- Exclude encounters that occurred after the patient died
+    AND e.stop < COALESCE(TIMESTAMP(deathdate), end_ts)
+)
+2026-03-20 16:20:44 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:20:44 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:20:44 | INFO     | pipeline.bq_transformer | Running: sql/01_patients_slim_creation.sql
+2026-03-20 16:20:44 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim patients: retain only demographic columns needed downstream; cluster by id for join performance
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM healthcare-test-486920.raw_data.patients
+2026-03-20 16:20:47 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:20:47 | INFO     | pipeline.bq_transformer | Running: sql/02_encounters_slim_creation.sql
+2026-03-20 16:20:47 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.encounters_slim
+  PARTITION BY DATE_TRUNC(DATE(stop), MONTH)
+  CLUSTER BY patient, encounterclass
+AS (
+  WITH
+    -- Anchor point: latest encounter stop in raw data, used to exclude the most recent 30-day window (outcomes not yet known)
+    end_date AS (
+      SELECT MAX(stop) AS end_ts
+      FROM healthcare-test-486920.raw_data.encounters
+    ),
+    -- Pull patient deathdate for filtering out post-death encounters
+    p AS (
+      SELECT
+        id AS patient_id,
+        deathdate
+      FROM healthcare-test-486920.data_slim.patients_slim
+    )
+  SELECT
+    e.id,
+    e.start,
+    e.stop,
+    e.patient,
+    e.organization,
+    e.encounterclass,
+    e.base_encounter_cost,
+    e.total_claim_cost,
+    e.description
+  FROM healthcare-test-486920.raw_data.encounters e
+  LEFT JOIN p
+    ON e.patient = p.patient_id
+  CROSS JOIN end_date
+  WHERE
+    -- Keep only encounter classes used in the readmission model
+    e.encounterclass IN (
+      'inpatient',
+      'emergency',
+      'urgentcare',
+      'outpatient',
+      'ambulatory',
+      'virtual')
+    -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
+    AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
+    -- Exclude encounters that occurred after the patient died
+    AND e.stop < COALESCE(TIMESTAMP(deathdate), end_ts)
+)
+2026-03-20 16:22:11 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:22:11 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:22:11 | INFO     | pipeline.bq_transformer | Running: sql/01_patients_slim_creation.sql
+2026-03-20 16:22:11 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim patients: retain only demographic columns needed downstream; cluster by id for join performance
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM healthcare-test-486920.raw_data.patients
+2026-03-20 16:22:13 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:13 | INFO     | pipeline.bq_transformer | Running: sql/02_encounters_slim_creation.sql
+2026-03-20 16:22:13 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.encounters_slim
+  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
+  CLUSTER BY patient, encounterclass
+AS (
+  WITH
+    -- Anchor point: latest encounter stop in raw data, used to exclude the most recent 30-day window (outcomes not yet known)
+    end_date AS (
+      SELECT MAX(stop) AS end_ts
+      FROM healthcare-test-486920.raw_data.encounters
+    ),
+    -- Pull patient deathdate for filtering out post-death encounters
+    p AS (
+      SELECT
+        id AS patient_id,
+        deathdate
+      FROM healthcare-test-486920.data_slim.patients_slim
+    )
+  SELECT
+    e.id,
+    e.start,
+    e.stop,
+    e.patient,
+    e.organization,
+    e.encounterclass,
+    e.base_encounter_cost,
+    e.total_claim_cost,
+    e.description
+  FROM healthcare-test-486920.raw_data.encounters e
+  LEFT JOIN p
+    ON e.patient = p.patient_id
+  CROSS JOIN end_date
+  WHERE
+    -- Keep only encounter classes used in the readmission model
+    e.encounterclass IN (
+      'inpatient',
+      'emergency',
+      'urgentcare',
+      'outpatient',
+      'ambulatory',
+      'virtual')
+    -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
+    AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
+    -- Exclude encounters that occurred after the patient died
+    AND e.stop < COALESCE(TIMESTAMP(deathdate), end_ts)
+)
+2026-03-20 16:22:23 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:23 | INFO     | pipeline.bq_transformer | Running: sql/03_careplans_slim_creation.sql
+2026-03-20 16:22:23 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim careplans: inner join to encounters_slim to retain only careplans linked to valid encounters
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.careplans_slim
+  PARTITION BY DATE_TRUNC(stop, MONTH)
+  CLUSTER BY patient, encounter
+AS
+SELECT
+  care.Start,
+  care.stop,
+  care.patient,
+  care.encounter,
+  care.description,
+  care.reasoncode as code
+FROM healthcare-test-486920.raw_data.careplans care
+-- Only keep careplans whose triggering encounter passed the encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON care.encounter = e.id
+2026-03-20 16:22:28 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:28 | INFO     | pipeline.bq_transformer | Running: sql/04_claims_slim_creation.sql
+2026-03-20 16:22:28 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim claims: retain diagnosis codes (SNOMED) and illness date; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.claims_slim
+  PARTITION BY DATE_TRUNC(currentillnessdate, MONTH)
+  CLUSTER BY patientid, encounter
+AS
+SELECT
+  cl.appointmentid AS encounter,
+  cl.patientid,
+  cl.diagnosis1,
+  cl.diagnosis2,
+  cl.diagnosis3,
+  cl.diagnosis4,
+  cl.diagnosis5,
+  cl.diagnosis6,
+  cl.diagnosis7,
+  cl.diagnosis8,
+  cl.currentillnessdate,
+FROM healthcare-test-486920.raw_data.claims cl
+-- Only keep claims linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON cl.appointmentid = e.id
+2026-03-20 16:22:30 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:30 | INFO     | pipeline.bq_transformer | Running: sql/05_conditions_slim_creation.sql
+2026-03-20 16:22:30 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim conditions: parse diagnosis_name and diagnosis_type out of the description string; exclude 'situation' type entries
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.conditions_slim
+  PARTITION BY DATE_TRUNC(stop, MONTH)
+  CLUSTER BY patient, code
+AS
+SELECT
+  cond.start,
+  cond.stop,
+  cond.patient,
+  cond.encounter,
+  cond.code,
+  -- Extract human-readable name: text before the first '('
+  TRIM(SPLIT(cond.description, '(')[OFFSET(0)]) AS diagnosis_name,
+  -- Extract SNOMED concept type: text inside the first '(...)'
+  REPLACE(
+    TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+    ')',
+    '') AS diagnosis_type
+FROM  healthcare-test-486920.raw_data.conditions cond
+-- Only keep conditions linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON cond.encounter = e.id
+WHERE
+  -- Exclude 'situation' concept type — not clinically meaningful as a diagnosis
+  coalesce(
+    REPLACE(
+      TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+      ')',
+      ''))
+  != 'situation'
+
+2026-03-20 16:22:33 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:33 | INFO     | pipeline.bq_transformer | Running: sql/06_medications_slim_creation.sql
+2026-03-20 16:22:33 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim medications: retain cost and dispensing columns; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.medications_slim
+  PARTITION BY DATE_TRUNC(stop, MONTH)
+  CLUSTER BY encounter, code
+AS
+SELECT
+  m.start,
+  m.stop,
+  m.encounter,
+  m.code,
+  m.description,
+  m.base_cost,
+  m.dispenses,
+  m.totalcost
+FROM healthcare-test-486920.raw_data.medications m
+-- Only keep medications linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON m.encounter = e.id
+
+2026-03-20 16:22:35 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:35 | INFO     | pipeline.bq_transformer | Running: sql/07_procedures_slim_creation.sql
+2026-03-20 16:22:35 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim procedures: retain code, timing, and cost columns; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.procedures_slim
+  PARTITION BY DATE_TRUNC(stop, MONTH)
+  CLUSTER BY patient, encounter
+AS
+SELECT
+  proc.start,
+  proc.stop,
+  proc.patient,
+  proc.encounter,
+  proc.code,
+  proc.description,
+  proc.base_cost
+FROM healthcare-test-486920.raw_data.procedures proc
+-- Only keep procedures linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON proc.encounter = e.id
+
+2026-03-20 16:22:38 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:38 | INFO     | pipeline.bq_transformer | Running: sql/08_organizations_slim_creation.sql
+2026-03-20 16:22:38 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim organizations: deduplicate to only organizations that appear in encounters_slim
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.organizations_slim
+AS
+SELECT
+  org.id,
+  org.name,
+  org.utilization
+FROM healthcare-test-486920.raw_data.organizations org
+-- Only keep organizations referenced by at least one valid encounter
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON org.id = e.organization
+
+2026-03-20 16:22:40 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-20 16:22:40 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary
+2026-03-20 16:24:12 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:24:12 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:24:12 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:24:12 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary
+2026-03-20 16:26:17 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:26:17 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:26:17 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:26:17 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary
+2026-03-20 16:46:26 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:46:26 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:46:27 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary
+2026-03-20 16:51:31 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-20 16:51:31 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-20 16:51:32 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary

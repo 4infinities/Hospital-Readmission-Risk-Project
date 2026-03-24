@@ -1,6 +1,6 @@
 -- Slim procedures: retain code, timing, and cost columns; inner join to encounters_slim scopes to valid encounters only
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.procedures_slim
-  PARTITION BY DATE_TRUNC(stop, MONTH)
+  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
   CLUSTER BY patient, encounter
 AS
 SELECT

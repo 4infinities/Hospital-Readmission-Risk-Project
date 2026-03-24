@@ -15,10 +15,30 @@
       "sql/14_helper_clinical_grouped_creation.sql",
       "sql/15_helper_cost_agg_creation.sql",
       "sql/16_helper_cost_agg_grouped_creation.sql",
-      "sql/17_helper_utilization_creation.sql"
+      "sql/17_helper_utilization_creation.sql",
+      "sql/21_patient_known_chronic_codes_creation.sql"
     ],
     [
       "sql/19_index_stay_creation.sql"
+    ],
+    [
+      "sql/update/22_patient_known_chronic_codes_delta.sql",
+      "sql/update/13_helper_clinical_update.sql",
+      "sql/update/15_helper_cost_agg_update.sql",
+      "sql/update/14_helper_clinical_grouped_update.sql",
+      "sql/update/16_helper_cost_agg_grouped_update.sql",
+      "sql/update/17_helper_utilization_update.sql"
+    ],
+    [
+      "sql/update/19_index_stay_update.sql"
+    ],
+    [
+      "sql/monthly/02_encounters_slim_monthly.sql",
+      "sql/monthly/03_careplans_slim_monthly.sql",
+      "sql/monthly/04_claims_slim_monthly.sql",
+      "sql/monthly/05_conditions_slim_monthly.sql",
+      "sql/monthly/06_medications_slim_monthly.sql",
+      "sql/monthly/07_procedures_slim_monthly.sql"
     ]
     ]
   }

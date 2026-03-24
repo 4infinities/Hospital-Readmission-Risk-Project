@@ -11,6 +11,7 @@ WITH
       patient,
       start,
       CASE encounterclass
+        when 'wellness' then 0
         WHEN 'ambulatory' THEN 1
         WHEN 'outpatient' THEN 2
         WHEN 'virtual' THEN 3
@@ -70,6 +71,7 @@ WITH
       clust.id,
       best.group_id,
       CASE best.type_flag
+      WHEN 0 THEN 'wellness'
         WHEN 1 THEN 'ambulatory'
         WHEN 2 THEN 'outpatient'
         WHEN 3 THEN 'virtual'
@@ -102,7 +104,9 @@ WITH
       MAX(hc.has_ckd) AS has_ckd,
       MAX(hc.has_lf) AS has_lf,
       MAX(hc.is_planned) AS is_planned,
-      MAX(hc.had_surgery) AS had_surgery
+      MAX(hc.had_surgery) AS had_surgery,
+      ANY_VALUE(hc.patient_id) AS patient_id,
+      MAX(hc.last_surgery_date) AS last_surgery_date
     FROM final_groups final
     LEFT JOIN {{DATASET_HELPERS}}.helper_clinical hc
       ON final.id = hc.stay_id
@@ -113,6 +117,7 @@ WITH
 -- Final output: attach main diagnosis and category flags from the group representative encounter
 SELECT
   flag.stay_id,
+  flag.patient_id,
   dict.code AS main_code,
   dict.name AS main_name,
   COALESCE(dict.is_disorder, 0) AS is_disorder,
@@ -137,7 +142,8 @@ SELECT
   flag.has_ckd,
   flag.has_lf,
   flag.is_planned,
-  flag.had_surgery
+  flag.had_surgery,
+  flag.last_surgery_date
 FROM flags flag
 LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
   ON flag.stay_id = main.id

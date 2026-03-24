@@ -37,7 +37,7 @@ WITH all_codes AS (
 -- Attach the human-readable name from conditions_slim; NULL where code exists only in claims
 SELECT
   ac.code,
-  c.diagnosis_name
+  c.diagnosis_name as name
 FROM all_codes ac
 LEFT JOIN (
   SELECT DISTINCT CAST(code AS INT64) AS code, diagnosis_name

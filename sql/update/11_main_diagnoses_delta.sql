@@ -79,7 +79,7 @@ claims AS (
     diagnosis7,
     diagnosis8
   FROM {{DATASET_SLIM}}.claims_slim
-  WHERE currentillnessdate > {{START_DATE}} AND currentillnessdate <= {{END_DATE}}
+  WHERE currentillnessdate > LAST_DAY(DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH) AND currentillnessdate <= {{END_DATE}}
 )
 -- Output only encounters in the new window; full history above is only for group boundary accuracy
 SELECT
@@ -98,5 +98,5 @@ LEFT JOIN claims cl
   ON final.id = cl.id
 WHERE final.id IN (
   SELECT id FROM {{DATASET_SLIM}}.encounters_slim
-  WHERE start > {{START_DATE}} AND stop <= {{END_DATE}}
+  WHERE start > LAST_DAY(DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH) AND stop <= {{END_DATE}}
 );

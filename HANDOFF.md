@@ -1,136 +1,122 @@
 # HANDOFF.md
 
 ## Session summary
-
-### Task 1 — Logger wiring (completed previous session)
-All 10 pipeline classes in `src/pipeline/` now use `self.logger = get_logger(__name__)`.
-- 4 classes migrated from module-level `logging.getLogger` to instance-level `get_logger`
-- 4 classes had logging added fresh
-- 3 dataclasses (`ModelRegistry`, `Evaluator`, `CostReducer`) use `__post_init__`
-- 7 `print()` calls in `HyperparameterTuner` and `Evaluator` converted to `logger.debug/info`
-
-### Task 2 — SQL comments on all existing creation queries (completed previous session)
-One-line comments added per logical block to all 20 files in `sql/`. No logic changed.
-`19_index_stay_creation.sql` was updated by the user to join `helper_clinical_grouped`
-instead of `helper_clinical` — this is now the correct state.
-
-### Task 3 — Incremental update queries (completed this session)
-All 7 update SQL files written and saved to `sql/update/`.
+- RV-1 (update query data source architecture) implemented: all 5 helper update SQL files rewritten
+- RV-2 (patient_known_chronic_codes) implemented: creation SQL + delta SQL written
+- `{{PREV_END_DATE_SAFE}}` token added to `BigQueryTransformer`
+- `bigquery_recipes.json` updated: pkcc added to recipe[1] (creation) and recipe[3] (update, before H1)
+- `sql/update/20_patient_known_chronic_codes_delta.sql` renamed/deleted (replaced by 22)
 
 ---
 
-## Completed: Incremental update files
-
-| File | Table | Strategy |
-|---|---|---|
-| `sql/update/13_helper_clinical_update.sql` | `helper_clinical` | DELETE window + INSERT |
-| `sql/update/14_helper_clinical_grouped_update.sql` | `helper_clinical_grouped` | DELETE window + INSERT |
-| `sql/update/15_helper_cost_agg_update.sql` | `helper_cost_aggregation` | DELETE window + INSERT |
-| `sql/update/16_helper_cost_agg_grouped_update.sql` | `helper_cost_aggregation_grouped` | DELETE window + INSERT |
-| `sql/update/17_helper_utilization_update.sql` | `helper_utilization` | DELETE window + INSERT |
-| `sql/update/18_related_diagnoses_update.sql` | `related_diagnoses` | DELETE window + INSERT |
-| `sql/update/19_index_stay_update.sql` | `index_stay` | DELETE window + INSERT |
-
-### Placeholder tokens used in all update files
-- `{{WINDOW_START_DATE}}` — passed in as a DATE value; window starts at `DATE_TRUNC({{WINDOW_START_DATE}}, MONTH) - INTERVAL 2 MONTH`
-- `{{WINDOW_END_DATE}}` — passed in as a DATE value; the current end date (= `window_end` variable)
-- `{{DATASET_SLIM}}`, `{{DATASET_HELPERS}}` — same as creation queries
-
-### Filter conventions
-- **DELETE subquery**: `WHERE start >= window_start AND stop <= window_end` (bare column names, no alias)
-- **Two-bound window filter** (per-encounter output CTEs and final SELECT): `e.start >= window_start AND e.stop <= window_end`
-- **Single-bound filter** (full patient history CTEs): `... <= window_end` only (no lower bound)
-- **Grouped table final filter**: `WHERE flag.stay_id IN (SELECT id FROM encounters_slim WHERE start >= window_start AND stop <= window_end)`
-
-### Completed: Dictionary delta files (D1–D4)
-
-| File | Table | Type | Strategy |
-|---|---|---|---|
-| `sql/update/09_unique_diagnoses_delta.sql` | `diagnoses_dictionary` | SELECT feed | New window codes NOT IN dictionary |
-| `sql/update/10_unique_procedures_delta.sql` | `procedures_dictionary` | SELECT feed | New window codes NOT IN dictionary |
-| `sql/update/11_main_diagnoses_delta.sql` | `main_diagnoses` | SELECT feed | Full history CTEs; output scoped to new window encounters |
-| `sql/update/12_careplans_related_encounters_delta.sql` | `careplans_related_encounters` | SELECT feed | New window encounters only; requires D3 in BQ first |
-
-### Placeholder token standardisation (completed this session)
-All `{{WINDOW_START_DATE}}` / `{{WINDOW_END_DATE}}` tokens in `sql/update/` (files 13–19) renamed to
-`{{START_DATE}}` / `{{END_DATE}}` to match creation queries. Single Python replace function now works
-across all query types with string `'YYYY-MM-DD'` values.
+## Files changed
+| File | What changed |
+|---|---|
+| `sql/21_patient_known_chronic_codes_creation.sql` | New — full-history creation using claims_slim |
+| `sql/update/22_patient_known_chronic_codes_delta.sql` | New — monthly delta using claims_{{END_DATE_SAFE}} staging |
+| `sql/update/13_helper_clinical_update.sql` | Full rewrite: self-referential pattern, staging tables |
+| `sql/update/14_helper_clinical_grouped_update.sql` | Full rewrite: staging tables, prior_group_anchor, continuation exclusion |
+| `sql/update/15_helper_cost_agg_update.sql` | Added `patient_id` column |
+| `sql/update/16_helper_cost_agg_grouped_update.sql` | Full rewrite: staging tables, prior_group_anchor, continuation exclusion |
+| `sql/update/17_helper_utilization_update.sql` | Full rewrite: staging tables, self-join to hu for 365d lookback |
+| `src/pipeline/bq_transformer.py` | Added `{{PREV_END_DATE_SAFE}}` token substitution + `_prev_end_date_safe()` helper |
+| `config/bigquery_recipes.json` | Added pkcc to recipe[1]; added delta (22) to recipe[3] before H1 |
 
 ---
 
-## Confirmed dependency order
+## Completed this session
+### Task #8 — Helper update SQL rewrite (self-referential pattern)
 
-**Phase 1 — Dictionary delta (pre-helper):**
-- D1: `diagnoses_dictionary` delta (feeds from query 09)
-- D2: `procedures_dictionary` delta (feeds from query 10)
-- D3: `main_diagnoses` delta (feeds from query 11; needs D1 done)
-- D4: `careplans_related_encounters` delta (feeds from query 12; needs D3 loaded to BQ)
+**update/13** (`helper_clinical`):
+- `window_encounters`: UNION of `encounters_{{END_DATE_SAFE}}` + `encounters_{{PREV_END_DATE_SAFE}}`
+- `patient_baseline`: joins `helper_clinical_grouped` on `patient_id` directly — no `encounters_slim` scan (DELETE already removed window rows, so all hcg rows are pre-window)
+- `num_procedures`: from `procedures_{{END_DATE_SAFE}}` staging only
+- `num_chronic_conditions`: correlated subquery on `patient_known_chronic_codes`
+- Comorbidity flags: `GREATEST(baseline, new_onset_from_staging)`
+- Surgery: `GREATEST(hcg.last_surgery_date_baseline, new_surgery_from_staging)`
+- `is_planned`: `careplans_related_encounters` + `procedures_{{END_DATE_SAFE}}`
 
-**Phase 2 — Helper table DELETE + REBUILD (two-month window):**
-- H1: `helper_clinical` — needs D1, D2, D3, D4
-- H2: `helper_cost_aggregation` — independent of dictionaries (can run parallel to H1)
-- H3: `helper_clinical_grouped` — needs H1
-- H4: `helper_cost_aggregation_grouped` — needs H2 (can run parallel to H3)
-- H5: `helper_utilization` — needs H3 AND H4
+**update/14** (`helper_clinical_grouped`):
+- `window_encounters`: UNION of two staging tables (with `encounterclass` + `type_flag`)
+- `prior_group_anchor`: from `hcg.patient_id` JOIN `helper_utilization.stop` (no encounters_slim scan)
+- Grouping CTE runs on window encounters only, using `COALESCE(LAG(stop), last_prior_stop)` for boundary
+- `first_group_change_per_patient`: detects continuation groups
+- Final WHERE: excludes groups where `group_number=0` and `first_group_change=0` (prior row retained)
+- Added `patient_id`, `last_surgery_date`
 
-**Phase 3 — Dictionary delta (post-helper):**
-- D5: `related_diagnoses` delta (feeds from query 18; needs H5 done)
+**update/15** (`helper_cost_aggregation`): Added `patient_id` column only.
 
-**Phase 4 — Index stay:**
-- I1: `index_stay` DELETE + REBUILD (needs H3, H4, H5, D5)
+**update/16** (`helper_cost_aggregation_grouped`): Same rewrite pattern as update/14. Added `patient_id`.
+
+**update/17** (`helper_utilization`):
+- Same staging-table window grouping + `prior_group_anchor` + continuation exclusion
+- `prior_inpatient_base`: from `helper_utilization` where `stop < window_start` (no encounters_slim)
+- `all_inpatient`: `prior_inpatient_base` UNION `window_inpatient` for pairwise 365d lookback
+- `pairwise_follow`: uses `window_inpatient` only (post-window readmissions captured in future iterations)
+- Added `patient_id`
+
+**patient_known_chronic_codes**:
+- `sql/21_patient_known_chronic_codes_creation.sql`: full-history creation from `claims_slim` + `encounters_slim` + `diagnoses_dictionary`
+- `sql/update/22_patient_known_chronic_codes_delta.sql`: monthly delta from `claims_{{END_DATE_SAFE}}` staging; INSERT NOT IN existing table
+
+**`{{PREV_END_DATE_SAFE}}` token**: last day of prior calendar month in `YYYY_MM_DD` format. Added to both `load_sql_with_end_date()` and `run_query_sequence()` in `BigQueryTransformer`.
 
 ---
 
-### Completed: Slim table partitioning (this session)
+## Current crash / blocker
+`build_flags` crash in `dictionaries.py:529–530` — deferred, not blocking.
+```
+TypeError: int() argument must be a string... not 'NoneType'
+```
+Fix: `not col.endswith("_name")` instead of `not col.startswith("name")`.
+File state: SNOMED state cache wiped. Backup at `data/intermediate/backup_20260320_165057/`.
 
-`PARTITION BY DATE_TRUNC(..., MONTH)` and updated `CLUSTER BY` added to 6 slim creation queries.
+---
 
-| File | Partition column | Cluster BY |
-|---|---|---|
-| `02_encounters_slim_creation.sql` | `DATE_TRUNC(DATE(stop), MONTH)` | `patient, encounterclass` |
-| `03_careplans_slim_creation.sql` | `DATE_TRUNC(stop, MONTH)` | `patient, encounter` |
-| `04_claims_slim_creation.sql` | `DATE_TRUNC(currentillnessdate, MONTH)` | `patientid, encounter` |
-| `05_conditions_slim_creation.sql` | `DATE_TRUNC(stop, MONTH)` | `patient, code` |
-| `06_medications_slim_creation.sql` | `DATE_TRUNC(stop, MONTH)` | `encounter, code` |
-| `07_procedures_slim_creation.sql` | `DATE_TRUNC(stop, MONTH)` | `patient, encounter` |
-
-Skipped: `01_patients_slim` and `08_organizations_slim` — no date columns.
-Note: `encounters_slim.stop` is TIMESTAMP → partition uses `DATE(stop)` wrapper.
+## Simulation state
+| Field | Value |
+|---|---|
+| `last_processed_date` | `null` (watermark not yet written — Phase 1 not yet run) |
+| `next_end_date` | `2025-02-28` (stale placeholder — will be overwritten by Phase 1 segmenter) |
+| months completed | 0 |
+| monthly CSVs loaded to BQ | 0 |
+| last successful phase | None — base load not yet run end-to-end |
 
 ---
 
 ## What is NOT yet done
-
-- **Dictionary delta queries (D1–D4):** SQL files written (see below). Python-side `DictionaryBuilder`
-  logic to consume these queries and append results to BQ tables is NOT yet implemented.
-- **Walk-forward loop wiring:** `BigQueryTransformer` does not yet call the update files.
-  The execution order and parameter passing (`WINDOW_START_DATE`, `WINDOW_END_DATE`) need to be wired.
-- **Slim table MERGE queries:** Incremental append of new month's data into slim tables
-  (not yet built — currently slim tables are created once from full CSV load).
+- `mock_test_runner.ipynb` — never run end-to-end
+- `SyntheaSegmenter` — never run (no segmented files exist yet)
+- Walk-forward loop — never executed
+- Watermark Phase 1 wiring — code exists but never executed
+- `build_flags` crash — deferred
 
 ---
 
-## Architectural decisions made
+## Next 3 steps
+1. Fix `build_flags` crash (`dictionaries.py:529`) — change `startswith("name")` to `endswith("_name")`
+2. Run Phase 1 end-to-end via `mock_test_runner.ipynb` (Synthea → BQ → slim → helpers → index)
+3. Validate `patient_known_chronic_codes` populated correctly after Phase 1
 
-- UPDATE strategy: DELETE rows for the two-month window, then INSERT fresh recalculation.
-  Not a MERGE — avoids touching rows outside the window.
-- Two-month window formula: `DATE_TRUNC(@WINDOW_START_DATE, MONTH) - INTERVAL 2 MONTH`
-  to `@WINDOW_END_DATE`. Captures groups that span month boundaries.
-- `index_stay` is included in the DELETE + REBUILD scope (two-month window only).
-- Dictionary delta: append-only for new concept_ids; no DELETE or upsert needed.
-- New update SQL files go in `sql/update/` (created this session).
-- `related_diagnoses` is a post-helper dictionary and must be rebuilt AFTER `helper_utilization`.
-- Grouped table updates (H3, H4) use full patient history for group boundary detection
-  but restrict INSERT output to groups whose representative encounter is in the window.
-- `helper_utilization` update uses full patient history for pairwise lookback/followup
-  CTEs; final WHERE restricts to window encounter group representatives.
+---
+
+## Architectural decisions made this session
+| Decision | Choice |
+|---|---|
+| `window_encounters` source in update queries | UNION of `encounters_{{END_DATE_SAFE}}` + `encounters_{{PREV_END_DATE_SAFE}}` staging tables |
+| `patient_baseline` in update/13 | Join `hcg.patient_id` directly — no encounters_slim scan needed post-DELETE |
+| `prior_group_anchor` in update/14,16,17 | `helper_clinical_grouped.patient_id` JOIN `helper_utilization.stop` |
+| Continuation group handling | Skip group_number=0 with first_group_change=0 — prior hcg row retained as-is |
+| 365d lookback in update/17 | Self-join to `helper_utilization` pre-window rows (inpatient only) |
+| `{{PREV_END_DATE_SAFE}}` token | Last day of prior calendar month, `YYYY_MM_DD` format |
+| `patient_known_chronic_codes` file numbering | Creation = sql/21, delta = sql/update/22 |
+| `patient_known_chronic_codes` in recipes | Recipe[1] (creation, after helpers); recipe[3] (delta, first entry, before H1) |
 
 ---
 
 ## Known issues / surprises
-
-- `careplans_related_encounters` is the BQ table name for what
-  `DictionaryBuilder.build_careplans_related_diagnoses` produces — naming mismatch
-  between Python method and BQ table name to be aware of.
-- Dictionary creation queries (09–12, 18) are noted in CLAUDE.md as not yet refactored —
-  the incremental delta logic will need to work with them as-is.
+- `bigquery_recipes.json` recipe indices: 0=slim creation, 1=helper creation (+pkcc), 2=index creation, 3=helper update (+pkcc delta first), 4=index update, 5=monthly slim insert
+- update/17 `pairwise_follow`: only detects within-window readmissions. Post-window readmissions captured in next iteration (by design — no future data available)
+- update/14,16: cross-boundary groups (window encounter joins prior group within 12h) are not updated in hcg — prior row retained with pre-window flags. Accepted trade-off.
+- Continuation group detection relies on `helper_utilization` for prior stop dates — only covers clinical encounter types. Wellness/ambulatory prior stops not captured. Edge case accepted.
+- `encounters_slim` still used in DELETE condition for update/13,14,16,17 (bounded scan: 2 months). This is acceptable — the issue was avoiding unbounded full scans in the INSERT.

@@ -12,6 +12,7 @@ WITH
       start,
       stop,
       CASE encounterclass
+        when 'wellness' then 0
         WHEN 'ambulatory' THEN 1
         WHEN 'outpatient' THEN 2
         WHEN 'virtual' THEN 3
@@ -87,6 +88,7 @@ WITH
       sas.stop,
       sas.length_of_encounter,
       CASE best.type_flag
+        when 0 then 'wellness'
         WHEN 1 THEN 'ambulatory'
         WHEN 2 THEN 'outpatient'
         WHEN 3 THEN 'virtual'
@@ -211,6 +213,7 @@ WITH
 -- following_unplanned_admission_flag = 1 only if the following stay was unplanned
 SELECT
   pre.stay_id,
+  e.patient AS patient_id,
   e.encounterclass,
   e.start,
   e.stop,
