@@ -1,0 +1,420 @@
+﻿
+============================================================
+Init: BQ clients
+============================================================
+2026-03-27 12:43:51 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-27 12:43:51 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-27 12:43:51 | INFO     | pipeline.synthea_segmenter | Reading encounters.csv to derive simulation window...
+2026-03-27 12:43:51 | INFO     | pipeline.synthea_segmenter | Max encounters START date: 2026-03-20
+.\.venv\Scripts\python.exe : --- Logging error ---
+строка:1 знак:52
++ ... sion risk'; .\.venv\Scripts\python.exe scripts/run_pipeline.py 2>&1 | ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (--- Logging error ---:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Traceback (most recent call last):
+  File "C:\Users\4infi\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\4infi\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1251.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 92: character maps to <undefined>
+Call stack:
+  File "D:\Python Projects\Hospital readmission risk\scripts\run_pipeline.py", line 39, in <module>
+    segmenter.segment(overwrite=False)
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\synthea_segmenter.py", line 172, in segment
+    self.logger.info(
+Message: 'Simulation window: %s \u2192 %s (%d months). Base cutoff: %s'
+Arguments: (datetime.date(2025, 4, 1), datetime.date(2026, 3, 31), 12, datetime.date(2025, 3, 31))
+2026-03-27 12:43:51 | INFO     | pipeline.synthea_segmenter | Segmenting encounters (date_col=START)...
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_base.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-04-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-05-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-06-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-07-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-08-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-09-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-10-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-11-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-12-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2026-01-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2026-02-28.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2026-03-31.csv
+2026-03-27 12:43:51 | INFO     | pipeline.synthea_segmenter | Segmenting careplans (date_col=START)...
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_base.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-04-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-05-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-06-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-07-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-08-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-09-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-10-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-11-30.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-12-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2026-01-31.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2026-02-28.csv
+2026-03-27 12:43:51 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2026-03-31.csv
+2026-03-27 12:43:51 | INFO     | pipeline.synthea_segmenter | Segmenting claims (date_col=CURRENTILLNESSDATE)...
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_base.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-04-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-05-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-06-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-07-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-08-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-09-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-10-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-11-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-12-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2026-01-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2026-02-28.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2026-03-31.csv
+2026-03-27 12:43:52 | INFO     | pipeline.synthea_segmenter | Segmenting conditions (date_col=START)...
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_base.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-04-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-05-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-06-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-07-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-08-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-09-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-10-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-11-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-12-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2026-01-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2026-02-28.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2026-03-31.csv
+2026-03-27 12:43:52 | INFO     | pipeline.synthea_segmenter | Segmenting medications (date_col=START)...
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_base.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-04-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-05-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-06-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-07-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-08-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-09-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-10-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-11-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-12-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2026-01-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2026-02-28.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2026-03-31.csv
+2026-03-27 12:43:52 | INFO     | pipeline.synthea_segmenter | Segmenting procedures (date_col=START)...
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_base.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-04-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-05-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-06-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-07-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-08-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-09-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-10-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-11-30.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-12-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2026-01-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2026-02-28.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2026-03-31.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\patients_base.csv
+2026-03-27 12:43:52 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\organizations_base.csv
+2026-03-27 12:43:52 | INFO     | pipeline.synthea_segmenter | Segmentation complete. Output: D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock
+simulation_start : 2025-04-01
+base_cutoff_date : 2025-03-31
+2026-03-27 12:43:52 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.helper_tables
+
+============================================================
+S1: Load base segment CSVs to BQ raw_data
+============================================================
+2026-03-27 12:43:53 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.raw_data
+2026-03-27 12:43:53 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.careplans
+2026-03-27 12:43:58 | INFO     | pipeline.bq_loader | Loaded 2067 rows into healthcare-test-486920.raw_data.careplans
+2026-03-27 12:43:58 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.claims
+2026-03-27 12:44:12 | INFO     | pipeline.bq_loader | Loaded 40790 rows into healthcare-test-486920.raw_data.claims
+2026-03-27 12:44:12 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.conditions
+2026-03-27 12:44:24 | INFO     | pipeline.bq_loader | Loaded 16900 rows into healthcare-test-486920.raw_data.conditions
+2026-03-27 12:44:24 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.encounters
+2026-03-27 12:44:29 | INFO     | pipeline.bq_loader | Loaded 22893 rows into healthcare-test-486920.raw_data.encounters
+2026-03-27 12:44:29 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.medications
+2026-03-27 12:44:45 | INFO     | pipeline.bq_loader | Loaded 16755 rows into healthcare-test-486920.raw_data.medications
+2026-03-27 12:44:45 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.organizations
+2026-03-27 12:44:58 | INFO     | pipeline.bq_loader | Loaded 2130 rows into healthcare-test-486920.raw_data.organizations
+2026-03-27 12:44:58 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.patients
+2026-03-27 12:45:02 | INFO     | pipeline.bq_loader | Loaded 1134 rows into healthcare-test-486920.raw_data.patients
+2026-03-27 12:45:02 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.procedures
+2026-03-27 12:45:09 | INFO     | pipeline.bq_loader | Loaded 46510 rows into healthcare-test-486920.raw_data.procedures
+
+============================================================
+S2: Create slim tables (recipe 0)
+============================================================
+2026-03-27 12:45:09 | INFO     | pipeline.bq_transformer | Running: sql/01_patients_slim_creation.sql
+2026-03-27 12:45:09 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim patients: retain only demographic columns needed downstream; cluster by id for join performance
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM healthcare-test-486920.raw_data.patients
+2026-03-27 12:45:11 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:11 | INFO     | pipeline.bq_transformer | Running: sql/02_encounters_slim_creation.sql
+2026-03-27 12:45:11 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.encounters_slim
+  CLUSTER BY patient, encounterclass
+AS (
+  WITH
+    -- Anchor point: latest encounter stop in raw data, used to exclude the most recent 30-day window (outcomes not yet known)
+    end_date AS (
+      SELECT MAX(stop) AS end_ts
+      FROM healthcare-test-486920.raw_data.encounters
+    ),
+    -- Pull patient deathdate for filtering out post-death encounters
+    p AS (
+      SELECT
+        id AS patient_id,
+        deathdate
+      FROM healthcare-test-486920.data_slim.patients_slim
+    )
+  SELECT
+    e.id,
+    e.start,
+    e.stop,
+    e.patient,
+    e.organization,
+    e.encounterclass,
+    e.base_encounter_cost,
+    e.total_claim_cost,
+    e.description
+  FROM healthcare-test-486920.raw_data.encounters e
+  LEFT JOIN p
+    ON e.patient = p.patient_id
+  CROSS JOIN end_date
+  WHERE
+    -- Keep only encounter classes used in the readmission model
+    e.encounterclass IN (
+      'inpatient',
+      'emergency',
+      'urgentcare',
+      'outpatient',
+      'ambulatory',
+      'virtual',
+      'wellness')
+    -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
+    AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
+    -- Exclude encounters that occurred after the patient died
+    AND e.stop < COALESCE(TIMESTAMP(deathdate), end_ts)
+)
+2026-03-27 12:45:14 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:14 | INFO     | pipeline.bq_transformer | Running: sql/03_careplans_slim_creation.sql
+2026-03-27 12:45:14 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim careplans: inner join to encounters_slim to retain only careplans linked to valid encounters
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.careplans_slim
+  CLUSTER BY patient, encounter
+AS
+SELECT
+  care.Start,
+  care.stop,
+  care.patient,
+  care.encounter,
+  care.description,
+  care.reasoncode as code
+FROM healthcare-test-486920.raw_data.careplans care
+-- Only keep careplans whose triggering encounter passed the encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON care.encounter = e.id
+2026-03-27 12:45:16 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:16 | INFO     | pipeline.bq_transformer | Running: sql/04_claims_slim_creation.sql
+2026-03-27 12:45:16 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim claims: retain diagnosis codes (SNOMED) and illness date; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.claims_slim
+  CLUSTER BY patientid, encounter
+AS
+SELECT
+  cl.appointmentid AS encounter,
+  cl.patientid,
+  cl.diagnosis1,
+  cl.diagnosis2,
+  cl.diagnosis3,
+  cl.diagnosis4,
+  cl.diagnosis5,
+  cl.diagnosis6,
+  cl.diagnosis7,
+  cl.diagnosis8,
+  cl.currentillnessdate
+FROM healthcare-test-486920.raw_data.claims cl
+-- Only keep claims linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON cl.appointmentid = e.id
+2026-03-27 12:45:18 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:18 | INFO     | pipeline.bq_transformer | Running: sql/05_conditions_slim_creation.sql
+2026-03-27 12:45:18 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim conditions: parse diagnosis_name and diagnosis_type out of the description string; exclude 'situation' type entries
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.conditions_slim
+  CLUSTER BY patient, code
+AS
+SELECT
+  cond.start,
+  cond.stop,
+  cond.patient,
+  cond.encounter,
+  cond.code,
+  -- Extract human-readable name: text before the first '('
+  TRIM(SPLIT(cond.description, '(')[OFFSET(0)]) AS diagnosis_name,
+  -- Extract SNOMED concept type: text inside the first '(...)'
+  REPLACE(
+    TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+    ')',
+    '') AS diagnosis_type
+FROM  healthcare-test-486920.raw_data.conditions cond
+-- Only keep conditions linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON cond.encounter = e.id
+WHERE
+  -- Exclude 'situation' concept type Ч not clinically meaningful as a diagnosis
+  coalesce(
+    REPLACE(
+      TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+      ')',
+      ''))
+  != 'situation'
+
+2026-03-27 12:45:20 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:20 | INFO     | pipeline.bq_transformer | Running: sql/06_medications_slim_creation.sql
+2026-03-27 12:45:20 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim medications: retain cost and dispensing columns; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.medications_slim
+  CLUSTER BY encounter, code
+AS
+SELECT
+  m.start,
+  m.stop,
+  m.encounter,
+  m.code,
+  m.description,
+  m.base_cost,
+  m.dispenses,
+  m.totalcost
+FROM healthcare-test-486920.raw_data.medications m
+-- Only keep medications linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON m.encounter = e.id
+
+2026-03-27 12:45:22 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:22 | INFO     | pipeline.bq_transformer | Running: sql/07_procedures_slim_creation.sql
+2026-03-27 12:45:22 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim procedures: retain code, timing, and cost columns; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.procedures_slim
+  CLUSTER BY patient, encounter
+AS
+SELECT
+  proc.start,
+  proc.stop,
+  proc.patient,
+  proc.encounter,
+  proc.code,
+  proc.description,
+  proc.base_cost
+FROM healthcare-test-486920.raw_data.procedures proc
+-- Only keep procedures linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON proc.encounter = e.id
+
+2026-03-27 12:45:24 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:45:24 | INFO     | pipeline.bq_transformer | Running: sql/08_organizations_slim_creation.sql
+2026-03-27 12:45:24 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim organizations: deduplicate to only organizations that appear in encounters_slim
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.organizations_slim
+AS
+SELECT
+  org.id,
+  org.name,
+  org.utilization
+FROM healthcare-test-486920.raw_data.organizations org
+-- Only keep organizations referenced by at least one valid encounter
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON org.id = e.organization
+
+2026-03-27 12:45:26 | INFO     | pipeline.bq_transformer | Query finished.
+
+============================================================
+S3: Build diagnoses_dictionary locally
+============================================================
+2026-03-27 12:45:26 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+-- Feed query for DictionaryBuilder: collect every distinct SNOMED diagnosis code seen up to END_DATE
+-- across all 8 claim diagnosis columns and conditions_slim, then attach a human-readable name where available
+-- Note: claims diagnosis columns are STRING with float notation (e.g. "157265008.0"); cast via FLOAT64 first.
+WITH all_codes AS (
+  -- Unpivot all 8 diagnosis columns from claims into a single code column, unioning with conditions codes
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis1 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis1 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis2 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis2 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis3 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis3 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis4 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis4 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis5 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis5 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis6 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis6 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis7 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis8 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis8 IS NOT NULL and currentillnessdate <= '9999-12-31'
+
+  UNION DISTINCT
+
+  -- Also include codes from conditions_slim (may have codes not present in claims)
+  SELECT DISTINCT CAST(SAFE_CAST(code AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.conditions_slim
+  where stop <= '9999-12-31'
+)
+
+-- Attach the human-readable name from conditions_slim; NULL where code exists only in claims
+SELECT
+  ac.code,
+  c.diagnosis_name as name
+FROM all_codes ac
+LEFT JOIN (
+  SELECT DISTINCT CAST(SAFE_CAST(code AS FLOAT64) AS INT64) AS code, diagnosis_name
+  FROM healthcare-test-486920.data_slim.conditions_slim
+  where stop <= '9999-12-31'
+) c
+ON ac.code = c.code
+ORDER BY ac.code;
+
+
+============================================================
+S4: Build procedures_dictionary locally
+============================================================
+2026-03-27 12:45:27 | INFO     | pipeline.dictionary_builder | Building procedures dictionary
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+
+============================================================
+S5: Build main_diagnoses locally
+============================================================
+2026-03-27 12:45:27 | INFO     | pipeline.dictionary_builder | Building main_diagnoses
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+Traceback (most recent call last):
+  File "D:\Python Projects\Hospital readmission risk\scripts\run_pipeline.py", line 64, in <module>
+    step("S6: Load dictionaries \u2192 BQ helper_tables")
+  File "D:\Python Projects\Hospital readmission risk\scripts\run_pipeline.py", line 28, in step
+    print(f"\n{'='*60}\n{msg}\n{'='*60}")
+  File "C:\Users\4infi\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1251.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 86: character maps to <undefined>

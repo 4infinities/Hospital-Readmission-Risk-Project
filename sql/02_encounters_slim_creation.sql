@@ -1,6 +1,5 @@
 -- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.encounters_slim
-  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
   CLUSTER BY patient, encounterclass
 AS (
   WITH

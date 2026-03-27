@@ -1,25 +1,52 @@
--- helper_utilization incremental update: DELETE rows for the two-month window, then reinsert
+-- helper_utilization DDL-only update: CREATE OR REPLACE preserving pre-window rows + fresh window recalculation
 -- Self-referential architecture:
 --   - Window grouping runs on staging-table encounters only (no full encounters_slim scan)
 --   - 365d lookback: self-join to existing helper_utilization rows (pre-window fixed base)
 --   - Following-stay lookup: self-join to window inpatient encounters + existing post-window hu rows
 --   - Continuation groups (gap < 12h to prior stop) are skipped — prior row is retained
+-- prior_group_anchor fix: hcg.stay_id NOT IN window_ids excludes current window hcg rows (from H3)
+-- whose hu joins would otherwise pull M-1 stop dates from the unmodified hu table
 -- Depends on: encounters_{{END_DATE_SAFE}}, encounters_{{PREV_END_DATE_SAFE}},
 --             helper_utilization (pre-window base), helper_clinical_grouped (for is_planned),
 --             helper_cost_aggregation_grouped (for costs)
-DECLARE window_start DATE DEFAULT DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH;
-DECLARE window_end   DATE DEFAULT {{END_DATE}};
-
--- Remove window rows before recalculation
-DELETE FROM {{DATASET_HELPERS}}.helper_utilization
-WHERE stay_id IN (
-  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
-  WHERE start >= window_start AND stop <= window_end
-);
-
--- Reinsert recalculated rows for new groups in the two-month window
-INSERT INTO {{DATASET_HELPERS}}.helper_utilization
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_utilization AS
 WITH
+  bounds AS (
+    SELECT
+      DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH AS window_start,
+      DATE({{END_DATE}}) AS window_end
+  ),
+  window_ids AS (
+    SELECT id
+    FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
+    UNION DISTINCT
+    SELECT id
+    FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
+  ),
+  existing AS (
+    SELECT
+      stay_id,
+      patient_id,
+      encounterclass,
+      start,
+      stop,
+      admissions_365d,
+      tot_length_of_stay_365d,
+      avg_cost_of_prev_stays,
+      prev_stay_id,
+      prev_stay_date,
+      following_stay_id,
+      following_stay_date,
+      days_to_readmit,
+      readmit_30d,
+      readmit_90d,
+      total_stay_cost,
+      following_unplanned_admission_flag
+    FROM {{DATASET_HELPERS}}.helper_utilization
+    WHERE stay_id NOT IN (SELECT id FROM window_ids)
+  ),
   -- Window encounters with type_flags: union of current and prior month staging tables
   window_encounters AS (
     SELECT
@@ -34,8 +61,8 @@ WITH
         WHEN 'inpatient'  THEN 6
         ELSE 99
       END AS type_flag
-    FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}
-    WHERE start >= window_start AND stop <= window_end
+    FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
     UNION ALL
     SELECT
       id, patient, start, stop, encounterclass,
@@ -49,17 +76,21 @@ WITH
         WHEN 'inpatient'  THEN 6
         ELSE 99
       END AS type_flag
-    FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}
-    WHERE start >= window_start AND stop <= window_end
+    FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
   ),
   -- Most recent prior group stop per window patient, for group boundary detection
+  -- hcg.stay_id NOT IN window_ids: excludes current window hcg rows (present after H3 CREATE OR REPLACE)
+  -- whose hu joins would otherwise return M-1 stop dates from the still-unmodified hu table
   prior_group_anchor AS (
     SELECT
       wp.patient,
       MAX(hu.stop) AS last_prior_stop
     FROM (SELECT DISTINCT patient FROM window_encounters) wp
-    JOIN {{DATASET_HELPERS}}.helper_clinical_grouped hcg ON hcg.patient_id = wp.patient
+    JOIN {{DATASET_HELPERS}}.helper_clinical_grouped hcg
+      ON hcg.patient_id = wp.patient
     JOIN {{DATASET_HELPERS}}.helper_utilization hu ON hcg.stay_id = hu.stay_id
+    WHERE hcg.stay_id NOT IN (SELECT id FROM window_ids)
     GROUP BY wp.patient
   ),
   -- Group boundary detection for window encounters only
@@ -147,7 +178,7 @@ WITH
       AND clust.group_number = sas.group_number
   ),
   -- Deduplicate to one row per clinical group in the window (urgentcare/emergency/inpatient only)
-  -- Excludes groups that continue a prior group (prior row retained as-is)
+  -- Excludes groups that continue a prior group (prior row retained as-is via existing CTE)
   encounters_pure AS (
     SELECT DISTINCT
       group_id AS id, patient, start, stop, length_of_encounter, encounterclass
@@ -172,14 +203,14 @@ WITH
   -- Used for 365d lookback without scanning full encounters_slim
   prior_inpatient_base AS (
     SELECT
-      hu.stay_id AS id,
-      hu.patient_id AS patient,
-      hu.start,
-      hu.stop,
+      hu.stay_id                                      AS id,
+      hu.patient_id                                   AS patient,
+      hu.start                                        AS start,
+      hu.stop                                         AS stop,
       GREATEST(DATE_DIFF(hu.stop, hu.start, DAY), 1) AS length_of_stay
-    FROM {{DATASET_HELPERS}}.helper_utilization hu
+    FROM {{DATASET_HELPERS}}.helper_utilization hu, bounds
     WHERE hu.encounterclass = 'inpatient'
-      AND hu.stop < window_start
+      AND DATE(hu.stop) < bounds.window_start
   ),
   -- All inpatient stays available for lookback: prior base + window inpatient
   all_inpatient AS (
@@ -190,14 +221,14 @@ WITH
   -- Cross-join each window clinical encounter against all prior inpatient stays for that patient
   pairwise AS (
     SELECT
-      pure.id AS stay_id,
-      pure.patient,
-      pure.start AS index_start,
-      inp.id AS prev_inp_id,
-      inp.stop AS prev_inp_stop,
-      DATE_DIFF(pure.start, inp.stop, DAY) AS days_since_prev_inp,
-      inp.length_of_stay,
-      help_cost.total_stay_cost AS prev_stay_cost,
+      pure.id                                                         AS stay_id,
+      pure.patient                                                    AS patient,
+      pure.start                                                      AS index_start,
+      inp.id                                                          AS prev_inp_id,
+      inp.stop                                                        AS prev_inp_stop,
+      DATE_DIFF(pure.start, inp.stop, DAY)                           AS days_since_prev_inp,
+      inp.length_of_stay                                              AS length_of_stay,
+      help_cost.total_stay_cost                                       AS prev_stay_cost,
       ROW_NUMBER() OVER (PARTITION BY pure.id ORDER BY inp.stop DESC) AS rn_prev
     FROM encounters_pure pure
     LEFT JOIN all_inpatient inp
@@ -209,27 +240,25 @@ WITH
   -- Aggregate 365-day lookback utilization features per window encounter
   prev_data AS (
     SELECT
-      pair.stay_id,
-      COUNTIF(pair.days_since_prev_inp BETWEEN 0 AND 365)            AS admissions_365d,
-      SUM(IF(pair.days_since_prev_inp BETWEEN 0 AND 365, pair.length_of_stay, 0))
-                                                                      AS tot_length_of_stay_365d,
-      ROUND(AVG(IF(pair.days_since_prev_inp BETWEEN 0 AND 365, pair.prev_stay_cost, NULL)), 2)
-                                                                      AS avg_cost_of_prev_stays,
-      MAX(IF(pair.rn_prev = 1, pair.prev_inp_id,   NULL))            AS prev_stay_id,
-      MAX(IF(pair.rn_prev = 1, pair.prev_inp_stop, NULL))            AS prev_stay_date
+      pair.stay_id                                                                      AS stay_id,
+      COUNTIF(pair.days_since_prev_inp BETWEEN 0 AND 365)                              AS admissions_365d,
+      SUM(IF(pair.days_since_prev_inp BETWEEN 0 AND 365, pair.length_of_stay, 0))      AS tot_length_of_stay_365d,
+      ROUND(AVG(IF(pair.days_since_prev_inp BETWEEN 0 AND 365, pair.prev_stay_cost, NULL)), 2) AS avg_cost_of_prev_stays,
+      MAX(IF(pair.rn_prev = 1, pair.prev_inp_id,   NULL))                              AS prev_stay_id,
+      MAX(IF(pair.rn_prev = 1, pair.prev_inp_stop, NULL))                              AS prev_stay_date
     FROM pairwise pair
-    GROUP BY stay_id
+    GROUP BY pair.stay_id
   ),
   -- Cross-join each window clinical encounter against all following inpatient stays (within window only)
   -- Post-window readmissions will be captured in future iterations
   pairwise_follow AS (
     SELECT
-      pure.id AS stay_id,
-      pure.patient,
-      pure.stop AS index_stop,
-      inp.id AS fol_inp_id,
-      inp.start AS fol_inp_start,
-      DATE_DIFF(inp.start, pure.stop, DAY) AS days_to_readmit,
+      pure.id                                                          AS stay_id,
+      pure.patient                                                     AS patient,
+      pure.stop                                                        AS index_stop,
+      inp.id                                                           AS fol_inp_id,
+      inp.start                                                        AS fol_inp_start,
+      DATE_DIFF(inp.start, pure.stop, DAY)                            AS days_to_readmit,
       ROW_NUMBER() OVER (PARTITION BY pure.id ORDER BY inp.start ASC) AS rn_fol
     FROM encounters_pure pure
     LEFT JOIN window_inpatient inp
@@ -239,46 +268,86 @@ WITH
   -- Derive readmit flags from the next inpatient stay's days_to_readmit
   follow_data AS (
     SELECT
-      pair.stay_id,
-      MAX(IF(pair.rn_fol = 1, pair.fol_inp_start, NULL)) AS following_stay_date,
-      MAX(IF(pair.rn_fol = 1, pair.fol_inp_id,    NULL)) AS following_stay_id,
-      MAX(IF(pair.rn_fol = 1, days_to_readmit,    NULL)) AS days_to_readmit,
+      pair.stay_id                                              AS stay_id,
+      MAX(IF(pair.rn_fol = 1, pair.fol_inp_start, NULL))       AS following_stay_date,
+      MAX(IF(pair.rn_fol = 1, pair.fol_inp_id,    NULL))       AS following_stay_id,
+      MAX(IF(pair.rn_fol = 1, pair.days_to_readmit, NULL))     AS days_to_readmit,
       CASE
-        WHEN MAX(IF(pair.rn_fol = 1, days_to_readmit, NULL)) <= 30 THEN 1 ELSE 0
+        WHEN MAX(IF(pair.rn_fol = 1, pair.days_to_readmit, NULL)) <= 30 THEN 1 ELSE 0
       END AS readmit_30d,
       CASE
-        WHEN MAX(IF(pair.rn_fol = 1, days_to_readmit, NULL)) <= 90 THEN 1 ELSE 0
+        WHEN MAX(IF(pair.rn_fol = 1, pair.days_to_readmit, NULL)) <= 90 THEN 1 ELSE 0
       END AS readmit_90d
     FROM pairwise_follow pair
-    GROUP BY stay_id
+    GROUP BY pair.stay_id
+  ),
+  -- Final output: combine prev_data and follow_data; suppress readmit flags if following stay is planned
+  new_rows AS (
+    SELECT
+      pre.stay_id                                                           AS stay_id,
+      e.patient                                                             AS patient_id,
+      e.encounterclass                                                      AS encounterclass,
+      e.start                                                               AS start,
+      e.stop                                                                AS stop,
+      pre.admissions_365d                                                   AS admissions_365d,
+      pre.tot_length_of_stay_365d                                           AS tot_length_of_stay_365d,
+      pre.avg_cost_of_prev_stays                                            AS avg_cost_of_prev_stays,
+      pre.prev_stay_id                                                      AS prev_stay_id,
+      pre.prev_stay_date                                                    AS prev_stay_date,
+      fol.following_stay_id                                                 AS following_stay_id,
+      fol.following_stay_date                                               AS following_stay_date,
+      fol.days_to_readmit                                                   AS days_to_readmit,
+      IF(help_clin.is_planned = 1, 0, fol.readmit_30d)                     AS readmit_30d,
+      IF(help_clin.is_planned = 1, 0, fol.readmit_90d)                     AS readmit_90d,
+      help_cost.total_stay_cost                                             AS total_stay_cost,
+      IF(IF(help_clin.is_planned = 1, 0, fol.readmit_90d) = 0, 0, 1)      AS following_unplanned_admission_flag
+    FROM prev_data pre
+    LEFT JOIN (
+      SELECT id AS stay_id, patient, encounterclass, start, stop
+      FROM encounters_pure
+    ) e ON pre.stay_id = e.stay_id
+    LEFT JOIN follow_data fol ON pre.stay_id = fol.stay_id
+    LEFT JOIN {{DATASET_HELPERS}}.helper_clinical_grouped help_clin
+      ON help_clin.stay_id = fol.following_stay_id
+    LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation_grouped help_cost
+      ON help_cost.stay_id = fol.following_stay_id
   )
--- Final output: combine prev_data and follow_data; suppress readmit flags if following stay is planned
 SELECT
-  pre.stay_id,
-  e.patient_id,
-  e.encounterclass,
-  e.start,
-  e.stop,
-  pre.admissions_365d,
-  pre.tot_length_of_stay_365d,
-  pre.avg_cost_of_prev_stays,
-  pre.prev_stay_id,
-  pre.prev_stay_date,
-  fol.following_stay_id,
-  fol.following_stay_date,
-  fol.days_to_readmit,
-  IF(help_clin.is_planned = 1, 0, fol.readmit_30d) AS readmit_30d,
-  IF(help_clin.is_planned = 1, 0, fol.readmit_90d) AS readmit_90d,
-  help_cost.total_stay_cost,
-  IF(IF(help_clin.is_planned = 1, 0, fol.readmit_90d) = 0, 0, 1)
-    AS following_unplanned_admission_flag
-FROM prev_data pre
-LEFT JOIN (
-  SELECT id AS stay_id, patient AS patient_id, encounterclass, start, stop
-  FROM encounters_pure
-) e ON pre.stay_id = e.stay_id
-LEFT JOIN follow_data fol ON pre.stay_id = fol.stay_id
-LEFT JOIN {{DATASET_HELPERS}}.helper_clinical_grouped help_clin
-  ON help_clin.stay_id = fol.following_stay_id
-LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation_grouped help_cost
-  ON help_cost.stay_id = fol.following_stay_id;
+  stay_id,
+  patient_id,
+  encounterclass,
+  start,
+  stop,
+  admissions_365d,
+  tot_length_of_stay_365d,
+  avg_cost_of_prev_stays,
+  prev_stay_id,
+  prev_stay_date,
+  following_stay_id,
+  following_stay_date,
+  days_to_readmit,
+  readmit_30d,
+  readmit_90d,
+  total_stay_cost,
+  following_unplanned_admission_flag
+FROM existing
+UNION ALL
+SELECT
+  stay_id,
+  patient_id,
+  encounterclass,
+  start,
+  stop,
+  admissions_365d,
+  tot_length_of_stay_365d,
+  avg_cost_of_prev_stays,
+  prev_stay_id,
+  prev_stay_date,
+  following_stay_id,
+  following_stay_date,
+  days_to_readmit,
+  readmit_30d,
+  readmit_90d,
+  total_stay_cost,
+  following_unplanned_admission_flag
+FROM new_rows

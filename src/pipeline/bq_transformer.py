@@ -171,6 +171,7 @@ class BigQueryTransformer:
         sql = sql.replace("{{DATASET_RAW}}", self.dataset_raw_fq)
         sql = sql.replace("{{DATASET_SLIM}}", self.dataset_slim_fq)
         sql = sql.replace("{{DATASET_HELPERS}}", self.dataset_helpers_fq)
+        sql = sql.replace("{{PROFILE}}", "")
         return sql
 
     def _run_query(self, sql: str) -> None:
@@ -251,8 +252,10 @@ class BigQueryTransformer:
             full_path = base_dir / rel_path
             sql_raw = self._load_query_file(str(full_path))
             sql = self._transform_query(sql_raw)
+            _end = end_date if end_date is not None else "9999-12-31"
+            sql = sql.replace("{{END_DATE}}", f"'{_end}'")
+            sql = sql.replace("{{START_DATE}}", "'1900-01-01'")
             if end_date is not None:
-                sql = sql.replace("{{END_DATE}}", f"'{end_date}'")
                 sql = sql.replace("{{END_DATE_SAFE}}", end_date.replace("-", "_"))
                 sql = sql.replace("{{PREV_END_DATE_SAFE}}", self._prev_end_date_safe(end_date))
             self.logger.info("Running: %s", rel_path)

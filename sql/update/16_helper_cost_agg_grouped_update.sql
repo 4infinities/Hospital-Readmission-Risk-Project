@@ -1,22 +1,40 @@
--- helper_cost_aggregation_grouped incremental update: DELETE rows for the two-month window, then reinsert
+-- helper_cost_aggregation_grouped DDL-only update: CREATE OR REPLACE preserving pre-window rows + fresh window recalculation
 -- Self-referential architecture: grouping runs on staging-table window encounters only.
 -- prior_group_anchor derived from helper_clinical_grouped + helper_utilization (no encounters_slim scan).
+-- prior_group_anchor fix: hcg.stay_id NOT IN window_ids excludes current window rows from the anchor,
+-- replicating the semantic of the original DELETE (at H4 time hcg already has current window rows from H3).
 -- Groups that continue a prior group (gap < 12h to prior stop) are skipped — prior row is retained.
 -- Depends on: encounters_{{END_DATE_SAFE}}, encounters_{{PREV_END_DATE_SAFE}},
 --             helper_cost_aggregation (freshly updated by H2), helper_clinical_grouped, helper_utilization
-DECLARE window_start DATE DEFAULT DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH;
-DECLARE window_end   DATE DEFAULT {{END_DATE}};
-
--- Remove window group rows before recalculation
-DELETE FROM {{DATASET_HELPERS}}.helper_cost_aggregation_grouped
-WHERE stay_id IN (
-  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
-  WHERE start >= window_start AND stop <= window_end
-);
-
--- Reinsert recalculated group rows for new groups in the two-month window
-INSERT INTO {{DATASET_HELPERS}}.helper_cost_aggregation_grouped
+CREATE OR REPLACE TABLE {{DATASET_HELPERS}}.helper_cost_aggregation_grouped AS
 WITH
+  bounds AS (
+    SELECT
+      DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH AS window_start,
+      DATE({{END_DATE}}) AS window_end
+  ),
+  window_ids AS (
+    SELECT id
+    FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
+    UNION DISTINCT
+    SELECT id
+    FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
+  ),
+  existing AS (
+    SELECT
+      stay_id,
+      patient_id,
+      length_of_encounter,
+      admission_cost,
+      total_procedure_costs,
+      total_medication_costs,
+      total_stay_cost,
+      cost_per_day_stay
+    FROM {{DATASET_HELPERS}}.helper_cost_aggregation_grouped
+    WHERE stay_id NOT IN (SELECT id FROM window_ids)
+  ),
   -- Window encounters with type_flags: union of current and prior month staging tables
   window_encounters AS (
     SELECT
@@ -31,8 +49,8 @@ WITH
         WHEN 'inpatient'  THEN 6
         ELSE 99
       END AS type_flag
-    FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}
-    WHERE start >= window_start AND stop <= window_end
+    FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
     UNION ALL
     SELECT
       id, patient, start, stop, encounterclass,
@@ -46,17 +64,21 @@ WITH
         WHEN 'inpatient'  THEN 6
         ELSE 99
       END AS type_flag
-    FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}
-    WHERE start >= window_start AND stop <= window_end
+    FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}, bounds
+    WHERE DATE(start) >= bounds.window_start AND DATE(stop) <= bounds.window_end
   ),
   -- Most recent prior group stop per window patient, from helper_utilization
+  -- hcg.stay_id NOT IN window_ids: excludes current window hcg rows (added by H3 CREATE OR REPLACE)
+  -- replicating the effect of the original DELETE that removed window rows before reading hcg
   prior_group_anchor AS (
     SELECT
       wp.patient,
       MAX(hu.stop) AS last_prior_stop
     FROM (SELECT DISTINCT patient FROM window_encounters) wp
-    JOIN {{DATASET_HELPERS}}.helper_clinical_grouped hcg ON hcg.patient_id = wp.patient
+    JOIN {{DATASET_HELPERS}}.helper_clinical_grouped hcg
+      ON hcg.patient_id = wp.patient
     JOIN {{DATASET_HELPERS}}.helper_utilization hu ON hcg.stay_id = hu.stay_id
+    WHERE hcg.stay_id NOT IN (SELECT id FROM window_ids)
     GROUP BY wp.patient
   ),
   -- Group boundary detection for window encounters only
@@ -138,30 +160,52 @@ WITH
     LEFT JOIN starts_and_stops sas
       ON clust.patient = sas.patient
       AND clust.group_number = sas.group_number
+  ),
+  -- Aggregate costs from helper_cost_aggregation across window group members; exclude continuation groups
+  new_rows AS (
+    SELECT
+      final.group_id                  AS stay_id,
+      ANY_VALUE(final.patient)        AS patient_id,
+      MAX(final.length_of_encounter)  AS length_of_encounter,
+      MAX(hc.admission_cost)          AS admission_cost,
+      SUM(hc.total_procedure_costs)   AS total_procedure_costs,
+      SUM(hc.total_medication_costs)  AS total_medication_costs,
+      SUM(hc.total_stay_cost)         AS total_stay_cost,
+      ROUND(
+        (SUM(hc.total_procedure_costs) + SUM(hc.total_medication_costs))
+        / MAX(final.length_of_encounter),
+        2)                            AS cost_per_day_stay
+    FROM final_groups final
+    LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation hc ON final.id = hc.stay_id
+    WHERE final.encounterclass IN ('urgentcare', 'inpatient', 'emergency')
+      AND final.group_id NOT IN (
+        SELECT best.group_id
+        FROM best_stay_per_group best
+        JOIN first_group_change_per_patient fgc ON best.patient = fgc.patient
+        WHERE best.group_number = 0
+          AND fgc.first_group_change = 0
+          AND best.rn = 1
+      )
+    GROUP BY final.group_id
   )
--- Aggregate costs from helper_cost_aggregation across window group members; exclude continuation groups
 SELECT
-  final.group_id AS stay_id,
-  ANY_VALUE(final.patient) AS patient_id,
-  MAX(final.length_of_encounter) AS length_of_encounter,
-  MAX(hc.admission_cost) AS admission_cost,
-  SUM(hc.total_procedure_costs) AS total_procedure_costs,
-  SUM(hc.total_medication_costs) AS total_medication_costs,
-  SUM(hc.total_stay_cost) AS total_stay_cost,
-  ROUND(
-    (SUM(hc.total_procedure_costs) + SUM(hc.total_medication_costs))
-    / MAX(final.length_of_encounter),
-    2) AS cost_per_day_stay
-FROM final_groups final
-LEFT JOIN {{DATASET_HELPERS}}.helper_cost_aggregation hc ON final.id = hc.stay_id
-WHERE final.encounterclass IN ('urgentcare', 'inpatient', 'emergency')
-  -- Exclude groups that continue a prior group (prior hcg row is retained as-is)
-  AND final.group_id NOT IN (
-    SELECT best.group_id
-    FROM best_stay_per_group best
-    JOIN first_group_change_per_patient fgc ON best.patient = fgc.patient
-    WHERE best.group_number = 0
-      AND fgc.first_group_change = 0
-      AND best.rn = 1
-  )
-GROUP BY final.group_id;
+  stay_id,
+  patient_id,
+  length_of_encounter,
+  admission_cost,
+  total_procedure_costs,
+  total_medication_costs,
+  total_stay_cost,
+  cost_per_day_stay
+FROM existing
+UNION ALL
+SELECT
+  stay_id,
+  patient_id,
+  length_of_encounter,
+  admission_cost,
+  total_procedure_costs,
+  total_medication_costs,
+  total_stay_cost,
+  cost_per_day_stay
+FROM new_rows

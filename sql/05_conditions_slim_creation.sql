@@ -1,6 +1,5 @@
 -- Slim conditions: parse diagnosis_name and diagnosis_type out of the description string; exclude 'situation' type entries
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.conditions_slim
-  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
   CLUSTER BY patient, code
 AS
 SELECT

@@ -1,0 +1,1550 @@
+﻿
+============================================================
+Init: BQ clients
+============================================================
+2026-03-27 12:49:38 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-27 12:49:39 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+2026-03-27 12:49:39 | INFO     | pipeline.synthea_segmenter | Reading encounters.csv to derive simulation window...
+2026-03-27 12:49:39 | INFO     | pipeline.synthea_segmenter | Max encounters START date: 2026-03-20
+.\.venv\Scripts\python.exe : --- Logging error ---
+строка:1 знак:52
++ ... sion risk'; .\.venv\Scripts\python.exe scripts/run_pipeline.py 2>&1 | ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (--- Logging error ---:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Traceback (most recent call last):
+  File "C:\Users\4infi\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\4infi\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1251.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 92: character maps to <undefined>
+Call stack:
+  File "D:\Python Projects\Hospital readmission risk\scripts\run_pipeline.py", line 39, in <module>
+    segmenter.segment(overwrite=False)
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\synthea_segmenter.py", line 172, in segment
+    self.logger.info(
+Message: 'Simulation window: %s \u2192 %s (%d months). Base cutoff: %s'
+Arguments: (datetime.date(2025, 4, 1), datetime.date(2026, 3, 31), 12, datetime.date(2025, 3, 31))
+2026-03-27 12:49:39 | INFO     | pipeline.synthea_segmenter | Segmenting encounters (date_col=START)...
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_base.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-04-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-05-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-06-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-07-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-08-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-09-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-10-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-11-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2025-12-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2026-01-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2026-02-28.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\encounters_2026-03-31.csv
+2026-03-27 12:49:39 | INFO     | pipeline.synthea_segmenter | Segmenting careplans (date_col=START)...
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_base.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-04-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-05-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-06-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-07-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-08-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-09-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-10-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-11-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2025-12-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2026-01-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2026-02-28.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\careplans_2026-03-31.csv
+2026-03-27 12:49:39 | INFO     | pipeline.synthea_segmenter | Segmenting claims (date_col=CURRENTILLNESSDATE)...
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_base.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-04-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-05-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-06-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-07-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-08-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-09-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-10-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-11-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2025-12-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2026-01-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2026-02-28.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\claims_2026-03-31.csv
+2026-03-27 12:49:39 | INFO     | pipeline.synthea_segmenter | Segmenting conditions (date_col=START)...
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_base.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-04-30.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-05-31.csv
+2026-03-27 12:49:39 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-06-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-07-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-08-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-09-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-10-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-11-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2025-12-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2026-01-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2026-02-28.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\conditions_2026-03-31.csv
+2026-03-27 12:49:40 | INFO     | pipeline.synthea_segmenter | Segmenting medications (date_col=START)...
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_base.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-04-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-05-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-06-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-07-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-08-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-09-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-10-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-11-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2025-12-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2026-01-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2026-02-28.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\medications_2026-03-31.csv
+2026-03-27 12:49:40 | INFO     | pipeline.synthea_segmenter | Segmenting procedures (date_col=START)...
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_base.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-04-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-05-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-06-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-07-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-08-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-09-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-10-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-11-30.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2025-12-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2026-01-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2026-02-28.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\procedures_2026-03-31.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\patients_base.csv
+2026-03-27 12:49:40 | WARNING  | pipeline.synthea_segmenter | File exists, skipping (overwrite=False): D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock\organizations_base.csv
+2026-03-27 12:49:40 | INFO     | pipeline.synthea_segmenter | Segmentation complete. Output: D:\Python Projects\Hospital readmission risk\data\raw\segmented\mock
+simulation_start : 2025-04-01
+base_cutoff_date : 2025-03-31
+2026-03-27 12:49:40 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.helper_tables
+
+============================================================
+S1: Load base segment CSVs to BQ raw_data
+============================================================
+2026-03-27 12:49:40 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.raw_data
+2026-03-27 12:49:40 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.careplans
+2026-03-27 12:49:45 | INFO     | pipeline.bq_loader | Loaded 2067 rows into healthcare-test-486920.raw_data.careplans
+2026-03-27 12:49:45 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.claims
+2026-03-27 12:49:52 | INFO     | pipeline.bq_loader | Loaded 40790 rows into healthcare-test-486920.raw_data.claims
+2026-03-27 12:49:52 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.conditions
+2026-03-27 12:49:56 | INFO     | pipeline.bq_loader | Loaded 16900 rows into healthcare-test-486920.raw_data.conditions
+2026-03-27 12:49:56 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.encounters
+2026-03-27 12:50:08 | INFO     | pipeline.bq_loader | Loaded 22893 rows into healthcare-test-486920.raw_data.encounters
+2026-03-27 12:50:08 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.medications
+2026-03-27 12:50:12 | INFO     | pipeline.bq_loader | Loaded 16755 rows into healthcare-test-486920.raw_data.medications
+2026-03-27 12:50:12 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.organizations
+2026-03-27 12:50:15 | INFO     | pipeline.bq_loader | Loaded 2130 rows into healthcare-test-486920.raw_data.organizations
+2026-03-27 12:50:15 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.patients
+2026-03-27 12:50:19 | INFO     | pipeline.bq_loader | Loaded 1134 rows into healthcare-test-486920.raw_data.patients
+2026-03-27 12:50:19 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.procedures
+2026-03-27 12:50:24 | INFO     | pipeline.bq_loader | Loaded 46510 rows into healthcare-test-486920.raw_data.procedures
+
+============================================================
+S2: Create slim tables (recipe 0)
+============================================================
+2026-03-27 12:50:24 | INFO     | pipeline.bq_transformer | Running: sql/01_patients_slim_creation.sql
+2026-03-27 12:50:24 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim patients: retain only demographic columns needed downstream; cluster by id for join performance
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.patients_slim
+  CLUSTER BY id
+AS
+SELECT
+  id,
+  birthdate,
+  deathdate,
+  race,
+  gender
+FROM healthcare-test-486920.raw_data.patients
+2026-03-27 12:50:26 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:26 | INFO     | pipeline.bq_transformer | Running: sql/02_encounters_slim_creation.sql
+2026-03-27 12:50:26 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim encounters: strip unused columns and filter to clinically relevant encounter classes
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.encounters_slim
+  CLUSTER BY patient, encounterclass
+AS (
+  WITH
+    -- Anchor point: latest encounter stop in raw data, used to exclude the most recent 30-day window (outcomes not yet known)
+    end_date AS (
+      SELECT MAX(stop) AS end_ts
+      FROM healthcare-test-486920.raw_data.encounters
+    ),
+    -- Pull patient deathdate for filtering out post-death encounters
+    p AS (
+      SELECT
+        id AS patient_id,
+        deathdate
+      FROM healthcare-test-486920.data_slim.patients_slim
+    )
+  SELECT
+    e.id,
+    e.start,
+    e.stop,
+    e.patient,
+    e.organization,
+    e.encounterclass,
+    e.base_encounter_cost,
+    e.total_claim_cost,
+    e.description
+  FROM healthcare-test-486920.raw_data.encounters e
+  LEFT JOIN p
+    ON e.patient = p.patient_id
+  CROSS JOIN end_date
+  WHERE
+    -- Keep only encounter classes used in the readmission model
+    e.encounterclass IN (
+      'inpatient',
+      'emergency',
+      'urgentcare',
+      'outpatient',
+      'ambulatory',
+      'virtual',
+      'wellness')
+    -- Exclude encounters ending in the last 30 days: their readmission outcome is not yet observable
+    AND e.stop <= TIMESTAMP_SUB(end_ts, INTERVAL 30 DAY)
+    -- Exclude encounters that occurred after the patient died
+    AND e.stop < COALESCE(TIMESTAMP(deathdate), end_ts)
+)
+2026-03-27 12:50:28 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:28 | INFO     | pipeline.bq_transformer | Running: sql/03_careplans_slim_creation.sql
+2026-03-27 12:50:28 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim careplans: inner join to encounters_slim to retain only careplans linked to valid encounters
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.careplans_slim
+  CLUSTER BY patient, encounter
+AS
+SELECT
+  care.Start,
+  care.stop,
+  care.patient,
+  care.encounter,
+  care.description,
+  care.reasoncode as code
+FROM healthcare-test-486920.raw_data.careplans care
+-- Only keep careplans whose triggering encounter passed the encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON care.encounter = e.id
+2026-03-27 12:50:30 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:30 | INFO     | pipeline.bq_transformer | Running: sql/04_claims_slim_creation.sql
+2026-03-27 12:50:30 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim claims: retain diagnosis codes (SNOMED) and illness date; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.claims_slim
+  CLUSTER BY patientid, encounter
+AS
+SELECT
+  cl.appointmentid AS encounter,
+  cl.patientid,
+  cl.diagnosis1,
+  cl.diagnosis2,
+  cl.diagnosis3,
+  cl.diagnosis4,
+  cl.diagnosis5,
+  cl.diagnosis6,
+  cl.diagnosis7,
+  cl.diagnosis8,
+  cl.currentillnessdate
+FROM healthcare-test-486920.raw_data.claims cl
+-- Only keep claims linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON cl.appointmentid = e.id
+2026-03-27 12:50:32 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:32 | INFO     | pipeline.bq_transformer | Running: sql/05_conditions_slim_creation.sql
+2026-03-27 12:50:32 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim conditions: parse diagnosis_name and diagnosis_type out of the description string; exclude 'situation' type entries
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.conditions_slim
+  CLUSTER BY patient, code
+AS
+SELECT
+  cond.start,
+  cond.stop,
+  cond.patient,
+  cond.encounter,
+  cond.code,
+  -- Extract human-readable name: text before the first '('
+  TRIM(SPLIT(cond.description, '(')[OFFSET(0)]) AS diagnosis_name,
+  -- Extract SNOMED concept type: text inside the first '(...)'
+  REPLACE(
+    TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+    ')',
+    '') AS diagnosis_type
+FROM  healthcare-test-486920.raw_data.conditions cond
+-- Only keep conditions linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON cond.encounter = e.id
+WHERE
+  -- Exclude 'situation' concept type Ч not clinically meaningful as a diagnosis
+  coalesce(
+    REPLACE(
+      TRIM(SPLIT(cond.description, '(')[safe_OFFSET(1)]),
+      ')',
+      ''))
+  != 'situation'
+
+2026-03-27 12:50:34 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:34 | INFO     | pipeline.bq_transformer | Running: sql/06_medications_slim_creation.sql
+2026-03-27 12:50:34 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim medications: retain cost and dispensing columns; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.medications_slim
+  CLUSTER BY encounter, code
+AS
+SELECT
+  m.start,
+  m.stop,
+  m.encounter,
+  m.code,
+  m.description,
+  m.base_cost,
+  m.dispenses,
+  m.totalcost
+FROM healthcare-test-486920.raw_data.medications m
+-- Only keep medications linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON m.encounter = e.id
+
+2026-03-27 12:50:36 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:36 | INFO     | pipeline.bq_transformer | Running: sql/07_procedures_slim_creation.sql
+2026-03-27 12:50:37 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim procedures: retain code, timing, and cost columns; inner join to encounters_slim scopes to valid encounters only
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.procedures_slim
+  CLUSTER BY patient, encounter
+AS
+SELECT
+  proc.start,
+  proc.stop,
+  proc.patient,
+  proc.encounter,
+  proc.code,
+  proc.description,
+  proc.base_cost
+FROM healthcare-test-486920.raw_data.procedures proc
+-- Only keep procedures linked to encounters that passed encounters_slim filters
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON proc.encounter = e.id
+
+2026-03-27 12:50:39 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:50:39 | INFO     | pipeline.bq_transformer | Running: sql/08_organizations_slim_creation.sql
+2026-03-27 12:50:39 | INFO     | pipeline.bq_transformer | Running query:
+-- Slim organizations: deduplicate to only organizations that appear in encounters_slim
+CREATE OR REPLACE TABLE healthcare-test-486920.data_slim.organizations_slim
+AS
+SELECT
+  org.id,
+  org.name,
+  org.utilization
+FROM healthcare-test-486920.raw_data.organizations org
+-- Only keep organizations referenced by at least one valid encounter
+JOIN healthcare-test-486920.data_slim.encounters_slim e
+  ON org.id = e.organization
+
+2026-03-27 12:50:40 | INFO     | pipeline.bq_transformer | Query finished.
+
+============================================================
+S3: Build diagnoses_dictionary locally
+============================================================
+2026-03-27 12:50:40 | INFO     | pipeline.dictionary_builder | Building diagnoses dictionary
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+-- Feed query for DictionaryBuilder: collect every distinct SNOMED diagnosis code seen up to END_DATE
+-- across all 8 claim diagnosis columns and conditions_slim, then attach a human-readable name where available
+-- Note: claims diagnosis columns are STRING with float notation (e.g. "157265008.0"); cast via FLOAT64 first.
+WITH all_codes AS (
+  -- Unpivot all 8 diagnosis columns from claims into a single code column, unioning with conditions codes
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis1 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis1 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis2 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis2 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis3 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis3 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis4 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis4 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis5 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis5 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis6 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis6 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis7 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION DISTINCT
+  SELECT DISTINCT CAST(SAFE_CAST(diagnosis8 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis8 IS NOT NULL and currentillnessdate <= '9999-12-31'
+
+  UNION DISTINCT
+
+  -- Also include codes from conditions_slim (may have codes not present in claims)
+  SELECT DISTINCT CAST(SAFE_CAST(code AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.conditions_slim
+  where stop <= '9999-12-31'
+)
+
+-- Attach the human-readable name from conditions_slim; NULL where code exists only in claims
+SELECT
+  ac.code,
+  c.diagnosis_name as name
+FROM all_codes ac
+LEFT JOIN (
+  SELECT DISTINCT CAST(SAFE_CAST(code AS FLOAT64) AS INT64) AS code, diagnosis_name
+  FROM healthcare-test-486920.data_slim.conditions_slim
+  where stop <= '9999-12-31'
+) c
+ON ac.code = c.code
+ORDER BY ac.code;
+
+
+============================================================
+S4: Build procedures_dictionary locally
+============================================================
+2026-03-27 12:50:41 | INFO     | pipeline.dictionary_builder | Building procedures dictionary
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+
+============================================================
+S5: Build main_diagnoses locally
+============================================================
+2026-03-27 12:50:42 | INFO     | pipeline.dictionary_builder | Building main_diagnoses
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+
+============================================================
+S6: Load dictionaries to BQ helper_tables
+============================================================
+2026-03-27 12:51:20 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.helper_tables.diagnoses_dictionary
+2026-03-27 12:51:22 | INFO     | pipeline.bq_loader | Loaded 284 rows into healthcare-test-486920.helper_tables.diagnoses_dictionary
+2026-03-27 12:51:22 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.helper_tables.procedures_dictionary
+2026-03-27 12:51:26 | INFO     | pipeline.bq_loader | Loaded 299 rows into healthcare-test-486920.helper_tables.procedures_dictionary
+2026-03-27 12:51:26 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.helper_tables.main_diagnoses
+2026-03-27 12:51:28 | INFO     | pipeline.bq_loader | Loaded 21912 rows into healthcare-test-486920.helper_tables.main_diagnoses
+
+============================================================
+S7: Build careplans_related_diagnoses locally
+============================================================
+2026-03-27 12:51:28 | INFO     | pipeline.dictionary_builder | Building careplans_related_diagnoses
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+
+============================================================
+S8: Load careplans_related_encounters to BQ
+============================================================
+2026-03-27 12:51:32 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.helper_tables.careplans_related_encounters
+2026-03-27 12:51:36 | INFO     | pipeline.bq_loader | Loaded 16574 rows into healthcare-test-486920.helper_tables.careplans_related_encounters
+
+============================================================
+S9: Create helper tables (recipe 1)
+============================================================
+2026-03-27 12:51:36 | INFO     | pipeline.bq_transformer | Running: sql/13_helper_clinical_creation.sql
+2026-03-27 12:51:36 | INFO     | pipeline.bq_transformer | Running query:
+-- helper_clinical: one row per encounter, computes clinical flags, diagnosis category flags,
+-- chronic condition counts, specific disease presence flags, planned-stay flag, and surgery recency flag
+-- Depends on: encounters_slim, claims_slim, procedures_slim, procedures_dictionary,
+--             diagnoses_dictionary, main_diagnoses, careplans_related_encounters
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.helper_clinical
+AS (
+  WITH
+    -- Unpivot all 8 claim diagnosis columns into one row per (stay_id, code) for join-based lookups
+    claims_long AS (
+      SELECT DISTINCT
+        stay_id, code
+      FROM
+        (
+          SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis1 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis1 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis2 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis2 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis3 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis3 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis4 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis4 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis5 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis5 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis6 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis6 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis7 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis7 IS NOT NULL and currentillnessdate <= '9999-12-31'
+  UNION ALL
+  SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis8 AS FLOAT64) AS INT64) AS code
+  FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis8 IS NOT NULL and currentillnessdate <= '9999-12-31'
+        ) t
+    ),
+    -- All (patient, diagnosis code, encounter_start) tuples Ч used to compute chronic condition history
+    patient_diagnoses AS (
+      SELECT
+        e.patient,
+        c.code,
+        e.start AS encounter_start
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      JOIN claims_long c
+        ON e.id = c.stay_id
+        where e.stop <= '9999-12-31'
+    ),
+    -- Count of distinct qualifying procedures per encounter (is_procedure = 1 in procedures_dictionary)
+    procedures AS (
+      SELECT
+        proc.encounter AS stay_id,
+        COUNT(proc.code) AS num_procedures
+      FROM healthcare-test-486920.data_slim.procedures_slim proc
+      LEFT JOIN
+        healthcare-test-486920.helper_tables.procedures_dictionary proc_dict
+        ON proc.code = proc_dict.code
+      WHERE proc_dict.is_procedure = 1
+      GROUP BY proc.encounter
+      HAVING MAX(proc.stop) <= '9999-12-31'
+    ),
+    -- Subset of patient_diagnoses limited to codes flagged is_chronic in diagnoses_dictionary
+    chronic_patient_codes AS (
+      SELECT
+        pd.patient,
+        pd.code,
+        pd.encounter_start
+      FROM patient_diagnoses pd
+      JOIN healthcare-test-486920.helper_tables.diagnoses_dictionary dict
+        ON pd.code = dict.code
+      WHERE dict.is_chronic = 1
+    ),
+    -- Earliest encounter date per patient per chronic code (lifetime onset, not per-stay)
+    first_chronic_per_code AS (
+      SELECT
+        patient,
+        code,
+        MIN(encounter_start) AS first_chronic_date
+      FROM chronic_patient_codes
+      GROUP BY patient, code
+    ),
+    -- For each encounter, count how many distinct chronic conditions the patient had before or at that encounter
+    chronic_conditions AS (
+      SELECT
+        e.id AS stay_id,
+        e.patient,
+        e.start AS encounter_start,
+        (
+          SELECT COUNT(*)
+          FROM first_chronic_per_code f
+          WHERE
+            f.patient = e.patient
+            AND f.first_chronic_date <= e.start
+        ) AS num_chronic_conditions
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      where e.stop <= '9999-12-31'
+    ),
+    -- For each patient, find the first claim date per specific disease flag (diabetes, cancer, etc.)
+    patient_condition_starts AS (
+      SELECT
+        claims.patientid AS patient,
+        MIN(IF(dict.is_diabetes = 1, claims.currentillnessdate, NULL))
+          AS diabetes_start,
+        MIN(IF(dict.is_cancer = 1, claims.currentillnessdate, NULL))
+          AS cancer_start,
+        MIN(IF(dict.is_hiv = 1, claims.currentillnessdate, NULL)) AS hiv_start,
+        MIN(IF(dict.is_hf = 1, claims.currentillnessdate, NULL)) AS hf_start,
+        MIN(IF(dict.is_dementia = 1, claims.currentillnessdate, NULL))
+          AS alz_start,
+        MIN(IF(dict.is_ckd = 1, claims.currentillnessdate, NULL)) AS ckd_start,
+        MIN(IF(dict.is_lf = 1, claims.currentillnessdate, NULL))
+          AS lf_start
+      FROM claims_long cl
+      JOIN healthcare-test-486920.helper_tables.diagnoses_dictionary dict
+        ON cl.code = dict.code
+      JOIN healthcare-test-486920.data_slim.claims_slim claims
+        ON cl.stay_id = claims.encounter
+      where claims.currentillnessdate <= '9999-12-31'
+      GROUP BY claims.patientid
+    ),
+    -- Flag each encounter: 1 if the patient already had the specific disease before this encounter started
+    patient_conditions AS (
+      SELECT
+        e.id AS stay_id,
+        CASE
+          WHEN
+            pcs.diabetes_start IS NOT NULL
+            AND e.start >= pcs.diabetes_start
+            THEN 1
+          ELSE 0
+          END AS has_diabetes,
+        CASE
+          WHEN
+            pcs.cancer_start IS NOT NULL
+            AND e.start >= pcs.cancer_start
+            THEN 1
+          ELSE 0
+          END AS has_cancer,
+        CASE
+          WHEN
+            pcs.hiv_start IS NOT NULL
+            AND e.start >= pcs.hiv_start
+            THEN 1
+          ELSE 0
+          END AS has_hiv,
+        CASE
+          WHEN
+            pcs.hf_start IS NOT NULL
+            AND e.start >= pcs.hf_start
+            THEN 1
+          ELSE 0
+          END AS has_hf,
+        CASE
+          WHEN
+            pcs.alz_start IS NOT NULL
+            AND e.start >= pcs.alz_start
+            THEN 1
+          ELSE 0
+          END AS has_alz,
+        CASE
+          WHEN
+            pcs.ckd_start IS NOT NULL
+            AND e.start >= pcs.ckd_start
+            THEN 1
+          ELSE 0
+          END AS has_ckd,
+        CASE
+          WHEN
+            pcs.lf_start IS NOT NULL
+            AND e.start >= pcs.lf_start
+            THEN 1
+          ELSE 0
+          END AS has_lf
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      LEFT JOIN patient_condition_starts pcs
+        ON pcs.patient = e.patient
+      where e.stop <= '9999-12-31'
+    ),
+    -- Find encounters that follow a planning procedure (is_planning = 1); row_number = 1 means first post-plan encounter
+    plans_by_procedure AS (
+      SELECT
+        e.id AS stay_id,
+        row_number()
+          OVER (PARTITION BY e.patient ORDER BY e.start ASC) AS num_after_plan
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      LEFT JOIN healthcare-test-486920.data_slim.procedures_slim proc
+        ON e.patient = proc.patient
+      LEFT JOIN
+        healthcare-test-486920.helper_tables.procedures_dictionary proc_dict
+        ON proc_dict.code = proc.code
+      WHERE
+        proc_dict.is_planning = 1
+        AND e.start > proc.start
+        AND e.stop <= '9999-12-31'
+    ),
+    -- Retain only the first post-planning-procedure encounter per patient as "planned"
+    plans_by_procedure_flag AS (
+      SELECT
+        stay_id,
+        1 AS is_planned
+      FROM plans_by_procedure
+      WHERE num_after_plan = 1
+    ),
+    -- Combine procedure-based and careplan-based planned-stay signals into a single is_planned flag
+    planned_stays as (
+      SELECT
+        e.id as stay_id,
+        greatest(coalesce(proc.is_planned, 0), coalesce(care.is_related, 0))
+          AS is_planned
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      left join healthcare-test-486920.helper_tables.careplans_related_encounters care
+      on e.id = care.stay_id
+      LEFT JOIN plans_by_procedure_flag proc
+        ON e.id = proc.stay_id
+      where e.stop <= '9999-12-31'
+    ),
+    -- For each encounter, compute days since each prior surgery and carry the surgery date
+    surgeries_and_dates AS (
+      SELECT
+        date_diff(e.start, proc.start, day) AS days_from_surgery,
+        proc.start AS surgery_date,
+        e.id AS stay_id,
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      LEFT JOIN healthcare-test-486920.data_slim.procedures_slim proc
+        ON e.patient = proc.patient
+      LEFT JOIN
+        healthcare-test-486920.helper_tables.procedures_dictionary proc_dict
+        ON proc_dict.code = proc.code
+      WHERE
+        proc_dict.is_surgery = 1
+        AND e.start > proc.start
+        and e.stop <= '9999-12-31'
+    ),
+    -- Flag encounter as had_surgery = 1 if any prior surgery within 730 days; store most recent surgery date
+    surgeries AS (
+      SELECT
+        e.id AS stay_id,
+        MAX(
+          CASE
+            WHEN coalesce(surg.days_from_surgery, 1000) < 730
+              THEN 1
+            ELSE 0
+            END) AS had_surgery,
+        MAX(
+          CASE
+            WHEN coalesce(surg.days_from_surgery, 1000) < 730
+              THEN surg.surgery_date
+            ELSE NULL
+            END) AS last_surgery_date
+      FROM healthcare-test-486920.data_slim.encounters_slim e
+      LEFT JOIN surgeries_and_dates surg
+        ON e.id = surg.stay_id
+      where e.stop <= '9999-12-31'
+      GROUP BY e.id
+    )
+  -- Final assembly: join all CTEs onto encounters_slim; one output row per encounter
+  SELECT
+    e.id AS stay_id,
+    e.patient AS patient_id,
+    dict.code AS main_code,
+    dict.name AS main_name,
+    COALESCE(dict.is_disorder, 0) AS is_disorder,
+    COALESCE(dict.is_symptom, 0) AS is_symptom,
+    COALESCE(dict.inflammation, 0) AS inflammation,
+    COALESCE(dict.musculoskeletal, 0) AS musculoskeletal,
+    COALESCE(dict.nervous, 0) AS nervous,
+    COALESCE(dict.respiratory, 0) AS respiratory,
+    COALESCE(dict.cardiac, 0) AS cardiac,
+    COALESCE(dict.renal, 0) AS renal,
+    COALESCE(dict.trauma, 0) AS trauma,
+    COALESCE(dict.intoxication, 0) AS intoxication,
+    COALESCE(main.num_of_disorders, 0) AS num_disorders,
+    COALESCE(main.num_of_findings, 0) AS num_findings,
+    coalesce(proc.num_procedures, 0) AS num_procedures,
+    cc.num_chronic_conditions,
+    pc.has_diabetes,
+    pc.has_cancer,
+    pc.has_hiv,
+    pc.has_hf,
+    pc.has_alz,
+    pc.has_ckd,
+    pc.has_lf,
+    ps.is_planned,
+    coalesce(surg.had_surgery, 0) AS had_surgery,
+    surg.last_surgery_date,
+  FROM healthcare-test-486920.data_slim.encounters_slim e
+  LEFT JOIN healthcare-test-486920.helper_tables.main_diagnoses main
+    ON e.id = main.id
+  LEFT JOIN healthcare-test-486920.helper_tables.diagnoses_dictionary dict
+    ON main.main_diagnosis_code = dict.code
+  LEFT JOIN procedures proc
+    ON e.id = proc.stay_id
+  LEFT JOIN chronic_conditions cc
+    ON e.id = cc.stay_id
+  LEFT JOIN patient_conditions pc
+    ON e.id = pc.stay_id
+  LEFT JOIN planned_stays ps
+    ON e.id = ps.stay_id
+  LEFT JOIN surgeries surg
+    ON e.id = surg.stay_id
+  where e.stop <= '9999-12-31'
+);
+2026-03-27 12:51:39 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:51:39 | INFO     | pipeline.bq_transformer | Running: sql/14_helper_clinical_grouped_creation.sql
+2026-03-27 12:51:39 | INFO     | pipeline.bq_transformer | Running query:
+-- helper_clinical_grouped: one row per encounter GROUP (consecutive encounters < 12h apart)
+-- aggregates helper_clinical flags across all member encounters; restricted to urgentcare/emergency/inpatient groups
+-- Depends on: encounters_slim, helper_clinical, main_diagnoses, diagnoses_dictionary
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.helper_clinical_grouped
+AS
+WITH
+  -- Assign type_flag rank per encounter class; detect group boundary when gap to prior stop >= 12h
+  group_flags AS (
+    SELECT
+      id,
+      patient,
+      start,
+      CASE encounterclass
+        when 'wellness' then 0
+        WHEN 'ambulatory' THEN 1
+        WHEN 'outpatient' THEN 2
+        WHEN 'virtual' THEN 3
+        WHEN 'urgentcare' THEN 4
+        WHEN 'emergency' THEN 5
+        WHEN 'inpatient' THEN 6
+        ELSE 99
+        END type_flag,
+      CASE
+        WHEN
+          date_diff(
+            start,
+            lag(stop, 1) OVER (PARTITION BY patient ORDER BY start ASC),
+            hour)
+          < 12
+          THEN 0
+        ELSE 1
+        END AS group_change
+    FROM healthcare-test-486920.data_slim.encounters_slim
+  where stop <= '9999-12-31'
+  ),
+  -- Cumulative sum of group_change yields a monotonically increasing group_number per patient
+  clusters AS (
+    SELECT
+      id,
+      patient,
+      start,
+      type_flag,
+      sum(group_change)
+        OVER (
+          PARTITION BY patient
+          ORDER BY start ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) group_number
+    FROM group_flags
+  ),
+  -- Elect the representative (highest type_flag, then earliest start) encounter per group
+  best_stay_per_group AS (
+    SELECT
+      patient,
+      group_number,
+      id AS group_id,
+      type_flag,
+      ROW_NUMBER()
+        OVER (
+          PARTITION BY patient, group_number
+          ORDER BY
+            type_flag DESC,  -- highest type_flag wins
+            start ASC,  -- tie-breaker: earliest start
+            id ASC  -- final tie-breaker
+        ) AS rn
+    FROM clusters
+  ),
+  -- Map every individual encounter to its group's representative encounter id and class label
+  final_groups AS (
+    SELECT
+      clust.id,
+      best.group_id,
+      CASE best.type_flag
+      WHEN 0 THEN 'wellness'
+        WHEN 1 THEN 'ambulatory'
+        WHEN 2 THEN 'outpatient'
+        WHEN 3 THEN 'virtual'
+        WHEN 4 THEN 'urgentcare'
+        WHEN 5 THEN 'emergency'
+        WHEN 6 THEN 'inpatient'
+        ELSE 'unknown'
+        END AS encounterclass
+    FROM clusters clust
+    LEFT JOIN best_stay_per_group best
+      ON
+        best.patient = clust.patient
+        AND best.group_number = clust.group_number
+        AND best.rn = 1
+  ),
+  -- Aggregate helper_clinical flags across all members of each group; only keep clinical groups
+  flags AS (
+    SELECT
+      final.group_id AS stay_id,
+      any_value(final.encounterclass) AS encounterclass,
+      -- Sum procedures across all group members
+      sum(hc.num_procedures) num_procedures,
+      -- Take the maximum chronic count (worst-case across member encounters)
+      max(hc.num_chronic_conditions) num_chronic_conditions,
+      MAX(hc.has_diabetes) AS has_diabetes,
+      MAX(hc.has_cancer) AS has_cancer,
+      MAX(hc.has_hiv) AS has_hiv,
+      MAX(hc.has_hf) AS has_hf,
+      MAX(hc.has_alz) AS has_alz,
+      MAX(hc.has_ckd) AS has_ckd,
+      MAX(hc.has_lf) AS has_lf,
+      MAX(hc.is_planned) AS is_planned,
+      MAX(hc.had_surgery) AS had_surgery,
+      ANY_VALUE(hc.patient_id) AS patient_id,
+      MAX(hc.last_surgery_date) AS last_surgery_date
+    FROM final_groups final
+    LEFT JOIN healthcare-test-486920.helper_tables.helper_clinical hc
+      ON final.id = hc.stay_id
+    -- Restrict to clinically significant encounter groups only
+    WHERE final.encounterclass IN ('urgentcare', 'inpatient', 'emergency')
+    GROUP BY final.group_id
+  )
+-- Final output: attach main diagnosis and category flags from the group representative encounter
+SELECT
+  flag.stay_id,
+  flag.patient_id,
+  dict.code AS main_code,
+  dict.name AS main_name,
+  COALESCE(dict.is_disorder, 0) AS is_disorder,
+  COALESCE(dict.is_symptom, 0) AS is_symptom,
+  COALESCE(dict.inflammation, 0) AS inflammation,
+  COALESCE(dict.musculoskeletal, 0) AS musculoskeletal,
+  COALESCE(dict.nervous, 0) AS nervous,
+  COALESCE(dict.respiratory, 0) AS respiratory,
+  COALESCE(dict.cardiac, 0) AS cardiac,
+  COALESCE(dict.renal, 0) AS renal,
+  COALESCE(dict.trauma, 0) AS trauma,
+  COALESCE(dict.intoxication, 0) AS intoxication,
+  COALESCE(main.num_of_disorders, 0) AS num_disorders,
+  COALESCE(main.num_of_findings, 0) AS num_findings,
+  flag.num_procedures,
+  flag.num_chronic_conditions,
+  flag.has_diabetes,
+  flag.has_cancer,
+  flag.has_hiv,
+  flag.has_hf,
+  flag.has_alz,
+  flag.has_ckd,
+  flag.has_lf,
+  flag.is_planned,
+  flag.had_surgery,
+  flag.last_surgery_date
+FROM flags flag
+LEFT JOIN healthcare-test-486920.helper_tables.main_diagnoses main
+  ON flag.stay_id = main.id
+LEFT JOIN healthcare-test-486920.helper_tables.diagnoses_dictionary dict
+  ON main.main_diagnosis_code = dict.code
+
+2026-03-27 12:51:42 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:51:42 | INFO     | pipeline.bq_transformer | Running: sql/15_helper_cost_agg_creation.sql
+2026-03-27 12:51:42 | INFO     | pipeline.bq_transformer | Running query:
+-- helper_cost_aggregation: one row per encounter with summed procedure costs, medication costs,
+-- total stay cost (max of claim cost vs component sum), and cost per day
+-- Depends on: encounters_slim, procedures_slim, medications_slim (no dictionary dependency)
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.helper_cost_aggregation
+AS
+WITH
+  -- Sum all procedure base costs per encounter
+  procedure_costs AS (
+    SELECT
+      e.id,
+      coalesce(round(sum(proc.base_cost), 2), 0) AS total_procedure_costs
+    FROM healthcare-test-486920.data_slim.encounters_slim e
+    LEFT JOIN healthcare-test-486920.data_slim.procedures_slim proc
+      ON e.id = proc.encounter
+    where e.stop <= '9999-12-31'
+    GROUP BY e.id
+  ),
+  -- Sum all medication total costs per encounter
+  medication_costs AS (
+    SELECT
+      e.id,
+      coalesce(round(sum(med.totalcost), 2), 0) AS total_medication_costs
+    FROM healthcare-test-486920.data_slim.encounters_slim e
+    LEFT JOIN healthcare-test-486920.data_slim.medications_slim med
+      ON e.id = med.encounter
+    where e.stop <= '9999-12-31'
+    GROUP BY e.id
+  )
+-- Final output: combine costs; total_stay_cost = max(claim cost, component sum) to handle billing discrepancies
+SELECT
+  e.id AS stay_id,
+  e.patient AS patient_id,
+  e.base_encounter_cost AS admission_cost,
+  proc.total_procedure_costs,
+  med.total_medication_costs,
+  round(
+    greatest(
+      e.total_claim_cost,
+      e.base_encounter_cost
+        + proc.total_procedure_costs
+        + med.total_medication_costs),
+    2) AS total_stay_cost,
+  -- cost_per_day_stay = non-admission costs divided by length of stay (floored at 1 day)
+  round(
+    greatest(
+      e.total_claim_cost - e.base_encounter_cost,
+        proc.total_procedure_costs
+        + med.total_medication_costs)
+      / greatest(date_diff(e.stop, e.start, day), 1),
+    2) AS cost_per_day_stay,
+FROM healthcare-test-486920.data_slim.encounters_slim e
+LEFT JOIN procedure_costs proc
+  ON e.id = proc.id
+LEFT JOIN medication_costs med
+  ON e.id = med.id
+  where e.stop <= '9999-12-31'
+
+2026-03-27 12:51:44 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:51:44 | INFO     | pipeline.bq_transformer | Running: sql/16_helper_cost_agg_grouped_creation.sql
+2026-03-27 12:51:44 | INFO     | pipeline.bq_transformer | Running query:
+-- helper_cost_aggregation_grouped: one row per encounter GROUP; sums costs across all member encounters and computes group-level length and daily cost
+-- Depends on: encounters_slim, helper_cost_aggregation
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.helper_cost_aggregation_grouped as
+WITH
+  -- Assign type_flag rank and detect group boundaries (same logic as clinical grouping)
+  group_flags AS (
+    SELECT
+      id,
+      patient,
+      start,
+      stop,
+      CASE encounterclass
+      when 'wellness' then 0
+        WHEN 'ambulatory' THEN 1
+        WHEN 'outpatient' THEN 2
+        WHEN 'virtual' THEN 3
+        WHEN 'urgentcare' THEN 4
+        WHEN 'emergency' THEN 5
+        WHEN 'inpatient' THEN 6
+        ELSE 99
+        END type_flag,
+      CASE
+        WHEN
+          date_diff(
+            start,
+            lag(stop, 1) OVER (PARTITION BY patient ORDER BY start ASC),
+            hour)
+          < 12
+          THEN 0
+        ELSE 1
+        END AS group_change
+    FROM healthcare-test-486920.data_slim.encounters_slim
+  where stop <= '9999-12-31'
+  ),
+  -- Cumulative sum yields a monotonically increasing group_number per patient
+  clusters AS (
+    SELECT
+      id,
+      patient,
+      start,
+      stop,
+      type_flag,
+      sum(group_change)
+        OVER (
+          PARTITION BY patient
+          ORDER BY start ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) group_number
+    FROM group_flags
+  ),
+  -- Elect the representative encounter per group (highest type_flag, then earliest start)
+  best_stay_per_group AS (
+    SELECT
+      patient,
+      group_number,
+      id AS group_id,
+      type_flag,
+      ROW_NUMBER()
+        OVER (
+          PARTITION BY patient, group_number
+          ORDER BY
+            type_flag DESC,  -- highest type_flag wins
+            start ASC,  -- tie-breaker: earliest start
+            id ASC  -- final tie-breaker
+        ) AS rn
+    FROM clusters
+  ),
+  -- Compute total group length as span from earliest start to latest stop (floored at 1 day)
+  starts_and_stops as(
+    select
+    patient,
+    group_number,
+    greatest(date_diff(max(stop), min(start), day), 1) length_of_encounter
+    from clusters
+    group by patient, group_number
+  ),
+  -- Map each member encounter to its group_id, length, and class label
+  final_groups AS (
+    SELECT
+      clust.id,
+      clust.patient,
+      best.group_id,
+      sas.length_of_encounter,
+      CASE best.type_flag
+        when 0 then 'wellness'
+        WHEN 1 THEN 'ambulatory'
+        WHEN 2 THEN 'outpatient'
+        WHEN 3 THEN 'virtual'
+        WHEN 4 THEN 'urgentcare'
+        WHEN 5 THEN 'emergency'
+        WHEN 6 THEN 'inpatient'
+        ELSE 'unknown'
+        END AS encounterclass
+    FROM clusters clust
+    LEFT JOIN best_stay_per_group best
+      ON
+        best.patient = clust.patient
+        AND best.group_number = clust.group_number
+        AND best.rn = 1
+    left join starts_and_stops sas
+    on clust.patient = sas.patient
+    and clust.group_number = sas.group_number
+  )
+
+-- Aggregate costs from helper_cost_aggregation across all clinical group members; cost_per_day uses group-level length
+select
+group_id as stay_id,
+ANY_VALUE(final.patient) AS patient_id,
+max(final.length_of_encounter) as length_of_encounter,
+max(hc.admission_cost) as admission_cost,
+sum(hc.total_procedure_costs) as total_procedure_costs,
+sum(hc.total_medication_costs) as total_medication_costs,
+sum(hc.total_stay_cost) as total_stay_cost,
+round((sum(hc.total_procedure_costs) + sum(hc.total_medication_costs))/max(final.length_of_encounter), 2) as cost_per_day_stay
+from final_groups final
+left join healthcare-test-486920.helper_tables.helper_cost_aggregation hc
+on final.id = hc.stay_id
+where final.encounterclass in ('urgentcare', 'inpatient', 'emergency')
+group by final.group_id
+
+2026-03-27 12:52:07 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:52:07 | INFO     | pipeline.bq_transformer | Running: sql/17_helper_utilization_creation.sql
+2026-03-27 12:52:07 | INFO     | pipeline.bq_transformer | Running query:
+-- helper_utilization: one row per clinical encounter group; computes 365-day lookback utilization,
+-- previous stay details, readmission flags (30d/90d), and the following unplanned admission flag
+-- Depends on: encounters_slim, helper_cost_aggregation_grouped, helper_clinical_grouped
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.helper_utilization
+AS
+WITH
+  -- Assign type_flag rank and detect group boundaries (same logic as other grouped tables)
+  group_flags AS (
+    SELECT
+      id,
+      patient,
+      start,
+      stop,
+      CASE encounterclass
+        when 'wellness' then 0
+        WHEN 'ambulatory' THEN 1
+        WHEN 'outpatient' THEN 2
+        WHEN 'virtual' THEN 3
+        WHEN 'urgentcare' THEN 4
+        WHEN 'emergency' THEN 5
+        WHEN 'inpatient' THEN 6
+        ELSE 99
+        END type_flag,
+      CASE
+        WHEN
+          date_diff(
+            start,
+            lag(stop, 1) OVER (PARTITION BY patient ORDER BY start ASC),
+            hour)
+          < 12
+          THEN 0
+        ELSE 1
+        END AS group_change
+    FROM healthcare-test-486920.data_slim.encounters_slim
+  where stop <= '9999-12-31'
+  ),
+  -- Cumulative sum yields monotonically increasing group_number per patient
+  clusters AS (
+    SELECT
+      id,
+      patient,
+      start,
+      stop,
+      type_flag,
+      sum(group_change)
+        OVER (
+          PARTITION BY patient
+          ORDER BY start ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) group_number
+    FROM group_flags
+  ),
+  -- Elect the representative encounter per group
+  best_stay_per_group AS (
+    SELECT
+      patient,
+      group_number,
+      id AS group_id,
+      type_flag,
+      ROW_NUMBER()
+        OVER (
+          PARTITION BY patient, group_number
+          ORDER BY
+            type_flag DESC,  -- highest type_flag wins
+            start ASC,  -- tie-breaker: earliest start
+            id ASC  -- final tie-breaker
+        ) AS rn
+    FROM clusters
+  ),
+  -- Compute group-level start, stop, and length (earliest start to latest stop across all members)
+  starts_and_stops AS (
+    SELECT
+      patient,
+      group_number,
+      min(start) AS start,
+      max(stop) AS stop,
+      greatest(date_diff(max(stop), min(start), day), 1) length_of_encounter
+    FROM clusters
+    GROUP BY patient, group_number
+  ),
+  -- Map each member encounter to its group representative, group dates, and class label
+  final_groups AS (
+    SELECT
+      clust.id,
+      clust.patient,
+      best.group_id,
+      sas.start,
+      sas.stop,
+      sas.length_of_encounter,
+      CASE best.type_flag
+        when 0 then 'wellness'
+        WHEN 1 THEN 'ambulatory'
+        WHEN 2 THEN 'outpatient'
+        WHEN 3 THEN 'virtual'
+        WHEN 4 THEN 'urgentcare'
+        WHEN 5 THEN 'emergency'
+        WHEN 6 THEN 'inpatient'
+        ELSE 'unknown'
+        END AS encounterclass
+    FROM clusters clust
+    LEFT JOIN best_stay_per_group best
+      ON
+        best.patient = clust.patient
+        AND best.group_number = clust.group_number
+        AND best.rn = 1
+    LEFT JOIN starts_and_stops sas
+      ON
+        clust.patient = sas.patient
+        AND clust.group_number = sas.group_number
+  ),
+  -- Deduplicate to one row per clinical group (urgentcare/emergency/inpatient only)
+  encounters_pure AS (
+    SELECT DISTINCT
+      group_id AS id, patient, start, stop, length_of_encounter, encounterclass
+    FROM final_groups
+    WHERE encounterclass IN ('urgentcare', 'emergency', 'inpatient')
+  ),
+  -- Subset of clinical encounters that are strictly inpatient (used for 365d lookback and readmission chains)
+  encounters_inpatient AS (
+    SELECT
+      e.id,
+      e.patient,
+      e.start,
+      e.stop,
+      length_of_encounter AS length_of_stay
+    FROM encounters_pure e
+    WHERE e.encounterclass = 'inpatient'
+  ),
+  -- Cross-join each clinical encounter against all prior inpatient stays for that patient
+  pairwise AS (
+    SELECT
+      pure.id AS stay_id,
+      pure.patient,
+      pure.start AS index_start,
+      inp.id AS prev_inp_id,
+      inp.stop AS prev_inp_stop,
+      DATE_DIFF(pure.start, inp.stop, DAY) AS days_since_prev_inp,
+      inp.length_of_stay,
+      help_cost.total_stay_cost AS prev_stay_cost,
+      -- Rank prior inpatient stays descending by stop date (rn_prev = 1 = most recent prior stay)
+      row_number() OVER (PARTITION BY pure.id ORDER BY inp.stop DESC) AS rn_prev
+    FROM encounters_pure pure
+    LEFT JOIN encounters_inpatient inp
+      ON
+        pure.patient = inp.patient
+        AND inp.stop < pure.start
+    LEFT JOIN
+      healthcare-test-486920.helper_tables.helper_cost_aggregation_grouped
+        help_cost
+      ON inp.id = help_cost.stay_id
+  ),
+  -- Aggregate 365-day lookback utilization features per encounter from the pairwise cross-join
+  prev_data AS (
+    SELECT
+      pair.stay_id,
+      -- Count prior inpatient stays within 365 days
+      COUNTIF(pair.days_since_prev_inp BETWEEN 0 AND 365) AS admissions_365d,
+      -- Total inpatient length of stay within 365 days
+      SUM(
+        IF(pair.days_since_prev_inp BETWEEN 0 AND 365, pair.length_of_stay, 0))
+        AS tot_length_of_stay_365d,
+      -- Average cost of prior stays within 365 days (NULL if no prior stays in window)
+      round(
+        avg(
+          IF(
+            pair.days_since_prev_inp BETWEEN 0 AND 365,
+            pair.prev_stay_cost,
+            NULL)),
+        2) AS avg_cost_of_prev_stays,
+      MAX(IF(pair.rn_prev = 1, pair.prev_inp_id, NULL)) AS prev_stay_id,
+      MAX(IF(pair.rn_prev = 1, pair.prev_inp_stop, NULL)) AS prev_stay_date
+    FROM pairwise pair
+    GROUP BY stay_id
+  ),
+  -- Cross-join each clinical encounter against all subsequent inpatient stays for that patient
+  pairwise_follow AS (
+    SELECT
+      pure.id AS stay_id,
+      pure.patient,
+      pure.stop AS index_stop,
+      inp.id AS fol_inp_id,
+      inp.start AS fol_inp_start,
+      DATE_DIFF(inp.start, pure.stop, DAY) AS days_to_readmit,
+      -- Rank following inpatient stays ascending by start date (rn_fol = 1 = next inpatient stay)
+      row_number() OVER (PARTITION BY pure.id ORDER BY inp.start ASC) AS rn_fol
+    FROM encounters_pure pure
+    LEFT JOIN encounters_inpatient inp
+      ON
+        pure.patient = inp.patient
+        AND inp.start > pure.stop
+  ),
+  -- Derive readmit_30d and readmit_90d flags from the next inpatient stay's days_to_readmit
+  follow_data AS (
+    SELECT
+      pair.stay_id,
+      max(IF(pair.rn_fol = 1, pair.fol_inp_start, NULL)) AS following_stay_date,
+      max(IF(pair.rn_fol = 1, pair.fol_inp_id, NULL)) AS following_stay_id,
+      max(IF(pair.rn_fol = 1, days_to_readmit, NULL)) AS days_to_readmit,
+      CASE
+        WHEN max(IF(pair.rn_fol = 1, days_to_readmit, NULL)) <= 30
+          THEN 1
+        ELSE 0
+        END readmit_30d,
+      CASE
+        WHEN max(IF(pair.rn_fol = 1, days_to_readmit, NULL)) <= 90
+          THEN 1
+        ELSE 0
+        END readmit_90d,
+    FROM pairwise_follow pair
+    GROUP BY stay_id
+  )
+-- Final output: combine prev_data and follow_data; suppress readmit flags if following stay is planned;
+-- following_unplanned_admission_flag = 1 only if the following stay was unplanned
+SELECT
+  pre.stay_id,
+  e.patient AS patient_id,
+  e.encounterclass,
+  e.start,
+  e.stop,
+  pre.admissions_365d,
+  pre.tot_length_of_stay_365d,
+  pre.avg_cost_of_prev_stays,
+  pre.prev_stay_id,
+  pre.prev_stay_date,
+  fol.following_stay_id,
+  fol.following_stay_date,
+  fol.days_to_readmit,
+  -- Zero out readmit flags if the following stay was itself planned
+  IF(help_clin.is_planned = 1, 0, fol.readmit_30d) AS readmit_30d,
+  IF(help_clin.is_planned = 1, 0, fol.readmit_90d) AS readmit_90d,
+  help_cost.total_stay_cost,
+  IF(IF(help_clin.is_planned = 1, 0, fol.readmit_90d) = 0, 0, 1)
+    AS following_unplanned_admission_flag
+FROM prev_data pre
+left join encounters_pure e
+on pre.stay_id = e.id
+LEFT JOIN follow_data fol
+  ON pre.stay_id = fol.stay_id
+-- Join to following stay's clinical flags to determine if it was planned
+LEFT JOIN healthcare-test-486920.helper_tables.helper_clinical_grouped help_clin
+  ON help_clin.stay_id = fol.following_stay_id
+-- Join to following stay's cost for total_readmission_cost
+LEFT JOIN
+  healthcare-test-486920.helper_tables.helper_cost_aggregation_grouped help_cost
+  ON help_cost.stay_id = fol.following_stay_id
+
+
+2026-03-27 12:52:09 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:52:09 | INFO     | pipeline.bq_transformer | Running: sql/21_patient_known_chronic_codes_creation.sql
+2026-03-27 12:52:09 | INFO     | pipeline.bq_transformer | Running query:
+-- patient_known_chronic_codes: one row per (patient_id, code) Ч earliest encounter date this chronic code
+-- appeared for each patient. Used by helper_clinical update to count num_chronic_conditions efficiently
+-- without scanning full claims_slim history.
+-- Depends on: claims_slim, encounters_slim, diagnoses_dictionary
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.patient_known_chronic_codes
+AS
+WITH
+  -- Unpivot all 8 claim diagnosis columns into one row per (stay_id, code)
+  claims_long AS (
+    SELECT DISTINCT stay_id, code
+    FROM (
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis1 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis1 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis2 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis2 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis3 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis3 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis4 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis4 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis5 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis5 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis6 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis6 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis7 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis7 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+      UNION ALL
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis8 AS FLOAT64) AS INT64) AS code
+      FROM healthcare-test-486920.data_slim.claims_slim WHERE diagnosis8 IS NOT NULL AND currentillnessdate <= '9999-12-31'
+    ) t
+  ),
+  -- Join to encounters to get patient and encounter start date; filter to chronic codes only
+  chronic_onsets AS (
+    SELECT
+      e.patient AS patient_id,
+      cl.code,
+      MIN(e.start) AS first_seen_date
+    FROM claims_long cl
+    JOIN healthcare-test-486920.data_slim.encounters_slim e ON e.id = cl.stay_id
+    JOIN healthcare-test-486920.helper_tables.diagnoses_dictionary dict ON cl.code = dict.code
+    WHERE dict.is_chronic = 1
+      AND e.stop <= '9999-12-31'
+    GROUP BY e.patient, cl.code
+  )
+SELECT patient_id, code, first_seen_date
+FROM chronic_onsets
+
+2026-03-27 12:52:11 | INFO     | pipeline.bq_transformer | Query finished.
+
+============================================================
+S10: Build related_diagnoses locally
+============================================================
+2026-03-27 12:52:11 | INFO     | pipeline.dictionary_builder | Building related_diagnoses
+D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\table.py:1994: UserWarning: 
+BigQuery Storage module not found, fetch data with the REST endpoint instead.
+  warnings.warn(
+
+============================================================
+S11: Load related_diagnoses to BQ
+============================================================
+2026-03-27 12:52:12 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.helper_tables.related_diagnoses
+2026-03-27 12:52:14 | INFO     | pipeline.bq_loader | Loaded 2392 rows into healthcare-test-486920.helper_tables.related_diagnoses
+
+============================================================
+S12: Create index_stay (recipe 2)
+============================================================
+2026-03-27 12:52:15 | INFO     | pipeline.bq_transformer | Running: sql/19_index_stay_creation.sql
+2026-03-27 12:52:15 | INFO     | pipeline.bq_transformer | Running query:
+-- index_stay: final feature table Ч one row per clinical encounter group within the training/evaluation window
+-- Assembles all features from grouped helpers; this is the direct input to DataPreprocessor
+-- Depends on: encounters_slim, patients_slim, helper_clinical_grouped, helper_cost_aggregation_grouped,
+--             helper_utilization, related_diagnoses
+-- Note: joins helper_clinical_grouped (not helper_clinical) Ч features are at the encounter-group grain
+CREATE OR REPLACE TABLE healthcare-test-486920.helper_tables.index_stay
+AS
+SELECT
+  e.patient AS patient_id,
+  -- Age computed at admission time from patient birthdate
+  date_diff(date(util.start), p.birthdate, year) AS patient_age,
+  p.gender AS gender,
+  clin.stay_id,
+  e.organization AS hospital_id,
+  util.start AS admission_datetime,
+  util.stop AS discharge_datetime,
+  date(util.stop) AS discharge_date,
+  EXTRACT(year FROM util.stop) AS discharge_year,
+  EXTRACT(month FROM util.stop) AS discharge_month,
+  cost.length_of_encounter AS length_of_stay,
+  util.encounterclass AS stay_type,
+  -- Clinical flags and diagnosis category flags from helper_clinical_grouped
+  clin.main_code,
+  clin.main_name,
+  clin.is_disorder,
+  clin.is_symptom,
+  clin.inflammation,
+  clin.musculoskeletal,
+  clin.nervous,
+  clin.respiratory,
+  clin.cardiac,
+  clin.renal,
+  clin.trauma,
+  clin.intoxication,
+  clin.num_disorders,
+  clin.num_findings,
+  clin.num_chronic_conditions,
+  clin.num_procedures,
+  clin.has_diabetes,
+  clin.has_cancer,
+  clin.has_hiv,
+  clin.has_hf,
+  clin.has_alz,
+  clin.has_ckd,
+  clin.has_lf,
+  clin.had_surgery,
+  clin.is_planned,
+  -- Cost features from helper_cost_aggregation_grouped
+  cost.admission_cost,
+  cost.total_procedure_costs,
+  cost.total_medication_costs,
+  cost.total_stay_cost,
+  cost.cost_per_day_stay,
+  -- Utilization and readmission outcome features from helper_utilization
+  util.admissions_365d,
+  util.tot_length_of_stay_365d,
+  util.avg_cost_of_prev_stays,
+  util.readmit_30d,
+  util.readmit_90d,
+  -- Careplan-related readmission flags from related_diagnoses (visualization only)
+  rel.is_related,
+  rel_readmit_30d,
+  rel_readmit_90d,
+  util.days_to_readmit,
+  util.following_stay_id,
+  -- total_readmission_cost = cost of the FOLLOWING stay (used by CostReducer)
+  util.total_stay_cost AS total_readmission_cost,
+  util.following_unplanned_admission_flag
+FROM healthcare-test-486920.data_slim.encounters_slim e
+LEFT JOIN healthcare-test-486920.data_slim.patients_slim p
+  ON e.patient = p.id
+-- All features come from grouped-level helpers keyed on the group representative encounter id
+LEFT JOIN healthcare-test-486920.helper_tables.helper_clinical_grouped clin
+  ON clin.stay_id = e.id
+LEFT JOIN healthcare-test-486920.helper_tables.helper_cost_aggregation_grouped cost
+  ON cost.stay_id = e.id
+LEFT JOIN healthcare-test-486920.helper_tables.helper_utilization util
+  ON util.stay_id = e.id
+left join healthcare-test-486920.helper_tables.related_diagnoses rel
+on e.id = rel.stay_id
+WHERE
+  -- Restrict to clinical encounter types only
+  e.encounterclass IN ('urgentcare', 'emergency', 'inpatient')
+  -- START_DATE and END_DATE define the training/evaluation window
+  AND util.start > '1900-01-01'
+  AND e.stop <= '9999-12-31'
+
+
+2026-03-27 12:52:16 | INFO     | pipeline.bq_transformer | Query finished.
+
+============================================================
+S13: Initialize watermark
+============================================================
+2026-03-27 12:52:16 | INFO     | pipeline.walk_forward | Watermark updated: last_processed=2025-03-31, next=2025-04-30
+Watermark: {'last_processed_date': '2025-03-31', 'next_end_date': '2025-04-30'}
+
+============================================================
+S14: Bootstrap prior-month staging for 2025-04-30
+============================================================
+2026-03-27 12:52:16 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: encounters_2025_03_31
+2026-03-27 12:52:16 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.data_slim.encounters_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.encounters`
+WHERE DATE(start) >= '2025-03-01'
+  AND DATE(start) <= '2025-03-31'
+Traceback (most recent call last):
+  File "D:\Python Projects\Hospital readmission risk\scripts\run_pipeline.py", line 107, in <module>
+    orch.bootstrap_prior_month_staging(next_end_date)
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\walk_forward.py", line 151, in 
+bootstrap_prior_month_staging
+    self.transformer._run_query(sql)
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\bq_transformer.py", line 183, in _run_query
+    job.result()
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\job\query.py", line 
+1773, in result
+    while not is_job_done():
+              ^^^^^^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_unary.py", 
+line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_unary.py", 
+line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_base.py", 
+line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_unary.py", 
+line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\job\query.py", line 
+1722, in is_job_done
+    raise job_failed_exception
+google.api_core.exceptions.NotFound: 404 Not found: Table healthcare-test-486920:data_slim.encounters was not found in 
+location europe-west4; reason: notFound, message: Not found: Table healthcare-test-486920:data_slim.encounters was not 
+found in location europe-west4
+
+Location: europe-west4
+Job ID: 37d2417b-6a40-4f01-99fd-a4e36d675f3e
+

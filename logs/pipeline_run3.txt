@@ -1,0 +1,148 @@
+﻿2026-03-27 12:57:26 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.data_slim
+2026-03-27 12:57:26 | INFO     | pipeline.bq_transformer | Dataset already exists: healthcare-test-486920.helper_tables
+S14: Bootstrap prior-month staging
+2026-03-27 12:57:26 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: encounters_2025_03_31
+2026-03-27 12:57:26 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.raw_data.encounters_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.encounters_slim`
+WHERE DATE(start) >= '2025-03-01'
+  AND DATE(start) <= '2025-03-31'
+2026-03-27 12:57:28 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:57:28 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: careplans_2025_03_31
+2026-03-27 12:57:28 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.raw_data.careplans_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.careplans_slim`
+WHERE DATE(start) >= '2025-03-01'
+  AND DATE(start) <= '2025-03-31'
+2026-03-27 12:57:30 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:57:30 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: conditions_2025_03_31
+2026-03-27 12:57:30 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.raw_data.conditions_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.conditions_slim`
+WHERE DATE(start) >= '2025-03-01'
+  AND DATE(start) <= '2025-03-31'
+2026-03-27 12:57:32 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:57:32 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: medications_2025_03_31
+2026-03-27 12:57:32 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.raw_data.medications_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.medications_slim`
+WHERE DATE(start) >= '2025-03-01'
+  AND DATE(start) <= '2025-03-31'
+2026-03-27 12:57:34 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:57:34 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: procedures_2025_03_31
+2026-03-27 12:57:34 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.raw_data.procedures_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.procedures_slim`
+WHERE DATE(start) >= '2025-03-01'
+  AND DATE(start) <= '2025-03-31'
+2026-03-27 12:57:35 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:57:35 | INFO     | pipeline.walk_forward | [bootstrap] Creating prior-month staging: claims_2025_03_31
+2026-03-27 12:57:35 | INFO     | pipeline.bq_transformer | Running query:
+CREATE OR REPLACE TABLE `healthcare-test-486920.raw_data.claims_2025_03_31` AS
+SELECT * FROM `healthcare-test-486920.data_slim.claims_slim`
+WHERE DATE(currentillnessdate) >= '2025-03-01'
+  AND DATE(currentillnessdate) <= '2025-03-31'
+2026-03-27 12:57:37 | INFO     | pipeline.bq_transformer | Query finished.
+2026-03-27 12:57:37 | INFO     | pipeline.walk_forward | [bootstrap] Prior-month staging complete: window 2025-03-01 Ц 2025-03-31
+Bootstrap done
+S15: Walk-forward month 1
+2026-03-27 12:57:37 | INFO     | pipeline.walk_forward | === Walk-forward update: end_date=2025-04-30 ===
+2026-03-27 12:57:37 | INFO     | pipeline.walk_forward | [S0] Loading monthly segment for 2025-04-30
+2026-03-27 12:57:37 | INFO     | pipeline.bq_loader | Dataset already exists: healthcare-test-486920.raw_data
+2026-03-27 12:57:37 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.encounters_2025_04_30
+2026-03-27 12:57:41 | INFO     | pipeline.bq_loader | Loaded 424 rows into healthcare-test-486920.raw_data.encounters_2025_04_30
+2026-03-27 12:57:41 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.careplans_2025_04_30
+2026-03-27 12:57:44 | INFO     | pipeline.bq_loader | Loaded 20 rows into healthcare-test-486920.raw_data.careplans_2025_04_30
+2026-03-27 12:57:44 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.claims_2025_04_30
+2026-03-27 12:57:48 | INFO     | pipeline.bq_loader | Loaded 802 rows into healthcare-test-486920.raw_data.claims_2025_04_30
+2026-03-27 12:57:48 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.conditions_2025_04_30
+2026-03-27 12:57:50 | INFO     | pipeline.bq_loader | Loaded 284 rows into healthcare-test-486920.raw_data.conditions_2025_04_30
+2026-03-27 12:57:50 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.medications_2025_04_30
+2026-03-27 12:57:54 | INFO     | pipeline.bq_loader | Loaded 375 rows into healthcare-test-486920.raw_data.medications_2025_04_30
+2026-03-27 12:57:54 | INFO     | pipeline.bq_loader | Loading CSV into BigQuery table: healthcare-test-486920.raw_data.procedures_2025_04_30
+2026-03-27 12:58:06 | INFO     | pipeline.bq_loader | Loaded 1569 rows into healthcare-test-486920.raw_data.procedures_2025_04_30
+2026-03-27 12:58:06 | INFO     | pipeline.walk_forward | [S0.5] Inserting into slim tables for 2025-04-30
+2026-03-27 12:58:06 | INFO     | pipeline.bq_transformer | Running: sql/monthly/02_encounters_slim_monthly.sql
+2026-03-27 12:58:06 | INFO     | pipeline.bq_transformer | Running query:
+-- Monthly INSERT: append new month's encounters into encounters_slim
+-- Source: monthly raw staging table encounters_2025_04_30
+-- No 30-day cutoff applied Ч monthly simulation includes all encounters in the window
+INSERT INTO healthcare-test-486920.data_slim.encounters_slim
+WITH
+  p AS (
+    SELECT
+      id AS patient_id,
+      deathdate
+    FROM healthcare-test-486920.data_slim.patients_slim
+  )
+SELECT
+  e.id,
+  e.start,
+  e.stop,
+  e.patient,
+  e.organization,
+  e.encounterclass,
+  e.base_encounter_cost,
+  e.total_claim_cost,
+  e.description
+FROM healthcare-test-486920.raw_data.encounters_2025_04_30 e
+LEFT JOIN p
+  ON e.patient = p.patient_id
+WHERE
+  e.encounterclass IN (
+    'inpatient',
+    'emergency',
+    'urgentcare',
+    'outpatient',
+    'ambulatory',
+    'virtual',
+    'wellness')
+  AND e.stop < COALESCE(TIMESTAMP(p.deathdate), TIMESTAMP '9999-12-31')
+
+.\.venv\Scripts\python.exe : Traceback (most recent call last):
+строка:1 знак:52
++ ...  Projects\Hospital readmission risk'; .\.venv\Scripts\python.exe -c "
++                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 37, in <module>
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\walk_forward.py", line 239, in run_next_month
+    self.run_month(end_date)
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\walk_forward.py", line 180, in run_month
+    self.transformer.run_query_sequence(
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\bq_transformer.py", line 262, in run_query_sequence
+    self._run_query(sql)
+  File "D:\Python Projects\Hospital readmission risk\src\pipeline\bq_transformer.py", line 183, in _run_query
+    job.result()
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\job\query.py", line 
+1773, in result
+    while not is_job_done():
+              ^^^^^^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_unary.py", 
+line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_unary.py", 
+line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_base.py", 
+line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\api_core\retry\retry_unary.py", 
+line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "D:\Python Projects\Hospital readmission risk\.venv\Lib\site-packages\google\cloud\bigquery\job\query.py", line 
+1722, in is_job_done
+    raise job_failed_exception
+google.api_core.exceptions.Forbidden: 403 Billing has not been enabled for this project. Enable billing at 
+https://console.cloud.google.com/billing. DML queries are not allowed in the free tier. Set up a billing account to 
+remove this restriction.; reason: billingNotEnabled, message: Billing has not been enabled for this project. Enable 
+billing at https://console.cloud.google.com/billing. DML queries are not allowed in the free tier. Set up a billing 
+account to remove this restriction.
+
+Location: europe-west4
+Job ID: 69c1ac58-ea17-4a96-a3e0-4b197dd71426
+

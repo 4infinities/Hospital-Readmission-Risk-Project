@@ -1,19 +1,32 @@
 -- related_diagnoses incremental update: DELETE rows for the two-month window, then reinsert fresh calculations
 -- Post-helper dictionary: must run AFTER helper_utilization is updated
--- Depends on: helper_utilization, main_diagnoses
-DECLARE window_start DATE DEFAULT DATE_TRUNC({{START_DATE}}, MONTH) - INTERVAL 2 MONTH;
+-- Window encounter ids sourced from monthly staging tables — no encounters_slim scan
+-- NOTE: this file is not currently wired into any recipe; DictionaryBuilder uses 18_related_diagnoses_delta.sql instead
+-- Depends on: encounters_{{END_DATE_SAFE}}, encounters_{{PREV_END_DATE_SAFE}},
+--             helper_utilization, main_diagnoses
+DECLARE window_start DATE DEFAULT DATE_TRUNC({{END_DATE}}, MONTH) - INTERVAL 2 MONTH;
 DECLARE window_end   DATE DEFAULT {{END_DATE}};
 
--- Remove window rows before recalculation
+-- Remove window rows before recalculation (using monthly staging tables — no encounters_slim scan)
 DELETE FROM {{DATASET_HELPERS}}.related_diagnoses
 WHERE stay_id IN (
-  SELECT id FROM {{DATASET_SLIM}}.encounters_slim
+  SELECT id FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}
+  WHERE start >= window_start AND stop <= window_end
+  UNION DISTINCT
+  SELECT id FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}
   WHERE start >= window_start AND stop <= window_end
 );
 
 -- Reinsert recalculated rows for the two-month window
 INSERT INTO {{DATASET_HELPERS}}.related_diagnoses
 WITH
+  window_encounter_ids AS (
+    SELECT id FROM {{DATASET_RAW}}.encounters_{{END_DATE_SAFE}}
+    WHERE start >= window_start AND stop <= window_end
+    UNION DISTINCT
+    SELECT id FROM {{DATASET_RAW}}.encounters_{{PREV_END_DATE_SAFE}}
+    WHERE start >= window_start AND stop <= window_end
+  ),
   -- Get the following stay's main diagnosis code alongside the index stay's readmit flags
   sec_codes AS (
     SELECT
@@ -27,10 +40,7 @@ WITH
     LEFT JOIN {{DATASET_HELPERS}}.main_diagnoses main
       ON hu.following_stay_id = main.id
     -- Restrict to index stays within the two-month window
-    WHERE hu.stay_id IN (
-      SELECT id FROM {{DATASET_SLIM}}.encounters_slim
-      WHERE start >= window_start AND stop <= window_end
-    )
+    WHERE hu.stay_id IN (SELECT id FROM window_encounter_ids)
   )
 -- Output: index stay_id, its main diagnosis code, following stay id and diagnosis, readmit flags
 SELECT

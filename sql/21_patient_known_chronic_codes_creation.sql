@@ -9,28 +9,28 @@ WITH
   claims_long AS (
     SELECT DISTINCT stay_id, code
     FROM (
-      SELECT encounter AS stay_id, CAST(diagnosis1 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis1 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis1 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis2 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis2 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis2 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis3 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis3 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis3 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis4 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis4 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis4 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis5 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis5 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis5 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis6 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis6 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis6 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis7 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis7 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis7 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
       UNION ALL
-      SELECT encounter AS stay_id, CAST(diagnosis8 AS INT64) AS code
+      SELECT encounter AS stay_id, CAST(SAFE_CAST(diagnosis8 AS FLOAT64) AS INT64) AS code
       FROM {{DATASET_SLIM}}.claims_slim WHERE diagnosis8 IS NOT NULL AND currentillnessdate <= {{END_DATE}}
     ) t
   ),

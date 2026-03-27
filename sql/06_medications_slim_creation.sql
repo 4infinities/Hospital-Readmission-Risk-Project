@@ -1,6 +1,5 @@
 -- Slim medications: retain cost and dispensing columns; inner join to encounters_slim scopes to valid encounters only
 CREATE OR REPLACE TABLE {{DATASET_SLIM}}.medications_slim
-  PARTITION BY TIMESTAMP_TRUNC(stop, MONTH)
   CLUSTER BY encounter, code
 AS
 SELECT

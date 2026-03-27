@@ -435,7 +435,7 @@ def get_codes(data: pd.DataFrame) -> set[str]:
         Set of code strings.
     """
     raw_codes = pd.Series(data.values.ravel()).dropna()
-    string_codes = raw_codes.astype(int).astype(str)
+    string_codes = raw_codes.apply(lambda x: str(int(float(x))))
     codes = set(string_codes.unique())
     return codes
 

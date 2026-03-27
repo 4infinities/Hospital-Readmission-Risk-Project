@@ -31,7 +31,7 @@ class SyntheaSegmenter:
     # Number of simulation months per profile
     SIMULATION_WINDOWS = {"mock": 12, "refactor": 60}
 
-    # Tables segmented by START column
+    # Tables segmented by START column (default); claims uses CURRENTILLNESSDATE
     SEGMENTED_TABLES = [
         "encounters",
         "careplans",
@@ -40,6 +40,11 @@ class SyntheaSegmenter:
         "medications",
         "procedures",
     ]
+
+    # Per-table date column used for segmentation; defaults to START
+    DATE_COLUMN = {
+        "claims": "CURRENTILLNESSDATE",
+    }
 
     # Tables copied as-is (no segmentation, base only)
     STATIC_TABLES = ["patients", "organizations"]
@@ -181,11 +186,12 @@ class SyntheaSegmenter:
                 self.logger.warning("Table not found, skipping: %s", csv_path)
                 continue
 
-            self.logger.info("Segmenting %s...", table)
-            df = pd.read_csv(csv_path, parse_dates=["START"])
-            df["_start_date"] = df["START"].dt.date
+            date_col = self.DATE_COLUMN.get(table, "START")
+            self.logger.info("Segmenting %s (date_col=%s)...", table, date_col)
+            df = pd.read_csv(csv_path, parse_dates=[date_col])
+            df["_start_date"] = df[date_col].dt.date
 
-            # Base file: records with START < simulation_start
+            # Base file: records with date_col < simulation_start
             base_df = df[df["_start_date"] < simulation_start].drop(columns=["_start_date"])
             self._safe_write(base_df, self.segmented_path / f"{table}_base.csv", overwrite)
 

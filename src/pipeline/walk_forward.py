@@ -10,6 +10,15 @@ from pipeline.bq_transformer import BigQueryTransformer
 from pipeline.dictionary_builder import DictionaryBuilder
 from src.utils.logger import get_logger
 
+_BOOTSTRAP_DATE_COLS: dict[str, str] = {
+    "encounters":  "start",
+    "careplans":   "start",
+    "conditions":  "start",
+    "medications": "start",
+    "procedures":  "start",
+    "claims":      "currentillnessdate",  # matches SyntheaSegmenter.DATE_COLUMN
+}
+
 
 class WalkForwardOrchestrator:
     """
@@ -103,6 +112,51 @@ class WalkForwardOrchestrator:
         last_day = calendar.monthrange(next_year, next_month)[1]
         return date(next_year, next_month, last_day).isoformat()
 
+    # ---------- bootstrap ----------
+
+    def bootstrap_prior_month_staging(self, first_end_date: str) -> None:
+        """
+        Create prior-month BQ staging tables needed by month-1 helper/delta SQL.
+
+        On the first simulation month every helper/delta UPDATE SQL unions
+        {{PREV_END_DATE_SAFE}} staging tables (e.g. encounters_2025_03_31).
+        Those tables never exist because that month was loaded as part of the
+        base bulk file, not a monthly segment.  This method creates them via
+        CREATE OR REPLACE TABLE ... AS SELECT from the base tables, filtered to
+        the prior calendar month.
+
+        Call once, before run_month(first_end_date) or run_next_month().
+
+        Parameters
+        ----------
+        first_end_date : str
+            Month-end date of the first simulation month (e.g. '2025-04-30').
+            Must match the current next_end_date in watermark.json.
+        """
+        prev_safe  = BigQueryTransformer._prev_end_date_safe(first_end_date)   # '2025_03_31'
+        prev_iso   = prev_safe.replace("_", "-")                                # '2025-03-31'
+        month_start = date.fromisoformat(prev_iso).replace(day=1).isoformat()  # '2025-03-01'
+
+        slim = self.transformer.dataset_slim_fq
+        raw  = self.transformer.dataset_raw_fq
+
+        for table, col in _BOOTSTRAP_DATE_COLS.items():
+            target = f"{table}_{prev_safe}"
+            sql = (
+                f"CREATE OR REPLACE TABLE `{raw}.{target}` AS\n"
+                f"SELECT * FROM `{slim}.{table}_slim`\n"
+                f"WHERE DATE({col}) >= '{month_start}'\n"
+                f"  AND DATE({col}) <= '{prev_iso}'"
+            )
+            self.logger.info("[bootstrap] Creating prior-month staging: %s", target)
+            self.transformer._run_query(sql)
+
+        self.logger.info(
+            "[bootstrap] Prior-month staging complete: window %s – %s",
+            month_start,
+            prev_iso,
+        )
+
     # ---------- core ----------
 
     def run_month(self, end_date: str) -> None:
@@ -168,6 +222,14 @@ class WalkForwardOrchestrator:
             The end_date that was processed.
         """
         wm = self._read_watermark()
+
+        if wm.get("last_processed_date") is None:
+            raise RuntimeError(
+                "Watermark last_processed_date is null — Phase 1 base load has not been "
+                "confirmed complete. Run initialize_watermark() after Phase 1 before "
+                "starting the simulation loop."
+            )
+
         end_date: str | None = wm.get("next_end_date")
         if not end_date:
             raise ValueError(

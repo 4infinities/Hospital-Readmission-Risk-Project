@@ -252,6 +252,48 @@ class BigQueryLoader:
                 write_disposition=write_disposition,
             )
 
+    def load_base_segment(self) -> None:
+        """
+        Load base segment CSVs into BQ raw staging tables.
+
+        Reads segmented_path from config for the active profile.
+        For each *_base.csv file found, loads it into a table named after
+        the table stem with the _base suffix stripped:
+            encounters_base.csv -> encounters
+            patients_base.csv   -> patients
+
+        Parameters
+        ----------
+        None — profile and segmented_path are read from config.
+        """
+        if self.profile_name is None:
+            raise ValueError("profile_name is not set on BigQueryLoader.")
+
+        profile_cfg = self._config.get("profiles", {}).get(self.profile_name, {})
+        segmented_path = profile_cfg.get("segmented_path")
+        if not segmented_path:
+            raise KeyError(
+                f"'segmented_path' not found in config for profile '{self.profile_name}'"
+            )
+
+        seg_dir = Path(segmented_path).expanduser().resolve()
+        if not seg_dir.is_dir():
+            raise NotADirectoryError(f"segmented_path is not a directory: {seg_dir}")
+
+        self.ensure_dataset_exists()
+
+        base_files = sorted(seg_dir.glob("*_base.csv"))
+        if not base_files:
+            self.logger.warning("No *_base.csv files found in %s", seg_dir)
+
+        for csv_path in base_files:
+            table_name = csv_path.stem.removesuffix("_base")
+            self.load_one_csv(
+                local_csv_path=csv_path,
+                table_name=table_name,
+                write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
+            )
+
     def load_monthly_segment(self, end_date: str) -> None:
         """
         Load one month's segmented CSVs into BQ monthly raw staging tables.
@@ -295,12 +337,10 @@ class BigQueryLoader:
         for table in tables:
             csv_path = seg_dir / f"{table}_{end_date}.csv"
             if not csv_path.is_file():
-                self.logger.error(
-                    "Monthly segment file not found: %s — expected at %s",
-                    f"{table}_{end_date}.csv",
-                    csv_path,
+                raise FileNotFoundError(
+                    f"Monthly segment file not found: {table}_{end_date}.csv — "
+                    f"expected at {csv_path}"
                 )
-                continue
 
             table_name = f"{table}_{end_date_safe}"
             self.load_one_csv(

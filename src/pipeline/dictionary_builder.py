@@ -79,8 +79,8 @@ class DictionaryBuilder:
         data_path = cfg["data_path"]
         write_path = cfg["write_path"]
         sql = self.transformer.load_sql(cfg["sql"])
-        if end_date is not None:
-            sql = sql.replace("{{END_DATE}}", f"'{end_date}'")
+        _end = end_date if end_date is not None else "9999-12-31"
+        sql = sql.replace("{{END_DATE}}", f"'{_end}'")
 
         dictionary_path = None
         if need_dictionary_path:
@@ -288,8 +288,12 @@ class DictionaryBuilder:
             state_path=state_path,
         )
         self._append_to_csv(main_df, write_path)
+        upload_df = main_df.reset_index()
+        upload_df["main_diagnosis_code"] = pd.to_numeric(
+            upload_df["main_diagnosis_code"], errors="coerce"
+        ).astype("Int64")
         self.transformer.append_dataframe(
-            main_df.reset_index(), self._helpers_table_fq("main_diagnoses")
+            upload_df, self._helpers_table_fq("main_diagnoses")
         )
         self.logger.info("main_diagnoses updated: %d new rows appended.", len(main_df))
 
