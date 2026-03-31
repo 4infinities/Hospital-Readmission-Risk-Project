@@ -4,6 +4,9 @@ import calendar
 import json
 from datetime import date
 from pathlib import Path
+from typing import Optional
+
+import pandas as pd
 
 from pipeline.bq_loader import BigQueryLoader
 from pipeline.bq_transformer import BigQueryTransformer
@@ -54,6 +57,15 @@ class WalkForwardOrchestrator:
         recipe_path: str,
         project_root: str,
         watermark_path: str = "config/watermark.json",
+        preprocessor=None,       # DataPreprocessor — required for ML
+        registry=None,           # ModelRegistry — required for ML
+        tuner=None,              # HyperparameterTuner — required for retune
+        evaluator=None,          # Evaluator — required for ML
+        cost_reducer=None,       # CostReducer — optional, passed to evaluate_month
+        predictions_dir: str = "predictions",
+        results_dir: str = "results",
+        psi_baseline_path: str = "predictions/psi_baseline.json",
+        index_stay_sql_path: Optional[str] = None,
     ):
         self.transformer = transformer
         self.dict_builder = dict_builder
@@ -61,6 +73,15 @@ class WalkForwardOrchestrator:
         self.recipe_path = recipe_path
         self.project_root = project_root
         self.watermark_path = Path(watermark_path).expanduser().resolve()
+        self.preprocessor = preprocessor
+        self.registry = registry
+        self.tuner = tuner
+        self.evaluator = evaluator
+        self.cost_reducer = cost_reducer
+        self.predictions_dir = Path(predictions_dir)
+        self.results_dir = Path(results_dir)
+        self.psi_baseline_path = Path(psi_baseline_path)
+        self.index_stay_sql_path = Path(index_stay_sql_path).expanduser().resolve() if index_stay_sql_path else None
         self.logger = get_logger(__name__)
 
     # ---------- watermark ----------
@@ -69,31 +90,18 @@ class WalkForwardOrchestrator:
         with self.watermark_path.open("r", encoding="utf-8") as f:
             return json.load(f)
 
-    def initialize_watermark(self, simulation_start: "date", base_cutoff_date: "date") -> None:
-        """
-        Write the initial watermark after Phase 1 base load completes.
-
-        Derives next_end_date as the last day of simulation_start's month.
-        Sets last_processed_date to base_cutoff_date (last day before simulation window).
-
-        Parameters
-        ----------
-        simulation_start : date
-            First day of the first simulation month (from SyntheaSegmenter).
-        base_cutoff_date : date
-            Last day of the pre-simulation period (from SyntheaSegmenter).
-        """
-        last_day = calendar.monthrange(simulation_start.year, simulation_start.month)[1]
-        next_end_date = date(simulation_start.year, simulation_start.month, last_day).isoformat()
-        self._write_watermark(
-            last_processed_date=base_cutoff_date.isoformat(),
-            next_end_date=next_end_date,
-        )
-
     def _write_watermark(self, last_processed_date: str, next_end_date: str) -> None:
+        # Preserve simulation_end_date — written once by SyntheaSegmenter, never overwritten here
+        simulation_end_date = ""
+        if self.watermark_path.exists():
+            with self.watermark_path.open("r", encoding="utf-8") as f:
+                existing = json.load(f)
+            simulation_end_date = existing.get("simulation_end_date", "")
+
         data = {
             "last_processed_date": last_processed_date,
             "next_end_date": next_end_date,
+            "simulation_end_date": simulation_end_date,
         }
         with self.watermark_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
@@ -157,6 +165,167 @@ class WalkForwardOrchestrator:
             prev_iso,
         )
 
+    # ---------- ML helpers ----------
+
+    def _is_first_run(self) -> bool:
+        """True if no predictions file exists yet (Phase 1 / first simulation month)."""
+        model_names = self.registry.config_mgr.list_active_models()
+        return not any(
+            (self.predictions_dir / f"{name}_predictions.csv").exists()
+            for name in model_names
+        )
+
+    def _fetch_index_stay(self) -> pd.DataFrame:
+        """
+        Load full index_stay table from BQ using the dedicated selection SQL.
+
+        Uses sql/20_index_stay_selection.sql (path from index_stay_sql_path).
+        Transformer substitutes {{DATASET_HELPERS}} and other standard tokens.
+        Falls back to an explicit column list if the SQL path is not configured.
+        """
+        if self.index_stay_sql_path is None or not self.index_stay_sql_path.exists():
+            raise RuntimeError(
+                "index_stay_sql_path not set or file not found. "
+                "Set 'index_stay_sql' in bigquery_config.json and pass it to WalkForwardOrchestrator."
+            )
+        with self.index_stay_sql_path.open("r", encoding="utf-8") as f:
+            sql_raw = f.read()
+        sql = self.transformer._transform_query(sql_raw)
+        self.logger.info("[_fetch_index_stay] Loading index_stay from BQ")
+        return self.transformer.fetch_to_dataframe(sql=sql, cache_path=None, query=True)
+
+    def _save_predictions(
+        self,
+        end_date: str,
+        X_test: pd.DataFrame,
+        stay_ids: pd.Series,
+    ) -> None:
+        """
+        Run predict_proba on X_test for all active models and append to
+        predictions/{model}_predictions.csv.
+
+        Columns: stay_id, prob, model_name, end_date
+        """
+        self.predictions_dir.mkdir(parents=True, exist_ok=True)
+        model_names = self.registry.config_mgr.list_active_models()
+
+        for name in model_names:
+            pipe = self.registry.load_model(name=name, target="readmit_30d")
+            if pipe is None:
+                self.logger.warning("[_save_predictions] No model found for %s", name)
+                continue
+
+            proba = pipe.predict_proba(X_test)[:, 1]
+            df = pd.DataFrame({
+                "stay_id": stay_ids.values,
+                "prob": proba,
+                "model_name": name,
+                "end_date": end_date,
+            })
+
+            pred_path = self.predictions_dir / f"{name}_predictions.csv"
+            if pred_path.exists():
+                df.to_csv(pred_path, mode="a", header=False, index=False)
+            else:
+                df.to_csv(pred_path, index=False)
+
+            self.logger.info(
+                "[_save_predictions] %s: %d predictions written for %s",
+                name, len(df), end_date,
+            )
+
+    def _save_psi_baseline(self, X_train: pd.DataFrame) -> None:
+        """
+        Compute training-set score distributions and save to psi_baseline.json.
+        Called once on the first run.
+        """
+        model_names = self.registry.config_mgr.list_active_models()
+        scores: dict[str, "np.ndarray"] = {}
+
+        for name in model_names:
+            pipe = self.registry.load_model(name=name, target="readmit_30d")
+            if pipe is None:
+                continue
+            import numpy as np
+            scores[f"{name}_d30"] = pipe.predict_proba(X_train)[:, 1]
+
+        self.evaluator.save_psi_baseline(scores, self.psi_baseline_path)
+
+    def _should_retune(self, end_date: str, psi_scores: dict) -> bool:
+        """
+        Retune if: month number is divisible by 6, or any PSI score > 0.2.
+        Month number is derived from the end_date relative to the simulation start
+        by counting how many prediction files have rows (proxy for months elapsed).
+        """
+        model_names = self.registry.config_mgr.list_active_models()
+        # count months elapsed by reading any existing predictions file
+        months_elapsed = 0
+        for name in model_names:
+            p = self.predictions_dir / f"{name}_predictions.csv"
+            if p.exists():
+                months_elapsed = len(pd.read_csv(p)["end_date"].unique())
+                break
+
+        on_schedule = (months_elapsed > 0) and (months_elapsed % 6 == 0)
+        psi_breach = any(v > 0.2 for v in psi_scores.values() if v == v)  # nan-safe
+        return on_schedule or psi_breach
+
+    def fit_and_evaluate(self, end_date: str) -> None:
+        """
+        Full ML step for one month: preprocess, evaluate prior, refit, predict.
+
+        First run  : preprocess → retune → refit(force) → predict → save PSI baseline
+        Subsequent : evaluate prior → PSI check → retrain? → refit(force) → predict
+        """
+        if self.preprocessor is None or self.registry is None or self.evaluator is None:
+            self.logger.warning("[fit_and_evaluate] ML components not wired — skipping ML step")
+            return
+
+        self.logger.info("[ML] Starting fit_and_evaluate for end_date=%s", end_date)
+
+        X_train, y_train, X_test, stay_ids = self.preprocessor.preprocess(
+            end_date=end_date,
+            transformer=self.transformer,
+        )
+
+        target_cols = ["readmit_30d"]
+        first_run = self._is_first_run()
+
+        if first_run:
+            self.logger.info("[ML] First run — retuning before initial fit")
+            if self.tuner is not None:
+                self.tuner.tune_models(X_train, y_train)
+
+            self.registry.fit_models(X_train, y_train, target_cols, force=True)
+            self._save_predictions(end_date, X_test, stay_ids)
+            self._save_psi_baseline(X_train)
+            self.logger.info("[fit_and_evaluate] First run complete — predictions and PSI baseline saved")
+
+        else:
+            # Evaluate prior month before overwriting models
+            index_stay_df = self._fetch_index_stay()
+            psi_scores = self.evaluator.compute_psi(self.psi_baseline_path, X_test)
+            retrain = self._should_retune(end_date, psi_scores)
+
+            self.evaluator.evaluate_month(
+                end_date=end_date,
+                predictions_dir=self.predictions_dir,
+                results_dir=self.results_dir,
+                X=X_test,
+                index_stay_df=index_stay_df,
+                psi_scores=psi_scores,
+                retrain_triggered=retrain,
+                cost_reducer=self.cost_reducer,
+            )
+
+            if retrain and self.tuner is not None:
+                self.logger.info("[ML] Retune triggered for end_date=%s", end_date)
+                self.tuner.tune_models(X_train, y_train)
+
+            self.registry.fit_models(X_train, y_train, target_cols, force=True)
+            self._save_predictions(end_date, X_test, stay_ids)
+            self.logger.info("[fit_and_evaluate] Month complete — predictions saved for %s", end_date)
+
     # ---------- core ----------
 
     def run_month(self, end_date: str) -> None:
@@ -210,6 +379,9 @@ class WalkForwardOrchestrator:
             self.recipe_path, self.INDEX_RECIPE_ID, self.project_root, end_date
         )
 
+        # ML: preprocess → evaluate prior / first-run → refit → predict
+        self.fit_and_evaluate(end_date)
+
         self.logger.info("=== Walk-forward update complete: end_date=%s ===", end_date)
 
     def run_next_month(self) -> str:
@@ -241,6 +413,7 @@ class WalkForwardOrchestrator:
         next_end = self._advance_end_date(end_date)
         self._write_watermark(last_processed_date=end_date, next_end_date=next_end)
         return end_date
+
 
     def run_until(self, final_end_date: str) -> None:
         """

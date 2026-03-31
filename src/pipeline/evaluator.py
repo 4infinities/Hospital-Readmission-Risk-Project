@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 from pathlib import Path
@@ -22,12 +23,6 @@ from .model_config_manager import ModelConfigManager
 
 from src.utils.logger import get_logger
 
-from pathlib import Path
-from typing import Optional
-
-import numpy as np
-import pandas as pd
-
 @dataclass
 class Evaluator:
     """
@@ -44,10 +39,12 @@ class Evaluator:
 
     registry: ModelRegistry
     cfg_mgr: ModelConfigManager
-    reports_dir: cfg_mgr.get_reports_dir()
+    reports_dir: Optional[Path] = None
 
     def __post_init__(self):
         self.logger = get_logger(__name__)
+        if self.reports_dir is None:
+            self.reports_dir = Path(self.cfg_mgr.get_reports_dir())
 
     # ------------------------------------------------------------------
     # Metric helpers
@@ -138,6 +135,250 @@ class Evaluator:
         if threshold_metrics is not None:
             metrics_path = out_dir / "threshold_metrics.csv"
             threshold_metrics.to_csv(metrics_path, index=True)
+
+    # ------------------------------------------------------------------
+    # PSI helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _psi_score(baseline: np.ndarray, current: np.ndarray, n_bins: int = 10) -> float:
+        """Population Stability Index on predicted probability arrays."""
+        bins = np.linspace(0, 1, n_bins + 1)
+        bins[0] = -np.inf
+        bins[-1] = np.inf
+
+        base_counts, _ = np.histogram(baseline, bins=bins)
+        curr_counts, _ = np.histogram(current, bins=bins)
+
+        base_pct = (base_counts + 1e-8) / len(baseline)
+        curr_pct = (curr_counts + 1e-8) / len(current)
+
+        return float(np.sum((curr_pct - base_pct) * np.log(curr_pct / base_pct)))
+
+    def save_psi_baseline(
+        self,
+        scores: dict[str, np.ndarray],
+        path: str | Path,
+    ) -> None:
+        """
+        Persist training-set score distributions to JSON.
+
+        Parameters
+        ----------
+        scores : dict mapping model_key (e.g. 'logreg_d30') to 1-D probability array.
+        path   : destination file, e.g. 'predictions/psi_baseline.json'
+        """
+        out = {k: v.tolist() for k, v in scores.items()}
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(out, f)
+        self.logger.info("[PSI] Baseline saved to %s", path)
+
+    def load_psi_baseline(self, path: str | Path) -> dict[str, np.ndarray]:
+        """Load PSI baseline distributions from JSON."""
+        with open(path, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        return {k: np.array(v) for k, v in raw.items()}
+
+    def compute_psi(
+        self,
+        baseline_path: str | Path,
+        X: pd.DataFrame,
+        model_names: Optional[List[str]] = None,
+    ) -> dict[str, float]:
+        """
+        Compute PSI for each active model against saved baseline distributions.
+
+        Returns dict mapping model_key -> psi_score.
+        """
+        baseline = self.load_psi_baseline(baseline_path)
+        if model_names is None:
+            model_names = self.cfg_mgr.list_active_models()
+
+        result: dict[str, float] = {}
+        for name in model_names:
+            if not self.cfg_mgr.is_active(name):
+                continue
+            for target_col, flag in [("readmit_30d", "d30"), ("readmit_90d", "d90")]:
+                key = f"{name}_{flag}"
+                pipe = self.registry.load_model(name=name, target=target_col)
+                if pipe is None or key not in baseline:
+                    continue
+                current_scores = pipe.predict_proba(X)[:, 1]
+                result[key] = self._psi_score(baseline[key], current_scores)
+        return result
+
+    # ------------------------------------------------------------------
+    # Monthly walk-forward evaluation
+    # ------------------------------------------------------------------
+
+    def evaluate_month(
+        self,
+        end_date: str,
+        predictions_dir: str | Path,
+        results_dir: str | Path,
+        X: pd.DataFrame,
+        index_stay_df: pd.DataFrame,
+        psi_scores: dict,
+        retrain_triggered: bool = False,
+        model_names: Optional[List[str]] = None,
+        cost_reducer=None,
+    ) -> dict[str, pd.DataFrame]:
+        """
+        Evaluate prior-month predictions against actuals now in index_stay.
+
+        Flow:
+        1. Load prior month predictions from {predictions_dir}/{model}_predictions.csv
+        2. Join to index_stay_df on stay_id to get actuals (+ cost cols if cost_reducer given)
+        3. Compute roc_auc, avg_precision, precision, recall, f1
+        4. Compute PSI on current X against baseline
+        5. If cost_reducer: find best_threshold via max pct_saved; compute
+           saved_cost, intervention_cost, net_cost at that threshold
+        6. Append one row per model to {results_dir}/{model}_results.csv
+
+        Parameters
+        ----------
+        end_date          : current month-end date string (used for labelling rows)
+        predictions_dir   : folder containing {model}_predictions.csv files
+        results_dir       : folder for {model}_results.csv output
+        X                 : current month feature matrix (for PSI)
+        index_stay_df     : full index_stay table loaded from BQ (has stay_id + actuals + cost cols)
+        psi_baseline_path : path to psi_baseline.json
+        retrain_triggered : whether retrain was triggered this month
+        model_names       : subset of models; defaults to all active
+        cost_reducer      : optional CostReducer instance for cost metrics
+        """
+        predictions_dir = Path(predictions_dir)
+        results_dir = Path(results_dir)
+        results_dir.mkdir(parents=True, exist_ok=True)
+
+        if model_names is None:
+            model_names = self.cfg_mgr.list_active_models()
+
+        _COST_COLS = ["stay_id", "total_readmission_cost", "cost_per_day_stay", "avg_cost_of_prev_stays"]
+        actuals_cols = ["stay_id", "readmit_30d"]
+        if cost_reducer is not None:
+            # include cost cols in the actuals join so we only merge once
+            actuals_cols += [c for c in _COST_COLS[1:] if c in index_stay_df.columns]
+        actuals = index_stay_df[actuals_cols].copy()
+
+        output: dict[str, pd.DataFrame] = {}
+
+        for name in model_names:
+            if not self.cfg_mgr.is_active(name):
+                continue
+
+            pred_path = predictions_dir / f"{name}_predictions.csv"
+            if not pred_path.exists():
+                self.logger.warning("[evaluate_month] No predictions file: %s", pred_path)
+                continue
+
+            preds = pd.read_csv(pred_path)
+            # Keep only prior-month rows (all rows before current end_date)
+            prior = preds[preds["end_date"] < end_date]
+            if prior.empty:
+                self.logger.info("[evaluate_month] No prior predictions for %s", name)
+                continue
+
+            merged = prior.merge(actuals, on="stay_id", how="inner")
+            if merged.empty:
+                self.logger.warning("[evaluate_month] No actuals matched for %s", name)
+                continue
+
+            y_true = merged["readmit_30d"].values
+            y_proba = merged["prob"].values
+            y_pred = (y_proba >= 0.5).astype(int)
+
+            roc = roc_auc_score(y_true, y_proba)
+            avg_p = average_precision_score(y_true, y_proba)
+            prec, rec, f1, _ = precision_recall_fscore_support(
+                y_true, y_pred, average="binary", zero_division=0
+            )
+
+            # --- cost reducer ---
+            best_threshold = net_cost = saved_cost = intervention_cost = float("nan")
+            if cost_reducer is not None:
+                model_key = f"{name}_d30"
+
+                # pred_values: readmit_30d actuals + prob column named as model_key
+                pred_values = merged[["readmit_30d"]].copy().reset_index(drop=True)
+                pred_values[model_key] = merged["prob"].values
+
+                thresholds = self.build_thresholds(pred_values)
+
+                # df_cost: cost cols + prob column named as model_key (for row[model] lookup)
+                df_cost = merged[
+                    ["total_readmission_cost", "cost_per_day_stay", "avg_cost_of_prev_stays"]
+                ].copy().reset_index(drop=True)
+                df_cost[model_key] = merged["prob"].values
+                thresholds = thresholds.reset_index(drop=True)
+
+                result = cost_reducer._estimate_cost_reduction_single(
+                    df_cost=df_cost,
+                    df_thresholds=thresholds,
+                    prob_red=cost_reducer.def_prob_red,
+                    desired_prob_red=cost_reducer.def_desired_prob_red,
+                    tuning=True,  # avoids readmit_90d column requirement
+                )
+
+                pct_row = result.loc["total_pct_saved"]
+                model_threshold_cols = [c for c in pct_row.index if c.startswith(model_key + "_")]
+                if model_threshold_cols:
+                    best_col = pct_row[model_threshold_cols].idxmax()
+                    best_threshold = float(best_col.rsplit("_", 1)[1])
+                    net_cost = float(result.loc["total_avoided", best_col])
+
+                    # gross breakdown at best threshold
+                    int_days, true_prob_red = cost_reducer._calc_intervention_days()
+                    flagged = merged[merged["prob"] >= best_threshold]
+                    saved_cost = float(
+                        (true_prob_red * flagged["prob"] * flagged["total_readmission_cost"]).sum()
+                    )
+                    intervention_cost = float(
+                        flagged.apply(
+                            lambda r: cost_reducer._estimate_intervention_cost(r, int_days),
+                            axis=1,
+                        ).sum()
+                    )
+
+                    self.logger.info(
+                        "[evaluate_month] %s cost: best_thr=%.2f saved=%.0f interv=%.0f net=%.0f",
+                        name, best_threshold, saved_cost, intervention_cost, net_cost,
+                    )
+
+            psi_key = f"{name}_d30"
+            row = {
+                "end_date": end_date,
+                "model_name": name,
+                "roc_auc": round(roc, 4),
+                "avg_precision": round(avg_p, 4),
+                "precision": round(prec, 4),
+                "recall": round(rec, 4),
+                "f1": round(f1, 4),
+                "best_threshold": best_threshold,
+                "saved_cost": saved_cost,
+                "intervention_cost": intervention_cost,
+                "net_cost": net_cost,
+                "n_predictions": len(merged),
+                "n_readmitted": int(y_true.sum()),
+                "psi_score": round(psi_scores.get(psi_key, float("nan")), 4),
+                "retrain_triggered": retrain_triggered,
+            }
+
+            results_path = results_dir / f"{name}_results.csv"
+            row_df = pd.DataFrame([row])
+            if results_path.exists():
+                row_df.to_csv(results_path, mode="a", header=False, index=False)
+            else:
+                row_df.to_csv(results_path, index=False)
+
+            self.logger.info(
+                "[evaluate_month] %s end_date=%s roc=%.3f psi=%.3f",
+                name, end_date, roc, psi_scores.get(psi_key, float("nan")),
+            )
+            output[name] = row_df
+
+        return output
 
     # ------------------------------------------------------------------
     # Main evaluation API (no CV)

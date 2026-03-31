@@ -67,9 +67,10 @@ class SyntheaSegmenter:
         self.segmented_path = Path(profile_cfg["segmented_path"]).expanduser().resolve()
         self.window_months: int = self.SIMULATION_WINDOWS[profile_name]
 
-        # Set after segment() runs
+        # Set after segment() or derive_window_from_existing() runs
         self.simulation_start: date | None = None
         self.base_cutoff_date: date | None = None
+        self.simulation_end_date: date | None = None
 
     @staticmethod
     def _load_json(path: str) -> dict:
@@ -169,6 +170,7 @@ class SyntheaSegmenter:
         simulation_start, base_cutoff_date = self._derive_window(max_date)
         self.simulation_start = simulation_start
         self.base_cutoff_date = base_cutoff_date
+        self.simulation_end_date = self._last_day_of_month(max_date.year, max_date.month)
         self.logger.info(
             "Simulation window: %s → %s (%d months). Base cutoff: %s",
             simulation_start,
@@ -210,6 +212,63 @@ class SyntheaSegmenter:
             self._copy_static(table, overwrite)
 
         self.logger.info("Segmentation complete. Output: %s", self.segmented_path)
+
+    def derive_window_from_existing(self) -> None:
+        """
+        Derive simulation window dates from existing encounters.csv without writing any files.
+
+        Sets simulation_start, base_cutoff_date, and simulation_end_date.
+        Call this when RESEGMENT=False (segmented files already exist).
+        """
+        enc_path = self.source_dir / "encounters.csv"
+        if not enc_path.is_file():
+            raise FileNotFoundError(f"encounters.csv not found in {self.source_dir}")
+
+        enc_dates = pd.read_csv(str(enc_path), usecols=["START"], parse_dates=["START"])
+        max_date: date = enc_dates["START"].max().date()
+
+        self.simulation_start, self.base_cutoff_date = self._derive_window(max_date)
+        self.simulation_end_date = self._last_day_of_month(max_date.year, max_date.month)
+
+        self.logger.info(
+            "Window derived from existing data: simulation_start=%s, base_cutoff=%s, simulation_end=%s",
+            self.simulation_start,
+            self.base_cutoff_date,
+            self.simulation_end_date,
+        )
+
+    def write_watermark(self, watermark_path: str) -> None:
+        """
+        Write watermark.json with all 4 fields.
+
+        Requires segment() or derive_window_from_existing() to have been called first.
+
+        Fields written:
+        - previous_end_date  : last day of the month before base_cutoff_date
+        - last_processed_date: base_cutoff_date
+        - next_end_date      : last day of simulation_start's month
+        - simulation_end_date: last day of the max encounters month (fixed; never overwritten by orchestrator)
+        """
+        if self.base_cutoff_date is None or self.simulation_start is None or self.simulation_end_date is None:
+            raise RuntimeError(
+                "Watermark cannot be written before window is derived. "
+                "Call segment() or derive_window_from_existing() first."
+            )
+
+        next_end_date = self._last_day_of_month(self.simulation_start.year, self.simulation_start.month)
+
+        watermark = {
+            "last_processed_date": self.base_cutoff_date.isoformat(),
+            "next_end_date": next_end_date.isoformat(),
+            "simulation_end_date": self.simulation_end_date.isoformat(),
+        }
+
+        out_path = Path(watermark_path).expanduser().resolve()
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with out_path.open("w", encoding="utf-8") as f:
+            json.dump(watermark, f, indent=4)
+
+        self.logger.info("Watermark written: %s", watermark)
 
     @classmethod
     def from_profile(cls, config_path: str, profile_name: str) -> "SyntheaSegmenter":

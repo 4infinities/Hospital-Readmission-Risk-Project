@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
@@ -106,6 +107,60 @@ class DataPreprocessor:
         df = self._log_transform(df)
         X, y = self._data_flags_split(df)
         return X, y
+
+    def preprocess(
+        self,
+        end_date: str,
+        transformer,
+    ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.Series]:
+        """
+        Query index_stay from BQ scoped by end_date and return train/test split.
+
+        Train  = all rows with discharge_date < first day of end_date's month.
+        Test   = rows with discharge_date in end_date's month (current window, no labels used).
+
+        Returns
+        -------
+        X_train, y_train, X_test, stay_ids_test
+        """
+        # Build SQL: replace {{END_DATE}} and standard transformer tokens
+        sql_path = Path(self.sql_path).expanduser().resolve()
+        with sql_path.open("r", encoding="utf-8") as f:
+            sql_raw = f.read()
+
+        # Remove window filter from creation SQL — we want the full history
+        # The selection SQL (20_index_stay_selection.sql) has no {{END_DATE}} token,
+        # so just apply the standard transformer placeholders
+        sql = transformer._transform_query(sql_raw)
+
+        self.logger.info("[preprocess] Fetching index_stay from BQ for end_date=%s", end_date)
+        df_raw = transformer.fetch_to_dataframe(sql=sql, cache_path=None, query=True)
+
+        # Split boundary: first day of end_date's month
+        end = date.fromisoformat(end_date)
+        month_start = end.replace(day=1)
+
+        df_raw["discharge_date"] = pd.to_datetime(df_raw["discharge_date"]).dt.date
+
+        train_mask = df_raw["discharge_date"] < month_start
+        test_mask = (df_raw["discharge_date"] >= month_start) & (df_raw["discharge_date"] <= end)
+
+        df_train = df_raw[train_mask].copy()
+        df_test = df_raw[test_mask].copy()
+
+        self.logger.info(
+            "[preprocess] Train rows=%d  Test rows=%d", len(df_train), len(df_test)
+        )
+
+        stay_ids_test = df_test["stay_id"].reset_index(drop=True)
+
+        X_train, y_train = self.preprocess_df(df_train)
+        X_test, _ = self.preprocess_df(df_test)   # labels not used for test
+
+        # Align columns — train may have dummies test doesn't and vice versa
+        X_test = X_test.reindex(columns=X_train.columns, fill_value=0)
+
+        return X_train, y_train, X_test, stay_ids_test
 
     def load_and_preprocess(
         self,

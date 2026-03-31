@@ -80,24 +80,6 @@ Master table is a physical copy, partitioned by discharge month, queryable like 
 - `y_test` not yet removed from pipeline — target design retrieves outcomes from BQ index stay table at next iteration; current pipeline still stores `y_test` explicitly
 - Watermark not yet wired into Phase 1 base load
 
-### 🐛 Known crash — unresolved
-`build_flags` crash in `dictionaries.py:529–530` blocks `build_diagnoses_dictionary`:
-```
-TypeError: int() argument must be a string... not 'NoneType'
-```
-**Issue 1:** Column filter `not col.startswith("name")` was written to exclude a column named `"name"`.
-Actual column is `"diagnosis_name"` — filter fails to exclude it, causing `int("Bacteremia")` → crash.
-Fix: change to `not col.endswith("_name")` or use explicit exclusion list. Decision required.
-
-**Issue 2:** 58 of 63 `diagnosis_name` values are NULL in BQ query result.
-Likely a broken LEFT JOIN in the name lookup. Decision required: are NULL names acceptable, or is the SQL wrong?
-
-File state at crash:
-- SNOMED state cache: wiped, fresh API calls were in progress
-- `data/raw/dictionaries/unique_diagnoses.csv`: re-fetched from BQ (fresh)
-- Backup of old SNOMED state: `data/intermediate/backup_20260320_165057/`
-- No dictionary CSVs written yet
-
 ---
 
 ## Open Architectural Decisions
@@ -246,7 +228,6 @@ Verify with: `python -c "from src.utils.logger import get_logger; l = get_logger
 
 ## Known Issues
 
-- `build_flags` crash in `dictionaries.py:529–530` — see Current State section above. Unresolved.
 - SQL creation queries 09–12 (dictionary creation) are NOT yet refactored — do not assume they follow slim table patterns.
 - `pipreqs` requires: `pipreqs --encoding iso-8859-1 --ignore .venv`
 - HRRP penalty deferred to next version — do not implement in current scope.

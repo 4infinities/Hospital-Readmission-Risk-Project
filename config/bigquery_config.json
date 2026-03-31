@@ -6,12 +6,14 @@
     "related_diagnoses" : "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\careplans_related_encounters.csv",
     "profiles": {
         "mock": {
-            "dataset" : "raw_data",
+            "project_id": "healthcare-test-486920",
+            "credentials_path": "D:\\Python Projects\\Hospital readmission risk\\.secrets\\healthcare-test-486920-3276e7afa16e.json",
             "local_input_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea\\mock",
             "segmented_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\segmented\\mock"
         },
         "refactor": {
-            "dataset" : "raw_data",
+            "project_id": "hospital-readmission-4",
+            "credentials_path": "D:\\Python Projects\\Hospital readmission risk\\.secrets\\hospital-readmission-4-code.json",
             "local_input_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\Synthea",
             "segmented_path": "D:\\Python Projects\\Hospital readmission risk\\data\\raw\\segmented"
         }
@@ -20,6 +22,7 @@
     "dataset_helpers": "helper_tables",
     "dictionaries_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\dictionaries",
     "careplans_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\careplans",
-    "related_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\related"
+    "related_dir": "D:\\Python Projects\\Hospital readmission risk\\data\\processed\\related",
+    "index_stay_sql": "D:\\Python Projects\\Hospital readmission risk\\sql\\20_index_stay_selection.sql"
 }
   

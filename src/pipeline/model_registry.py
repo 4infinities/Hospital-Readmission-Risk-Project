@@ -143,6 +143,7 @@ class ModelRegistry:
         target_cols: List[str],
         model_names: Optional[List[str]] = None,
         suffix: Optional[str] = None,
+        force: bool = False,
     ) -> Dict[str, Pipeline]:
         """
         Fit final models on full training data for each target in target_cols.
@@ -159,6 +160,9 @@ class ModelRegistry:
             Restrict to this subset of models; if None, use all active models.
         suffix : str, optional
             Optional suffix to distinguish different training runs in filenames.
+        force : bool
+            If True, refit and overwrite even if a saved model already exists.
+            Required for monthly refit (same hyperparams, new training data).
 
         Returns
         -------
@@ -186,7 +190,7 @@ class ModelRegistry:
 
                 path = self._build_model_path(name=name, target=target_col, suffix=suffix)
 
-                if path.exists():
+                if path.exists() and not force:
                     pipe = joblib.load(path)
                 else:
                     pipe = self._build_estimator(name)
@@ -194,8 +198,8 @@ class ModelRegistry:
                     pipe.fit(X, y_target)
                     self.save_model(name=name, estimator=pipe, target=target_col, suffix=suffix)
 
-                    model_key = f"{name}__{target_col}"
-                    fitted[model_key] = pipe
+                model_key = f"{name}__{target_col}"
+                fitted[model_key] = pipe
 
         return fitted
 

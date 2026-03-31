@@ -332,10 +332,14 @@ class DictionaryBuilder:
     def update_related_diagnoses(self, end_date: str) -> None:
         """
         Compute related_diagnoses for index stays in (start_date, end_date] and
-        append to local CSV and BQ related_diagnoses.
+        upsert to local CSV and BQ related_diagnoses.
         start_date is derived as the last day of the month 2 months before end_date.
         Must run after helper_utilization and main_diagnoses are updated for
         the same window (D5 in the dependency order).
+
+        Uses DELETE-before-insert to avoid duplicates: the 2-month window overlaps
+        with the prior month's window, so without deletion the overlapping month's
+        stay_ids would be appended twice.
         """
         dict_type = "related_diagnoses"
         state_path, _, _, write_path, _ = self._get_io(dict_type)
@@ -352,8 +356,38 @@ class DictionaryBuilder:
 
         self.logger.info("Computing related_diagnoses for %d new stays.", len(data))
         relations = build_diagnoses_related(data, state_path=state_path)
-        self._append_to_csv(relations, write_path)
-        self.transformer.append_dataframe(
-            relations.reset_index(), self._helpers_table_fq("related_diagnoses")
+
+        table_fq = self._helpers_table_fq("related_diagnoses")
+        unique_stay_ids = list(set(relations.index.tolist()))
+
+        # --- BQ: DDL-only window dedup (CREATE OR REPLACE drops window rows, free-tier safe) ---
+        # The 2-month window overlaps the prior month, so window stay_ids may already exist.
+        # DELETE is DML (billing required); CREATE OR REPLACE TABLE AS SELECT is DDL — always allowed.
+        ids_sql = ", ".join(f"'{sid}'" for sid in unique_stay_ids)
+        recreate_sql = (
+            f"CREATE OR REPLACE TABLE `{table_fq}` AS\n"
+            f"SELECT * FROM `{table_fq}`\n"
+            f"WHERE stay_id NOT IN ({ids_sql})"
         )
-        self.logger.info("related_diagnoses updated: %d new rows appended.", len(relations))
+        self.logger.info(
+            "[related_diagnoses] Recreating table without %d window stay_ids",
+            len(unique_stay_ids),
+        )
+        self.transformer._run_query(recreate_sql)
+        self.transformer.append_dataframe(relations.reset_index(), table_fq)
+
+        # --- CSV: remove stale window rows, then write fresh ---
+        p = Path(write_path)
+        if p.exists():
+            existing = pd.read_csv(p, index_col=0)
+            existing = existing[~existing.index.isin(unique_stay_ids)]
+            combined = pd.concat([existing, relations])
+        else:
+            combined = relations
+        combined.to_csv(write_path)
+
+        self.logger.info(
+            "related_diagnoses updated: %d rows inserted for window ending %s (deduped).",
+            len(relations),
+            end_date,
+        )

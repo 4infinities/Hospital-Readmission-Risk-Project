@@ -34,6 +34,7 @@ class HyperparameterTuner:
         self,
         config_mgr: ModelConfigManager,
         target_col: str,
+        cost_config_path: Optional[str] = None,
         top_fracs: Sequence[float] | None = None,
     ):
         """
@@ -41,8 +42,11 @@ class HyperparameterTuner:
         ----------
         config_mgr : ModelConfigManager
             Configuration manager with model and tuning settings.
-        cost_reducer : CostReducer
-            Instance used to compute cost-based metrics.
+        target_col : str
+            Target column name (e.g. 'readmit_30d').
+        cost_config_path : str, optional
+            Path to cost_config.json. Required for tune_models; can be passed
+            at construction time or at call time.
         top_fracs : sequence of float, optional
             Fractions of highest-risk patients to flag (0–0.5). The scorer will
             evaluate each top_frac and take the maximum % cost saved as the score.
@@ -51,6 +55,7 @@ class HyperparameterTuner:
         self.logger = get_logger(__name__)
         self.config_mgr = config_mgr
         self.target_col = target_col
+        self.cost_config_path = cost_config_path
         if top_fracs is None:
             self.top_fracs = np.round(np.arange(0.05, 0.55, 0.05), 2)
         else:
@@ -177,17 +182,32 @@ class HyperparameterTuner:
         self,
         X,
         y,
-        cost_config_path: str,
+        cost_config_path: Optional[str] = None,
         model_names: Optional[List[str]] = None,
     ) -> None:
         """
-        Run hyperparameter tuning for the given models (or all active models)
-        using a cost-based scoring function.
+        Run hyperparameter tuning for ALL active models in one call using a
+        cost-based scoring function.  Updates best_params / best_score in
+        ModelConfigManager and persists to disk via config_mgr.save().
 
-        Side effects:
-        Updates best_params and best_score in the ModelConfigManager in-place.
-        Call config_mgr.save() afterwards to persist.
+        Parameters
+        ----------
+        X : array-like
+            Feature matrix.
+        y : pd.DataFrame or array-like
+            Targets; self.target_col is extracted internally.
+        cost_config_path : str, optional
+            Path to cost_config.json.  Falls back to self.cost_config_path
+            set at construction time.
+        model_names : list[str], optional
+            Subset of models to tune; defaults to all active models.
         """
+        cost_config_path = cost_config_path or self.cost_config_path
+        if cost_config_path is None:
+            raise ValueError(
+                "cost_config_path must be provided either at HyperparameterTuner.__init__ "
+                "or as an argument to tune_models()."
+            )
         if not self.target_col:
             raise ValueError("target_cols must contain at least one column name.")
 
@@ -252,3 +272,6 @@ class HyperparameterTuner:
             self.config_mgr.set_best_params(model_name, best_params)
             self.config_mgr.set_best_score(model_name, best_score)
             self.logger.info("%s: best cost-based score (pct_saved) is %s", model_name, best_score)
+
+        self.config_mgr.save()
+        self.logger.info("tune_models complete — best_params persisted to config.")

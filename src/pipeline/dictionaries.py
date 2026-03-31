@@ -590,9 +590,11 @@ def build_diagnoses_related(data: pd.DataFrame, state_path: Path) -> pd.DataFram
     Enrich relations with readmission flags and related-readmission labels.
 
     Returns:
-        DataFrame indexed by stay_id with:
+        DataFrame indexed by stay_id with exactly one row per stay_id:
         - is_related, readmit_30d, readmit_90d
         - rel_readmit_30d, rel_readmit_90d
+        All flags taken as MAX across following stays so that if any following
+        stay is SNOMED-related (or is a readmission), the stay-level flag is 1.
     """
     relations = build_relations(data, state_path)
 
@@ -606,7 +608,10 @@ def build_diagnoses_related(data: pd.DataFrame, state_path: Path) -> pd.DataFram
         relations["readmit_90d"] * relations["is_related"]
     ).clip(lower=0)
 
-    return relations
+    # One row per stay_id: take MAX across all following stays.
+    # rel_readmit must be aggregated AFTER per-row computation (not from aggregated flags)
+    # to avoid false positives when is_related and readmit come from different following stays.
+    return relations.groupby(level="stay_id").max()
 
 
 def build_careplan_relations(data: pd.DataFrame, state_path: Path) -> pd.DataFrame:

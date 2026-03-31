@@ -1,7 +1,9 @@
--- Monthly INSERT: append new month's encounters into encounters_slim
+-- Monthly slim: create isolated encounters slim table for this month
+-- DDL-only (no DML): CREATE OR REPLACE TABLE creates a standalone per-month table
 -- Source: monthly raw staging table encounters_{{END_DATE_SAFE}}
--- No 30-day cutoff applied — monthly simulation includes all encounters in the window
-INSERT INTO {{DATASET_SLIM}}.encounters_slim
+-- Filters: valid encounter classes + alive patients
+CREATE OR REPLACE TABLE {{DATASET_RAW}}.encounters_slim_{{END_DATE_SAFE}}
+AS
 WITH
   p AS (
     SELECT

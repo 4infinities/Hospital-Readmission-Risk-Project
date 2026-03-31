@@ -47,9 +47,19 @@ class BigQueryLoader:
         """
         cfg = cls._load_json_config(config_path)
 
-        project_id = cfg["project_id"]
+        profiles = cfg["profiles"]
+        if profile_name not in profiles:
+            raise KeyError(f"Profile '{profile_name}' not found in config")
+
+        profile_cfg = profiles[profile_name]
+        project_id = profile_cfg["project_id"]
+        cred_path = profile_cfg.get("credentials_path")
+        local_input_dir = profile_cfg["local_input_dir"]
+
         location = cfg["location"]
-        cred_path = cfg.get("credentials_path")
+        dataset_raw = cfg["dataset"]
+        dataset_slim = cfg.get("dataset_slim", "")
+        dataset_helpers = cfg.get("dataset_helpers", "")
 
         credentials = None
         if cred_path is not None:
@@ -57,14 +67,6 @@ class BigQueryLoader:
             credentials = service_account.Credentials.from_service_account_file(
                 cred_path
             )
-
-        profiles = cfg["profiles"]
-        if profile_name not in profiles:
-            raise KeyError(f"Profile '{profile_name}' not found in config")
-
-        profile_cfg = profiles[profile_name]
-        dataset_id = profile_cfg["dataset"]
-        local_input_dir = profile_cfg["local_input_dir"]
 
         client = bigquery.Client(
             project=project_id,
@@ -75,14 +77,15 @@ class BigQueryLoader:
         loader = cls(
             project_id=project_id,
             location=location,
-            dataset_id=dataset_id,
+            dataset_raw=dataset_raw,
             client=client,
             profile_name=profile_name,
             config=cfg,
+            dataset_slim=dataset_slim,
+            dataset_helpers=dataset_helpers,
         )
 
         profile_cfg_resolved = {
-            "dataset": dataset_id,
             "local_input_dir": str(Path(local_input_dir).expanduser().resolve()),
         }
 
@@ -94,16 +97,21 @@ class BigQueryLoader:
         self,
         project_id: str,
         location: str,
-        dataset_id: str,
+        dataset_raw: str,
         client: bigquery.Client | None = None,
         profile_name: str | None = None,
         config: Dict[str, Any] | None = None,
+        dataset_slim: str | None = None,
+        dataset_helpers: str | None = None,
     ):
 
         self.logger = get_logger(__name__)
         self.project_id = project_id
         self.location = location
-        self.dataset_id = dataset_id
+        self.dataset_id = dataset_raw   # alias kept for full_dataset_id compat
+        self.dataset_raw = dataset_raw
+        self.dataset_slim = dataset_slim or ""
+        self.dataset_helpers = dataset_helpers or ""
         self.client = client or bigquery.Client(project=project_id, location=location)
         self.profile_name = profile_name
         self._config = config or {}
@@ -115,18 +123,31 @@ class BigQueryLoader:
         """
         return f"{self.project_id}.{self.dataset_id}"
 
-    def ensure_dataset_exists(self) -> None:
+    def ensure_dataset_exists(self, target: str = "raw") -> None:
         """
         Create the dataset if it does not exist.
+
+        Parameters
+        ----------
+        target : str
+            Logical dataset target: "raw" (default), "slim", or "helpers".
         """
-        dataset_ref = bigquery.Dataset(self.full_dataset_id)
+        _TARGET_DATASETS = {
+            "raw":     self.dataset_raw,
+            "slim":    self.dataset_slim,
+            "helpers": self.dataset_helpers,
+        }
+        if target not in _TARGET_DATASETS:
+            raise ValueError(f"Unknown target '{target}'. Must be one of: {list(_TARGET_DATASETS)}")
+        full_id = f"{self.project_id}.{_TARGET_DATASETS[target]}"
+        dataset_ref = bigquery.Dataset(full_id)
         dataset_ref.location = self.location
 
         try:
             self.client.get_dataset(dataset_ref)
-            self.logger.info("Dataset already exists: %s", self.full_dataset_id)
+            self.logger.info("Dataset already exists: %s", full_id)
         except Exception:
-            self.logger.info("Creating dataset: %s", self.full_dataset_id)
+            self.logger.info("Creating dataset: %s", full_id)
             self.client.create_dataset(dataset_ref)
 
     def profile_prefix(self) -> str:
@@ -142,25 +163,11 @@ class BigQueryLoader:
             return "mock_"
         return ""
 
-    def with_dataset(self, dataset_id: str) -> "BigQueryLoader":
-        """
-        Return a new BigQueryLoader attached to a different dataset
-        but the same project, location, and client.
-        """
-        return BigQueryLoader(
-            project_id=self.project_id,
-            location=self.location,
-            dataset_id=dataset_id,
-            client=self.client,
-            profile_name=self.profile_name,
-            config=self._config,
-        )
-
-
     def load_one_csv(
         self,
         local_csv_path: Path,
         table_name: str,
+        target: str = "raw",
         write_disposition: str = bigquery.WriteDisposition.WRITE_TRUNCATE,
         autodetect_schema: bool = True,
         skip_leading_rows: int = 1,
@@ -174,6 +181,8 @@ class BigQueryLoader:
             Path to the CSV file on disk.
         table_name : str
             Name of the table inside this dataset (e.g. "patients").
+        target : str
+            Logical dataset target: "raw" (default), "slim", or "helpers".
         write_disposition : str
             WRITE_TRUNCATE / WRITE_APPEND / WRITE_EMPTY.
         autodetect_schema : bool
@@ -185,7 +194,15 @@ class BigQueryLoader:
         if not local_csv_path.is_file():
             raise FileNotFoundError(f"CSV not found: {local_csv_path}")
 
-        table_id = f"{self.full_dataset_id}.{table_name}"
+        _TARGET_DATASETS = {
+            "raw":     self.dataset_raw,
+            "slim":    self.dataset_slim,
+            "helpers": self.dataset_helpers,
+        }
+        if target not in _TARGET_DATASETS:
+            raise ValueError(f"Unknown target '{target}'. Must be one of: {list(_TARGET_DATASETS)}")
+        dataset = _TARGET_DATASETS[target]
+        table_id = f"{self.project_id}.{dataset}.{table_name}"
         self.logger.info("Loading CSV into BigQuery table: %s", table_id)
 
         job_config = bigquery.LoadJobConfig(
@@ -349,94 +366,52 @@ class BigQueryLoader:
                 write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
             )
 
-    def load_dictionaries(
-    self,
-    dir_key: str,
-    write_disposition: str = bigquery.WriteDisposition.WRITE_TRUNCATE,
-    ) -> None:
+    def load_dictionaries(self) -> None:
         """
-        Load dictionary CSVs for this loader's profile into the helpers dataset.
-        - Uses self.profile_name for file filtering and table prefixing.
-        - Uses self._config['dataset_helpers'] and self._config['dictionaries_dir'].
+        Load diagnoses_dictionary, procedures_dictionary, and main_diagnoses CSVs
+        into the helpers dataset with plain table names (no profile prefix).
         """
-        if self.profile_name is None:
-            raise ValueError(
-                "profile_name is not set on BigQueryLoader; required for load_dictionaries."
-            )
+        dictionaries_dir = self._config.get("dictionaries_dir")
+        if not dictionaries_dir:
+            raise KeyError("Config must contain 'dictionaries_dir'")
+        if not self.dataset_helpers:
+            raise ValueError("dataset_helpers not set on BigQueryLoader")
 
-        cfg = self._config or {}
-        helpers_dataset = cfg.get("dataset_helpers")
-        dictionaries_dir = cfg.get(dir_key)
+        dict_dir = Path(dictionaries_dir).expanduser().resolve()
+        self.ensure_dataset_exists("helpers")
 
-        if not helpers_dataset or not dictionaries_dir:
-            raise KeyError(
-                f"Config must contain 'dataset_helpers' and {dir_key} "
-                "to use load_dictionaries."
-            )
+        for filename, table_name in [
+            ("diagnoses_dictionary.csv", "diagnoses_dictionary"),
+            ("procedures_dictionary.csv", "procedures_dictionary"),
+            ("main_diagnoses.csv", "main_diagnoses"),
+        ]:
+            self.load_one_csv(dict_dir / filename, table_name, target="helpers")
 
-        profile_name = self.profile_name
-        prefix_for_tables = self.profile_prefix()
+        self.logger.info("Dictionaries loaded to BQ.")
 
-        dict_dir_path = Path(dictionaries_dir).expanduser().resolve()
-        if not dict_dir_path.is_dir():
-            raise NotADirectoryError(
-                f"dictionaries_dir is not a directory: {dict_dir_path}"
-            )
+    def load_careplans(self) -> None:
+        """Load careplans_related_encounters.csv into the helpers dataset."""
+        careplans_dir = self._config.get("careplans_dir")
+        if not careplans_dir:
+            raise KeyError("Config must contain 'careplans_dir'")
+        if not self.dataset_helpers:
+            raise ValueError("dataset_helpers not set on BigQueryLoader")
 
-        dict_loader = self.with_dataset(helpers_dataset)
-        dict_loader.ensure_dataset_exists()
+        csv_path = Path(careplans_dir).expanduser().resolve() / "careplans_related_encounters.csv"
+        self.ensure_dataset_exists("helpers")
+        self.load_one_csv(csv_path, "careplans_related_encounters", target="helpers")
+        self.logger.info("Careplans loaded to BQ.")
 
-        self.logger.info(
-            "Loading dictionary CSVs for profile '%s' from %s into dataset %s "
-            "with table prefix '%s'",
-            profile_name,
-            dict_dir_path,
-            dict_loader.full_dataset_id,
-            prefix_for_tables,
-        )
+    def load_related_diagnoses(self) -> None:
+        """Load related_diagnoses.csv into the helpers dataset."""
+        related_dir = self._config.get("related_dir")
+        if not related_dir:
+            raise KeyError("Config must contain 'related_dir'")
+        if not self.dataset_helpers:
+            raise ValueError("dataset_helpers not set on BigQueryLoader")
 
-        csv_files = sorted(dict_dir_path.glob("*.csv"))
-        if not csv_files:
-            self.logger.warning("No dictionary CSV files found in %s", dict_dir_path)
-
-        for csv_path in csv_files:
-            filename = csv_path.name
-
-            if profile_name not in filename:
-                self.logger.debug(
-                    "Skipping dictionary file %s (profile '%s' not in name)",
-                    filename,
-                    profile_name,
-                )
-                continue
-
-            stem = csv_path.stem
-
-            base = stem.replace(f"{profile_name}_", "", 1)
-            base = base.replace(f"{profile_name}-", "", 1)
-            base = base.replace(profile_name, "", 1)
-            base = base.lstrip("_").lstrip("-")
-
-            if not base:
-                self.logger.warning(
-                    "Derived empty base table name from file %s for profile %s, skipping.",
-                    filename,
-                    profile_name,
-                )
-                continue
-
-            table_name = f"{prefix_for_tables}{base}"
-
-            self.logger.info(
-                "Loading dictionary file %s into table %s.%s",
-                csv_path,
-                dict_loader.full_dataset_id,
-                table_name,
-            )
-
-            dict_loader.load_one_csv(
-                local_csv_path=csv_path,
-                table_name=table_name,
-                write_disposition=write_disposition,
-            )
+        csv_path = Path(related_dir).expanduser().resolve() / "related_diagnoses.csv"
+        self.ensure_dataset_exists("helpers")
+        self.load_one_csv(csv_path, "related_diagnoses", target="helpers")
+        self.logger.info("related_diagnoses loaded to BQ.")
 
