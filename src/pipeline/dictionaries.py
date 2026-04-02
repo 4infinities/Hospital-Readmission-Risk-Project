@@ -185,7 +185,16 @@ def get_concept(concept_id: str, targets: dict = {}, state_path: Path | None = N
     url = f"{BASE}/{EDITION}/{RELEASE}/concepts/{concept_id}"
 
     for attempt in range(1, MAX_RETRIES + 1):
-        resp = session.get(url)
+        try:
+            resp = session.get(url)
+        except requests.exceptions.ConnectionError:
+            if attempt < MAX_RETRIES:
+                time.sleep(BACKOFF_SECONDS * attempt)
+                continue
+            save_concept(concept_id, {})
+            for flag in targets:
+                RESULTS[flag][concept_id] = False
+            return {}
 
         if resp.status_code == 429:
             time.sleep(BACKOFF_SECONDS * attempt)

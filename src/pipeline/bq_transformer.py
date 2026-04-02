@@ -35,25 +35,12 @@ class BigQueryTransformer:
     def from_profile(
         cls,
         config_path: str,
+        profile: str | None = None,
     ) -> Tuple["BigQueryTransformer", Dict[str, str]]:
         """
         Create a transformer bound to a given profile using bq_config.json.
-
-        bq_config.json structure (simplified):
-
-        {
-          "project_id": "...",
-          "location": "...",
-          "credentials_path": "...",
-          "dataset_slim": "data_slim",
-          "profiles": {
-            "train": {
-              "dataset": "train_raw_data",
-              "local_input_dir": "..."
-            },
-            ...
-          }
-        }
+        If *profile* is given, its project_id/credentials_path override the
+        top-level values (same convention as BigQueryLoader.from_profile).
         """
         cfg = cls._load_json(config_path)
 
@@ -63,6 +50,11 @@ class BigQueryTransformer:
         dataset_helpers = cfg["dataset_helpers"]
         raw_dataset = cfg["dataset"]
         credentials_path = cfg.get("credentials_path")
+
+        if profile:
+            pcfg = cfg.get("profiles", {}).get(profile, {})
+            project_id = pcfg.get("project_id", project_id)
+            credentials_path = pcfg.get("credentials_path", credentials_path)
 
         # Build credentials if a path is provided
         credentials = None

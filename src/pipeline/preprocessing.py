@@ -145,8 +145,8 @@ class DataPreprocessor:
         train_mask = df_raw["discharge_date"] < month_start
         test_mask = (df_raw["discharge_date"] >= month_start) & (df_raw["discharge_date"] <= end)
 
-        df_train = df_raw[train_mask].copy()
-        df_test = df_raw[test_mask].copy()
+        df_train = df_raw[train_mask].copy().reset_index(drop=True)
+        df_test = df_raw[test_mask].copy().reset_index(drop=True)
 
         self.logger.info(
             "[preprocess] Train rows=%d  Test rows=%d", len(df_train), len(df_test)
@@ -160,7 +160,7 @@ class DataPreprocessor:
         # Align columns — train may have dummies test doesn't and vice versa
         X_test = X_test.reindex(columns=X_train.columns, fill_value=0)
 
-        return X_train, y_train, X_test, stay_ids_test
+        return X_train, y_train, X_test, stay_ids_test, df_train
 
     def load_and_preprocess(
         self,

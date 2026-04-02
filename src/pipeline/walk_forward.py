@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import calendar
 import json
-from datetime import date
+import re
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -167,6 +168,18 @@ class WalkForwardOrchestrator:
 
     # ---------- ML helpers ----------
 
+    def _save_tuning_data(self, df_train_raw: "pd.DataFrame") -> None:
+        """Save cost columns from df_train_raw to the tuning CSV path before retuning."""
+        if self.tuner is None or not self.tuner.cost_config_path:
+            return
+        with open(self.tuner.cost_config_path, "r", encoding="utf-8") as _f:
+            _ccfg = json.load(_f)
+        _tuning_path = Path(_ccfg["tuning_path"])
+        _tuning_path.parent.mkdir(parents=True, exist_ok=True)
+        _cost_cols = [c for c in _ccfg["cost_cols"] if c in df_train_raw.columns]
+        df_train_raw[_cost_cols].to_csv(_tuning_path, index=False)
+        self.logger.info("[ML] Saved tuning cost data (%d rows) to %s", len(df_train_raw), _tuning_path)
+
     def _is_first_run(self) -> bool:
         """True if no predictions file exists yet (Phase 1 / first simulation month)."""
         model_names = self.registry.config_mgr.list_active_models()
@@ -283,7 +296,7 @@ class WalkForwardOrchestrator:
 
         self.logger.info("[ML] Starting fit_and_evaluate for end_date=%s", end_date)
 
-        X_train, y_train, X_test, stay_ids = self.preprocessor.preprocess(
+        X_train, y_train, X_test, stay_ids, df_train_raw = self.preprocessor.preprocess(
             end_date=end_date,
             transformer=self.transformer,
         )
@@ -294,6 +307,7 @@ class WalkForwardOrchestrator:
         if first_run:
             self.logger.info("[ML] First run — retuning before initial fit")
             if self.tuner is not None:
+                self._save_tuning_data(df_train_raw)
                 self.tuner.tune_models(X_train, y_train)
 
             self.registry.fit_models(X_train, y_train, target_cols, force=True)
@@ -320,6 +334,7 @@ class WalkForwardOrchestrator:
 
             if retrain and self.tuner is not None:
                 self.logger.info("[ML] Retune triggered for end_date=%s", end_date)
+                self._save_tuning_data(df_train_raw)
                 self.tuner.tune_models(X_train, y_train)
 
             self.registry.fit_models(X_train, y_train, target_cols, force=True)
@@ -339,6 +354,9 @@ class WalkForwardOrchestrator:
             SQL derives window_start internally as DATE_TRUNC(end_date, MONTH) - INTERVAL 2 MONTH.
         """
         self.logger.info("=== Walk-forward update: end_date=%s ===", end_date)
+
+        # Purge dated tables older than the 2-month window before loading new data
+        self._cleanup_old_monthly_tables(end_date)
 
         # S0: Load monthly CSV segment into BQ raw staging tables
         self.logger.info("[S0] Loading monthly segment for %s", end_date)
@@ -383,6 +401,37 @@ class WalkForwardOrchestrator:
         self.fit_and_evaluate(end_date)
 
         self.logger.info("=== Walk-forward update complete: end_date=%s ===", end_date)
+
+    def _cleanup_old_monthly_tables(self, end_date: str) -> None:
+        """
+        Delete raw staging + slim tables older than the 2-month delta window.
+        Keeps tables for end_date and the prior month only.
+        Called after each run_month to prevent BQ free-tier storage quota hits.
+        """
+        current = date.fromisoformat(end_date)
+        prior = (current.replace(day=1) - timedelta(days=1))
+        keep = {current.strftime("%Y_%m_%d"), prior.strftime("%Y_%m_%d")}
+
+        _DATE_RE = re.compile(r"_(\d{4}_\d{2}_\d{2})$")
+        raw_dataset = f"{self.transformer.project_id}.{self.transformer.raw_dataset_id}"
+        try:
+            tables = list(self.transformer.client.list_tables(raw_dataset))
+        except Exception as e:
+            self.logger.warning("[cleanup] Could not list tables: %s", e)
+            return
+
+        deleted = 0
+        for t in tables:
+            m = _DATE_RE.search(t.table_id)
+            if m and m.group(1) not in keep:
+                try:
+                    self.transformer.client.delete_table(f"{raw_dataset}.{t.table_id}")
+                    deleted += 1
+                except Exception as e:
+                    self.logger.warning("[cleanup] Failed to delete %s: %s", t.table_id, e)
+
+        if deleted:
+            self.logger.info("[cleanup] Deleted %d old monthly tables after %s", deleted, end_date)
 
     def run_next_month(self) -> str:
         """

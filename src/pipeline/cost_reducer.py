@@ -204,7 +204,6 @@ class CostReducer:
         df_cost_full = self._cost_reduction_preprocessor(df_pred)
 
         # 2. Subset to validation fold indices
-        """Useless??"""
         df_cost = df_cost_full.loc[fold_index]
         #df_thresholds_fold = df_thresholds.loc[fold_index]
 
